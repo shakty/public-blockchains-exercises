@@ -55,10 +55,10 @@
 // a. Hint: follow the pattern.
 a = 1
 b = 2
-c.= 3
+c = 3
 
 // b. Hint: This function needs a name after the word function.
-function () {
+function lala () {
     console.log('Hello!');
 }
 
@@ -75,7 +75,7 @@ function () {
 // or Cmd-/ (Mac). Notice if you apply the command multiple times, it will
 // uncomment/comment/uncomment... it.
 
-uselessCode = 'I am useless';
+// uselessCode = 'I am useless';
 
 // b. Cool. What other shorcuts are available? Here is a shortcut to find
 // them all. Ctrl-Shift-P. Look around and remember how to get here,
@@ -88,16 +88,17 @@ uselessCode = 'I am useless';
 // a new cursor, so you can write multiple rows at once. Delete the word "not"
 // and replace the explanation mark with a sad face.
 
-catchMeIfYouCan1 = 'You did not catch me!';
-catchMeIfYouCan2 = 'You did not catch me!';
-catchMeIfYouCan3 = 'You did not catch me!';
+catchMeIfYouCan1 = 'You did catch me :(';
+catchMeIfYouCan2 = 'You did catch me :(';
+catchMeIfYouCan3 = 'You did catch me :(';
 
 // d. Sometimes you want to move an entire line of code up or down. Of course
 // there is a shortcut for that: Alt-ArrowUp/Down. 
 
 // Order the lines below accordingly.
-console.log('2. I would like to go below.');
 console.log('1. I would like to go above.'); 
+console.log('2. I would like to go below.');
+
 
 // Great! To learn more about key bindings, see:
 // - https://code.visualstudio.com/docs/getstarted/keybindings
