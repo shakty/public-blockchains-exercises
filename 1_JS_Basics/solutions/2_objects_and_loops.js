@@ -8,7 +8,7 @@
 // EXERCISE 0. Definitions.
 //////////////////////////
 
-// Not really an exercise, it is more a small warm up to recall the different
+// 11Not really an exercise, it is more a small warm up to recall the different
 // primitive types in JavaScript and to get you familiar with ATOM Hydrogen.
 
 // Objects.
