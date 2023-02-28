@@ -315,11 +315,13 @@ const sendCheaperTransaction = async () => {
 
 // b. Now speed up that transaction. Send another transaction with the _same_ 
 // nonce, but with a more reasonable `maxFeePerGas`. Check that the transaction
-// goes through. UPDATE: for some reason, EthersJS v6 wants a new nonce instead 
-// of the same one. Please try both.
+// goes through.
 
 // Hint: if you don't know the nonce, `getNonce` will tell you the _next_ one.
-// Hint2: if you don't know what a reasonable `maxFeePerGas` is, you can 
+// Hint2: if there is a transaction in the mempool, `getNonce` will give 
+// give the current nonce (same as transaction in the mempool). Try "pending"
+// as input paramter if you need the _next_ one. 
+// Hint3: if you don't know what a reasonable `maxFeePerGas` is, you can 
 // get an idea calling `getFeeData()`.
 
 // c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
@@ -328,10 +330,17 @@ const sendCheaperTransaction = async () => {
 
 const resubmitTransaction = async () => {
 
-    let nextNonce = await signer.getNonce();
+     // If there is a transaction in the mempool, it returns the same nonce,
+    // otherwise the _next_ one.
+    let nonce = await signer.getNonce();
     // Equivalent to:
     // let nonce = await goerliProvider.getTransactionCount(signer.address);
-    console.log('Next Nonce is:', nextNonce);
+
+    // Note: the line below will return the _next_ nonce when there is
+    // already a transaction in the mempool.
+    // let nextNonce = await signer.getNonce("pending");
+
+    console.log('Nonce is:', nonce);
 
     const feeData = await goerliProvider.getFeeData();
     
@@ -340,7 +349,7 @@ const resubmitTransaction = async () => {
         value: ethers.parseEther("0.001"),
         maxFeePerGas: 2n*feeData.maxFeePerGas,
         maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
-        nonce: nextNonce
+        nonce: nonce
     });
     console.log(tx);
     
