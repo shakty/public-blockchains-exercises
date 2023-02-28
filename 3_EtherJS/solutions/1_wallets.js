@@ -104,7 +104,7 @@ exercise = 1;
 
 require('dotenv').config();
 
-// exit();
+exit();
 
 // Exercise 2. Create .env file.
 ////////////////////////////////
@@ -139,9 +139,11 @@ exercise = '3a';
 
 // a. Check that the variable METAMASK_ACCOUNT_1 is not empty. Write an 
 // if statement that print a warning message if empty.
-console.log(process.env.METAMASK_ACCOUNT_1);
 
-let privateKey = process.env.METAMASK_PRIVATE_KEY;
+require("dotenv").config();
+console.log(process.env.METAMASK_1_PRIVATE_KEY);
+
+let privateKey = process.env.METAMASK_1_PRIVATE_KEY;
 if (privateKey === "") {
     console.log('Missing private key, fix your .env file');
 }
@@ -190,7 +192,8 @@ for (let index = 0; index < variablesToCheck.length; index++) {
     }
 }
 
-// Checkpoint. Is !process.env[v] equivalent to process.env[v] === "" ?
+// Checkpoint. Is !process.env[v] equivalent to process.env[v] === "" ? 
+//////// YES!!!
 
 // exit();
 

@@ -61,12 +61,12 @@ const mainnetProvider = new ethers.JsonRpcProvider(mainnetInfuraUrl);
 
 // This is an asynchronous anonymous self-executing function. It is a ugly
 // construct, but it allows you to use await inside its body.
-// (async () => {
-//     let net = await mainnetProvider.getNetwork();
-//     console.log('Async/Await!');
-//     console.log('Provider\'s network name: ', net.name);
-//     console.log('Provider\'s network chain id: ', Number(net.chainId));
-// })();
+(async () => {
+    let net = await mainnetProvider.getNetwork();
+    console.log('Async/Await!');
+    console.log('Provider\'s network name: ', net.name);
+    console.log('Provider\'s network chain id: ', Number(net.chainId));
+})();
 
 // However, the async function could also be named, and the result is:
 const network = async () => {
@@ -77,7 +77,7 @@ const network = async () => {
 };
 
 // which you can then call:
-// network();
+network();
 
 // The second (less compact) notation has the advantage that we can invoke
 // the code only when needed, so it is preferred in this exercise sheet.
@@ -137,7 +137,7 @@ const blockDiff = async () => {
                 ' blocks ahead');
 }
 
-// blockDiff();
+blockDiff();
 
 
 // Exercise 3. Block time.
@@ -227,7 +227,7 @@ const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
         console.log(providerName, "It took: ", timeDiff);
         
         // Update loop variables.
-        d = d2;
+        d = d2; // what does this mean?
 
         if (++blocksChecked >= blocks2check) {
             provider.off("block");
@@ -276,7 +276,7 @@ const blockInfo = async () => {
 
 };
 
-// blockInfo();
+blockInfo();
 
 // Exercise 5. ENS names.
 //////////////////////////
