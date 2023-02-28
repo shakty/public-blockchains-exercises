@@ -229,7 +229,6 @@ const sendCheaperTransaction = async () => {
 
 const resubmitTransaction = async () => {
 
-
     // Your Code here!
 
 };
@@ -243,6 +242,7 @@ resubmitTransaction();
 
 const cancelTransaction = async () => {
 
+    // Your Code here!
 };
 
 cancelTransaction();
