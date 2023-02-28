@@ -235,3 +235,14 @@ const resubmitTransaction = async () => {
 };
 
 resubmitTransaction();
+
+
+// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
+// transaction with the same nonce with zero value and recipient address
+// equal to sender address.
+
+const cancelTransaction = async () => {
+
+};
+
+cancelTransaction();
