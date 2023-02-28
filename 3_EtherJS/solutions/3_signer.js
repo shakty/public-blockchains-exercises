@@ -305,11 +305,12 @@ const sendCheaperTransaction = async () => {
 // nonetheless (btw the bare minimum you should tip the miner is 1 wei, 
 // but around 2 gwei is usually considered a safe choice).
 
+// Let's use Metamask. Make sure you have the right options enabled: go to Settings/Advanced and tick 
+// "Advanced gas controls" and "Customize transaction nonce".
 
-// So let's submit a transaction with Metamask, and setting a very low
-// `maxFeePerGas`. As you do  it, note the nonce for this transaction 
-// (you need to enable the display of the nonce in the Advanced options 
-// in Metamask). You could also get the nonce here, or from Etherscan.
+// So let's submit a transaction with Metamask, setting a very low
+// `maxFeePerGas`. As you do it, note the nonce for this transaction 
+// (you may also get the nonce programmatically or from Etherscan).
 
 // a. Check that the Metamask transaction is pending. Wait a bit...
 
@@ -323,10 +324,6 @@ const sendCheaperTransaction = async () => {
 // as input paramter if you need the _next_ one. 
 // Hint3: if you don't know what a reasonable `maxFeePerGas` is, you can 
 // get an idea calling `getFeeData()`.
-
-// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
-// transaction with the same nonce with zero value and recipient address
-// equal to sender address.
 
 const resubmitTransaction = async () => {
 
@@ -360,4 +357,37 @@ const resubmitTransaction = async () => {
 
 };
 
-resubmitTransaction();
+// resubmitTransaction();
+
+
+// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
+// transaction with the same nonce with zero value and recipient address
+// equal to sender address.
+
+const cancelTransaction = async () => {
+
+   // If there is a transaction in the mempool, it returns the
+   // same nonce, otherwise the _next_ one.
+   let nonce = await signer.getNonce();
+
+   console.log('Nonce is:', nonce);
+
+   const feeData = await goerliProvider.getFeeData();
+   
+   tx = await signer.sendTransaction({
+       to: signer.address,
+       value: ethers.parseEther("0.0"),
+       maxFeePerGas: 2n*feeData.maxFeePerGas,
+       maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
+       nonce: nonce
+   });
+   console.log(tx);
+   
+   console.log('Transaction is in the mempool...');
+   let receipt = await tx.wait();
+   console.log(receipt);
+   console.log('Transaction mined!');
+
+};
+
+cancelTransaction();
