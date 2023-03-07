@@ -6,8 +6,8 @@ typechain
 typechain-types
 
 # Not yet
-4_Hardhat
-5_Solidity
+4_Hardhat*
+5_Solidity*
 
 #Hardhat files
 cache
