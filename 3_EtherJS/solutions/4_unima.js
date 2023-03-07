@@ -5,7 +5,7 @@
 //////////////////////////////////////////////////////
 
 // a. Require the `dotenv` and `ethers` packages.
-// Hint: As you did it multiple times now.
+// Hint: As you did multiple times now.
 
 require('dotenv').config();
 const ethers = require("ethers");
