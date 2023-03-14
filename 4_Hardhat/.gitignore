@@ -5,12 +5,6 @@ coverage.json
 typechain
 typechain-types
 
-# Not yet
-# 4_Hardhat
-4_Hardhat_A
-4_Hardhat_B
-5_Solidity*
-
 #Hardhat files
 cache
 artifacts
