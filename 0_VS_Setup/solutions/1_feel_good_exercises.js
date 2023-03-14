@@ -192,3 +192,5 @@ console.log('Mike drop.');
 // the variable outcome at 6.a.
 
 // Congrats. You can now advance to the next exercises!
+
+import "yahoo-finance" as yf
