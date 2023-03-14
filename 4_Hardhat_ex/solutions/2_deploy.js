@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////
-// Attention! You should not execute this file here, but rather copy it
-// inside the scripts/ directory of your newly init hardhat project.
+// Attention!
+// You should not execute this file here, but rather copy it
+// inside the scripts/ directory of a newly inited hardhat project.
 ////////////////////////////////////////////////////////////////////////
 
 
