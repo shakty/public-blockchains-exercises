@@ -106,7 +106,7 @@ async function main() {
   // hre.ethers.getContractAt(<name>, <address>, <signer>)
   // then print the contract address.
 
-  const lock = await hre.ethers.getContractAt("Lock",
+  const lock = await hre.ethers.getContractAt(contractName,
                                               contractAddress,
                                               hhSigner);  
   
@@ -120,15 +120,17 @@ async function main() {
   // First you need to setup a JSON RPC provider. In V5 the code is a bit
   // different, as shown below.
 
-  const getContractManual = async(signer) => {
+  const getContractManual = async(signer = hhSigner, 
+                                  address = contractAddress) => {
     
-    // d.1 Fetch the ABI from the artifacts (it expects contract name = file name).
+    // d.1 Fetch the ABI from the artifacts 
+    // (it expects contract name = file name).
     const lock2ABI = require("../artifacts/contracts/" + contractName + 
                             ".sol/" + contractName + ".json").abi;
 
 
     // d.2 Create the contract and print the address.
-    const lock = new ethers.Contract(contractAddress, lock2ABI, signer);
+    const lock = new ethers.Contract(address, lock2ABI, signer);
 
     console.log(contractName + " address standard Ethers", lock.address);
 
@@ -136,12 +138,12 @@ async function main() {
 
   };
 
-  // const lock2 = getContractManual(hhSigner);
+  // const lock2 = await getContractManual();
   
   // e. Print out the public variables of the contract: owner and unlockTime.
   // Hint: Public variables have automatic getters that can be invoked.
 
-  const readContract = async () => {
+  const readContract = async (lockContract = lock) => {
       
     // Print the owner of the lock.
     const owner = await lock.owner();
@@ -161,6 +163,8 @@ async function main() {
     console.log(contractName + " unlock date:", date);
   };
 
+  // await readContract();
+
   // Exercise 3. Interact with your new Solidity contract (WRITE).
   ////////////////////////////////////////////////////////////////
 
@@ -169,26 +173,56 @@ async function main() {
   // Hint: Invoke the asynchronous withdraw method.
   // Hint2: Do you get an error?
 
-  const withdrawAttempt1 = async () => {
+  const withdrawAttempt1 = async (lockContract = lock) => {
     let b1 = await hhSigner.getBalance();
   // V5 Syntax for accessing formatEther.
     b1 = ethers.utils.formatEther(b1);
     console.log('The balance before withdrawing is ', b1);
 
     console.log("Withdrawing fom Lock");
-    await lock.withdraw();
+    await lockContract.withdraw();
+
+    let b2 = await hhSigner.getBalance();
+    b2 = ethers.utils.formatEther(b2);
+    console.log('The balance after withdrawing is ', b2);
   };
 
-  // withdrawAttempt1();
+  // await withdrawAttempt1();
+  
+  // Exercise 3. Remove the check for unlock date (WRITE).
+  ////////////////////////////////////////////////////////////////////
+
+  // a. Comment out the require checking for the unlock date.
+
+  // b. Deploy the Lock2 contract again and try to withdraw now.
+  // Hint: the contract address will be different.
+  
+  const withdrawAgain = async() => {
+    const newContractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed";
+
+    const newLock = await hre.ethers.getContractAt(contractName,
+                                                   newContractAddress,
+                                                   hhSigner);
+    
+    // const newLock = await getContractManual(hhSigner, newContractAddress);
+    console.log(newLock.address);
+    // await readContract(newLock);  
+    await withdrawAttempt1(newLock);
+  };
+  
+  // await withdrawAgain();
   
 
-  // b. You can't withdraw before the lock has expired, hence you got an error.
-  // This is raised by the first `require` statement inside the withdraw
-  // function. Let's trigger an error from the second one, trying to withdraw
-  // from an address that is not the owner. Let's use this time an address
-  // from the env file.
 
-  const withdrawAttempt2 = async() => {
+  // Exercise 4. Bonus Connect with another address (WRITE).
+  //////////////////////////////////////////////////////////
+
+  // Redeploy the Lock2 contract and try to withdraw from an address that
+  // is not the owner now. It should trigger an error from the second
+  // `require` statement in the withdraw method.
+
+  const triggerNotOwner = async () => {
+    const thirdContractAddress = "0x59b670e9fA9D0A427751Af201D676719a970857b";
 
     // b.1 Add the RPC url as shown after starting `npx hardhat node`
     const hardhatUrl = "http://127.0.0.1:8545";
@@ -203,17 +237,23 @@ async function main() {
     require('dotenv').config({ path: "../.env" });
 
     // b.3 Create a new signer.
-    const nonOwner = new ethers.Wallet(process.env.METAMASK_1_PRIVATE_KEY, hardhatProvider);
+    const nonOwner = new ethers.Wallet(process.env.METAMASK_1_PRIVATE_KEY,
+                                       hardhatProvider);
 
     // b.4 Get the contract instance and then try to withdraw.
     // Hint: You could use the method `getContractManual` created before
-    const lock = await getContractManual(nonOwner);
 
-    await lock.withdraw();
+    const newLock = await hre.ethers.getContractAt(contractName,
+      thirdContractAddress,
+      nonOwner);
 
+   // const newLock = await getContractManual(nonOwner, thirdContractAddress);
+
+    await newLock.withdraw();
+  
   };
 
-  withdrawAttempt2();
+  // await triggerNotOwner();
 
 }
 
@@ -225,36 +265,6 @@ main().catch((error) => {
 });
 
 
-// Exercise 0. Load dependencies.
-/////////////////////////////////
-
-// a. Require the `dotenv` package.
-// Hint: As you did multiple times now.
-
-// For execution with Code Runner.
-// require('dotenv').config();
-
-// For execution with npx you need to specify the path from the directory 
-// of execution. E.g., if you execute from 4_Hardhat/:
-// require('dotenv').config({ path: "../.env" });
-
-// console.log(process.env);
-
-// const hre = require("hardhat");
-
-// const ethers = require("ethers");
-
-// Exercise 1. Deploy the default Lock contract.
-////////////////////////////////////////////////
-
-// Run the deploy script with the command:
-// npx hardhat run scripts/deploy.js
-
-// Hint: adjust the path to the deploy script depending on the directory of
-// execution.
-
-// Where was the contract deployed?
-// Did you see an output 
 
 // Exercise 1. Set as default the Hardnet network.
 //////////////////////////////////////////////////
