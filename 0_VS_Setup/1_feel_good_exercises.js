@@ -53,12 +53,12 @@
 // Fix the two errors below with a red-line underneath.
 
 // a. Hint: follow the pattern.
-a = 1
+whatever = 1
 b = 2
 c.= 3
 
 // b. Hint: This function needs a name after the word function.
-function () {
+function Karl() {
     console.log('Hello!');
 }
 
@@ -97,7 +97,7 @@ catchMeIfYouCan3 = 'You did not catch me!';
 
 // Order the lines below accordingly.
 console.log('2. I would like to go below.');
-console.log('1. I would like to go above.'); 
+console.log('1. I would like to go above.');
 
 // Great! To learn more about key bindings, see:
 // - https://code.visualstudio.com/docs/getstarted/keybindings
@@ -119,13 +119,13 @@ console.log('1. I would like to go above.');
 // Or check the keybindings link in the previous exercise to format only a
 // portion of the code.
 
-let a      = 1234;
+let a = 1234;
 a++;
-         if(a> 123) {
- a--;
-           }
-else    a++
-               console.log(a);
+if (a > 123) {
+    a--;
+}
+else a++
+console.log(a);
 
 // Nothing happened? 
 // If so, your code (technically my code, if you just cloned it)
@@ -150,7 +150,7 @@ else    a++
 // if statement (it is the last parenthesis). Does the opening curly 
 // bracket get highlighted?
 
-if ((b+c) > 1) {
+if ((b + c) > 1) {
     console.log("Hei!");
 }
 
