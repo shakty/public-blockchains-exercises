@@ -198,7 +198,7 @@ async function main() {
   // Hint: the contract address will be different.
   
   const withdrawAgain = async() => {
-    const newContractAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed";
+    const newContractAddress = "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1";
 
     const newLock = await hre.ethers.getContractAt(contractName,
                                                    newContractAddress,
@@ -206,11 +206,12 @@ async function main() {
     
     // const newLock = await getContractManual(hhSigner, newContractAddress);
     console.log(newLock.address);
+    debugger
     // await readContract(newLock);  
     await withdrawAttempt1(newLock);
   };
   
-  // await withdrawAgain();
+  await withdrawAgain();
   
 
 
@@ -263,30 +264,3 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-
-
-
-// Exercise 1. Set as default the Hardnet network.
-//////////////////////////////////////////////////
-
-// Update the hardhat config file so that the default network is localhost.
-// Hint: defaultNetwork: "localhost"
-
-// Your code here!
-
-// Exercise . Tinkering Solidity
-////////////////////////////////
-
-// Make a copy of the Lock smart contract and rename into something creative,
-// for instance Lock2.sol.
-
-// a. Make a copy of the deploy script and rename it accordingly, for instance
-// deploy2.js. Now update the deploy2 to deploy the new contract instead of 
-// the original Lock.sol.
-
-// b. Deploy Lock2.sol.
-// Hint: before doing anything check the content of the artifacts folder
-// for differences.
-
-
-
