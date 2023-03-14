@@ -44,8 +44,9 @@ const ethers = require("ethers");
 // parameters it needs (nested hint: you need something from the .env file).
 
 const providerKey = process.env.INFURA_KEY;
+//nach Infura_Mainnet_Url glaube fehlt
 
-const mainnetInfuraUrl = `${process.env.INFURA_MAINNET}${providerKey}`;
+const mainnetInfuraUrl = `${process.env.INFURA_MAINNET_API_URL}${providerKey}`;
 // console.log(mainnetInfuraUrl);
 const mainnetProvider = new ethers.JsonRpcProvider(mainnetInfuraUrl);
 
@@ -70,6 +71,7 @@ const mainnetProvider = new ethers.JsonRpcProvider(mainnetInfuraUrl);
 
 // However, the async function could also be named, and the result is:
 const network = async () => {
+
     let net = await mainnetProvider.getNetwork();
     console.log('Async/Await!');
     console.log('Provider\'s network name: ', net.name);
@@ -77,7 +79,7 @@ const network = async () => {
 };
 
 // which you can then call:
-// network();
+network();
 
 // The second (less compact) notation has the advantage that we can invoke
 // the code only when needed, so it is preferred in this exercise sheet.
@@ -85,16 +87,18 @@ const network = async () => {
 // b2. Bonus. Re-write the code above using the promise standard notation.
 
 // Promises.
-// mainnetProvider.getNetwork().then(net => {
-//     console.log('Promise!');
-//     console.log('Provider\'s network name: ', net.name);
-//     console.log('Provider\'s network chain id: ', Number(net.chainId));
-// });
+ mainnetProvider.getNetwork().then(net => {
+
+   console.log('Promise!');
+   console.log('Provider\'s network name: ', net.name);
+   console.log('Provider\'s network chain id: ', Number(net.chainId));
+ 
+});
 
 
 // Checkpoint. We use `return` to terminate the execution insted
-// of process.exit(). Why?
-// return;
+of process.exit(). Why?
+
 
 
 
@@ -110,7 +114,7 @@ const blockNum = async () => {
     console.log('Mainnet block number: ', blockNumber);
 };
 
-// blockNum();
+blockNum();
 
 // b. The Ethereum mainnet is one of the most secure blockchains in the world.
 // The testnets of Ethereum are a bit less secure because they might have 
@@ -120,7 +124,7 @@ const blockNum = async () => {
 // Connect to the Goerli test net, get the latest block number and print
 // the difference in chain length with mainnet.
 
-const goerliInfuraUrl = `${process.env.INFURA_GOERLI}${providerKey}`;
+const goerliInfuraUrl = `${process.env.INFURA_GOERLI_API_URL}${providerKey}`;
 // console.log(goerliInfuraUrl);
 const goerliProvider = new ethers.JsonRpcProvider(goerliInfuraUrl);
 
@@ -137,7 +141,7 @@ const blockDiff = async () => {
                 ' blocks ahead');
 }
 
-// blockDiff();
+blockDiff();
 
 
 // Exercise 3. Block time.
@@ -195,9 +199,9 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
     
 };
 
-// checkBlockTime("Mainnet");
+checkBlockTime("Mainnet");
 
-// checkBlockTime("Goerli");
+checkBlockTime("Goerli");
 
 // b. Bonus. The checkBlockTime function can be rewritten more efficiently 
 // using the Observer pattern offer by EtherS JS and listening to the 
@@ -235,9 +239,9 @@ const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
     })
 };
 
-// checkBlockTime2("mainnet");
+checkBlockTime2("mainnet");
 
-// return;
+return;
 
 // c. Now that you know the answer, you can check the 
 // "Ethereum Average Block Time Chart": https://etherscan.io/chart/blocktime
@@ -276,7 +280,7 @@ const blockInfo = async () => {
 
 };
 
-// blockInfo();
+blockInfo();
 
 // Exercise 5. ENS names.
 //////////////////////////
@@ -292,7 +296,7 @@ const ens = async () => {
     console.log(ensName);
 };
 
-// ens();
+ens();
 
 
 // Exercise 6. Get ETH balance.
@@ -314,7 +318,7 @@ const balance = async (ensName = "unima.eth") => {
 
     // Get the balance for "unima.eth".
     let bal = await goerliProvider.getBalance(ensName);
-    // console.log(bal);
+console.log(bal);
 
     // Nicely formatted.
     console.log(ensName, "has", ethers.formatEther(bal), "ETH");
@@ -327,7 +331,7 @@ const balance = async (ensName = "unima.eth") => {
 
 };
 
-// balance("vitalik.eth");
+balance("vitalik.eth");
 
 
 // Exercise 7. Get ERC20 Balance.
@@ -364,6 +368,6 @@ const link = async () => {
 };
 
 
-// link();
+link();
 
 
