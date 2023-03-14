@@ -8,11 +8,7 @@
 // Hint: As you did multiple times now.
 
 // For execution with Code Runner.
-// require('dotenv').config();
-
-// For execution with npx you need to specify the path from the directory 
-// of execution. E.g., if you execute from 4_Hardhat/:
-require('dotenv').config({ path: "../.env" });
+require('dotenv').config();
 
 // console.log(process.env);
 
@@ -24,8 +20,6 @@ const ethers = require("ethers");
 
 // Hint: you will find the info printed to console after you start the hardhat
 // blockchain.
-
-// Your code here!
 
 const hardhatUrl = "http://127.0.0.1:8545";
 const hardhatProvider = new ethers.JsonRpcProvider(hardhatUrl);
@@ -95,13 +89,7 @@ const checkBalance = async () => {
 
 const account2 = process.env.METAMASK_2_ADDRESS;
 
-// const hre = require("hardhat");
-
 const sendTransaction = async () => {
-    
-    // console.log(hre);
-    // const hardhatSigners = await hre.ethers.getSigners();
-    // const hardhatSigner = hardhatSigners[0];
 
     const hardhatSigner = signer;
 
@@ -134,5 +122,5 @@ const sendTransaction = async () => {
     console.log('Balance for', account2, 'changed from', b2, 'to', updatedB2);
 };
 
-sendTransaction();
+// sendTransaction();
 
