@@ -37,16 +37,16 @@ return;
 
 // a. Require ethers and print the version of Ethers, just to be sure.
 
-const ethers = require("ethers");
-console.log("Ethers version:", ethers.version);
+// Your code here!
 
 return;
 
 // b. Hardhat uses v5 because it offers a plugin that is a wrapped version of
 // Ethers which makes things a little easier. This is available under
-// hre.ethers. Print the version of this plugin, it should be the same as above.
+// hre.ethers (require statement above).
+// Print the version of this plugin, it should be the same as above.
 
-console.log("HH Wrapped Ethers version:", hre.ethers.version);
+// Your code here!
 
 return;
 
@@ -59,7 +59,7 @@ return;
 // a. Copy the contract file "Lock.sol" and rename creatively it as "Lock2.sol".
 
 // b. Copy the deployment script "deploy.js" and repeat the same creative
-// act by renaming into "deploy2.js".
+// act by renaming it into "deploy2.js".
 
 // c. Important! The name of a contract is not the name of the file, it is
 // the name of the contract inside the file. Go on and rename the contract
@@ -82,7 +82,7 @@ return;
 // a. Update with your contract's name and address.
 // Hint: The address is known only after deployment.
 const contractName = "Lock2";
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const contractAddress = "FILL_THIS_VALUE";
 
 // Let's continue inside the async main function (the recommended Hardhat
 // pattern of execution).
@@ -94,45 +94,36 @@ async function main() {
   // execute: npx hardhat node
   // Hint: hre.ethers.getSigners() returns an array.
 
-  const hardhatSigners = await hre.ethers.getSigners();
-  const hhSigner = hardhatSigners[0];
+  // Your code here!
 
-  console.log("HH Signer address:", hhSigner.address);
-
-  // return
+  return;
 
   // c. Get your new contract. Hardhat Ethers automatically fetches the ABI from
   // the artifacts, so you don't need to specify it. Use the method
   // hre.ethers.getContractAt(<name>, <address>, <signer>)
   // then print the contract address.
 
-  const lock = await hre.ethers.getContractAt(contractName,
-                                              contractAddress,
-                                              hhSigner);  
-  
+  // Your code here!
 
-  console.log(contractName + " address", lock.address);
+  return;
 
   // d. Bonus. You can get the contract also without Hardhat's wrapped Ethers.
   // The standard (here V5) Ethers.JS requires a bit more code, but is is 
   // useful to understand how it works.
-
-  // First you need to setup a JSON RPC provider. In V5 the code is a bit
-  // different, as shown below.
 
   const getContractManual = async(signer = hhSigner, 
                                   address = contractAddress) => {
     
     // d.1 Fetch the ABI from the artifacts 
     // (it expects contract name = file name).
-    const lock2ABI = require("../artifacts/contracts/" + contractName + 
-                            ".sol/" + contractName + ".json").abi;
 
+    // Your code here!
 
     // d.2 Create the contract and print the address.
-    const lock = new ethers.Contract(address, lock2ABI, signer);
 
-    console.log(contractName + " address standard Ethers", lock.address);
+    // Your code here!
+
+    // const lock = ... ;
 
     return lock;
 
@@ -146,8 +137,8 @@ async function main() {
   const readContract = async (lockContract = lock) => {
       
     // Print the owner of the lock.
-    const owner = await lock.owner();
-    console.log("Owner of " + contractName, owner);
+   
+    // Your code here!
 
     // Print the unlock time. 
     // Be careful! You will get a BigInt, you need first
@@ -156,11 +147,7 @@ async function main() {
     // https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
     // https://stackoverflow.com/questions/53970655/how-to-convert-bigint-to-number-in-javascript
 
-    let unlockTime = await lock.unlockTime();
-    unlockTime = Number(unlockTime);
-    console.log(contractName + " unlock timestamp:", unlockTime);
-    let date = new Date((unlockTime * 1000));
-    console.log(contractName + " unlock date:", date);
+    // Your code here!
   };
 
   // await readContract();
@@ -171,20 +158,14 @@ async function main() {
   // a. Let's try to withdraw from the lock. 
   // Print the balance before and after withdrawal.
   // Hint: Invoke the asynchronous withdraw method.
-  // Hint2: Do you get an error?
+  // Hint2: Ethers V5 Syntax for accessing formatEther:
+  // balance = ethers.utils.formatEther(balance);
+  // Hint3: Do you get an error? You should! Check in the long error msg,
+  // the reason why.
 
   const withdrawAttempt1 = async (lockContract = lock) => {
-    let b1 = await hhSigner.getBalance();
-  // V5 Syntax for accessing formatEther.
-    b1 = ethers.utils.formatEther(b1);
-    console.log('The balance before withdrawing is ', b1);
-
-    console.log("Withdrawing fom Lock");
-    await lockContract.withdraw();
-
-    let b2 = await hhSigner.getBalance();
-    b2 = ethers.utils.formatEther(b2);
-    console.log('The balance after withdrawing is ', b2);
+        
+    // Your code here!
   };
 
   // await withdrawAttempt1();
@@ -200,14 +181,18 @@ async function main() {
   const withdrawAgain = async() => {
     const newContractAddress = "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1";
 
+    // Wrapped Ethers.
     const newLock = await hre.ethers.getContractAt(contractName,
                                                    newContractAddress,
                                                    hhSigner);
     
+    // Standard Ethers (V5).
     // const newLock = await getContractManual(hhSigner, newContractAddress);
-    console.log(newLock.address);
-    debugger
+    
+    // Can also print:
+    // console.log(newLock.address);
     // await readContract(newLock);  
+
     await withdrawAttempt1(newLock);
   };
   
@@ -215,7 +200,7 @@ async function main() {
   
 
 
-  // Exercise 4. Bonus Connect with another address (WRITE).
+  // Exercise 4. Bonus. Connect with another address (WRITE).
   //////////////////////////////////////////////////////////
 
   // Redeploy the Lock2 contract and try to withdraw from an address that
@@ -223,10 +208,9 @@ async function main() {
   // `require` statement in the withdraw method.
 
   const triggerNotOwner = async () => {
-    const thirdContractAddress = "0x59b670e9fA9D0A427751Af201D676719a970857b";
-
+    
     // b.1 Add the RPC url as shown after starting `npx hardhat node`
-    const hardhatUrl = "http://127.0.0.1:8545";
+    const hardhatUrl = "FILL_THIS_VALUE";
     // v5
     const hardhatProvider = new ethers.providers.JsonRpcProvider(hardhatUrl);
     // For your reference, in v6 we used:
@@ -238,20 +222,14 @@ async function main() {
     require('dotenv').config({ path: "../.env" });
 
     // b.3 Create a new signer.
-    const nonOwner = new ethers.Wallet(process.env.METAMASK_1_PRIVATE_KEY,
-                                       hardhatProvider);
+    
+    // Your code here!
 
     // b.4 Get the contract instance and then try to withdraw.
     // Hint: You could use the method `getContractManual` created before
 
-    const newLock = await hre.ethers.getContractAt(contractName,
-      thirdContractAddress,
-      nonOwner);
-
-   // const newLock = await getContractManual(nonOwner, thirdContractAddress);
-
-    await newLock.withdraw();
-  
+    // Your code here!
+    
   };
 
   // await triggerNotOwner();

@@ -44,7 +44,8 @@ return;
 
 // b. Hardhat uses v5 because it offers a plugin that is a wrapped version of
 // Ethers which makes things a little easier. This is available under
-// hre.ethers. Print the version of this plugin, it should be the same as above.
+// hre.ethers (require statement above).
+// Print the version of this plugin, it should be the same as above.
 
 console.log("HH Wrapped Ethers version:", hre.ethers.version);
 
@@ -59,7 +60,7 @@ return;
 // a. Copy the contract file "Lock.sol" and rename creatively it as "Lock2.sol".
 
 // b. Copy the deployment script "deploy.js" and repeat the same creative
-// act by renaming into "deploy2.js".
+// act by renaming it into "deploy2.js".
 
 // c. Important! The name of a contract is not the name of the file, it is
 // the name of the contract inside the file. Go on and rename the contract
@@ -171,7 +172,10 @@ async function main() {
   // a. Let's try to withdraw from the lock. 
   // Print the balance before and after withdrawal.
   // Hint: Invoke the asynchronous withdraw method.
-  // Hint2: Do you get an error?
+  // Hint2: Ethers V5 Syntax for accessing formatEther:
+  // balance = ethers.utils.formatEther(balance);
+  // Hint3: Do you get an error? You should! Check in the long error msg,
+  // the reason why.
 
   const withdrawAttempt1 = async (lockContract = lock) => {
     let b1 = await hhSigner.getBalance();
@@ -200,14 +204,18 @@ async function main() {
   const withdrawAgain = async() => {
     const newContractAddress = "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1";
 
-    const newLock = await hre.ethers.getContractAt(contractName,
-                                                   newContractAddress,
-                                                   hhSigner);
-    
-    // const newLock = await getContractManual(hhSigner, newContractAddress);
-    console.log(newLock.address);
-    debugger
-    // await readContract(newLock);  
+      // Wrapped Ethers.
+        const newLock = await hre.ethers.getContractAt(contractName,
+          newContractAddress,
+          hhSigner);
+
+      // Standard Ethers (V5).
+      // const newLock = await getContractManual(hhSigner, newContractAddress);
+
+      // Can also print:
+      // console.log(newLock.address);
+      // await readContract(newLock);  
+
     await withdrawAttempt1(newLock);
   };
   
@@ -215,7 +223,7 @@ async function main() {
   
 
 
-  // Exercise 4. Bonus Connect with another address (WRITE).
+  // Exercise 4. Bonus. Connect with another address (WRITE).
   //////////////////////////////////////////////////////////
 
   // Redeploy the Lock2 contract and try to withdraw from an address that
@@ -244,10 +252,12 @@ async function main() {
     // b.4 Get the contract instance and then try to withdraw.
     // Hint: You could use the method `getContractManual` created before
 
+    // Wrapped Ethers.
     const newLock = await hre.ethers.getContractAt(contractName,
       thirdContractAddress,
       nonOwner);
 
+   // Standard Ethers (V5)
    // const newLock = await getContractManual(nonOwner, thirdContractAddress);
 
     await newLock.withdraw();
