@@ -49,6 +49,8 @@
 // b. Create a function called "exit" that wraps the call to `process.exit` and
 // prints out the exercise number from a global variable called `exercise`.
 
+// Hint: German keyboard curly brackets: Alt-gr-7 (open), Alt-gr-8 (close).
+
 let exercise = 0;
 
 function exit() {

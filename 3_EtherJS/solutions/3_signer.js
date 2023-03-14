@@ -305,33 +305,39 @@ const sendCheaperTransaction = async () => {
 // nonetheless (btw the bare minimum you should tip the miner is 1 wei, 
 // but around 2 gwei is usually considered a safe choice).
 
+// Let's use Metamask. Make sure you have the right options enabled: go to Settings/Advanced and tick 
+// "Advanced gas controls" and "Customize transaction nonce".
 
-// So let's submit a transaction with Metamask, and setting a very low
-// `maxFeePerGas`. As you do  it, note the nonce for this transaction 
-// (you need to enable the display of the nonce in the Advanced options 
-// in Metamask). You could also get the nonce here, or from Etherscan.
+// So let's submit a transaction with Metamask, setting a very low
+// `maxFeePerGas`. As you do it, note the nonce for this transaction 
+// (you may also get the nonce programmatically or from Etherscan).
 
 // a. Check that the Metamask transaction is pending. Wait a bit...
 
 // b. Now speed up that transaction. Send another transaction with the _same_ 
 // nonce, but with a more reasonable `maxFeePerGas`. Check that the transaction
-// goes through. UPDATE: for some reason, EthersJS v6 wants a new nonce instead 
-// of the same one. Please try both.
+// goes through.
 
 // Hint: if you don't know the nonce, `getNonce` will tell you the _next_ one.
-// Hint2: if you don't know what a reasonable `maxFeePerGas` is, you can 
+// Hint2: if there is a transaction in the mempool, `getNonce` will give 
+// give the current nonce (same as transaction in the mempool). Try "pending"
+// as input paramter if you need the _next_ one. 
+// Hint3: if you don't know what a reasonable `maxFeePerGas` is, you can 
 // get an idea calling `getFeeData()`.
-
-// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
-// transaction with the same nonce with zero value and recipient address
-// equal to sender address.
 
 const resubmitTransaction = async () => {
 
-    let nextNonce = await signer.getNonce();
+     // If there is a transaction in the mempool, it returns the same nonce,
+    // otherwise the _next_ one.
+    let nonce = await signer.getNonce();
     // Equivalent to:
     // let nonce = await goerliProvider.getTransactionCount(signer.address);
-    console.log('Next Nonce is:', nextNonce);
+
+    // Note: the line below will return the _next_ nonce when there is
+    // already a transaction in the mempool.
+    // let nextNonce = await signer.getNonce("pending");
+
+    console.log('Nonce is:', nonce);
 
     const feeData = await goerliProvider.getFeeData();
     
@@ -340,7 +346,7 @@ const resubmitTransaction = async () => {
         value: ethers.parseEther("0.001"),
         maxFeePerGas: 2n*feeData.maxFeePerGas,
         maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
-        nonce: nextNonce
+        nonce: nonce
     });
     console.log(tx);
     
@@ -351,4 +357,37 @@ const resubmitTransaction = async () => {
 
 };
 
-resubmitTransaction();
+// resubmitTransaction();
+
+
+// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
+// transaction with the same nonce with zero value and recipient address
+// equal to sender address.
+
+const cancelTransaction = async () => {
+
+   // If there is a transaction in the mempool, it returns the
+   // same nonce, otherwise the _next_ one.
+   let nonce = await signer.getNonce();
+
+   console.log('Nonce is:', nonce);
+
+   const feeData = await goerliProvider.getFeeData();
+   
+   tx = await signer.sendTransaction({
+       to: signer.address,
+       value: ethers.parseEther("0.0"),
+       maxFeePerGas: 2n*feeData.maxFeePerGas,
+       maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
+       nonce: nonce
+   });
+   console.log(tx);
+   
+   console.log('Transaction is in the mempool...');
+   let receipt = await tx.wait();
+   console.log(receipt);
+   console.log('Transaction mined!');
+
+};
+
+cancelTransaction();

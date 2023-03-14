@@ -207,32 +207,42 @@ const sendCheaperTransaction = async () => {
 // nonetheless (btw the bare minimum you should tip the miner is 1 wei, 
 // but around 2 gwei is usually considered a safe choice).
 
+// Let's use Metamask. Make sure you have the right options enabled: go to Settings/Advanced and tick 
+// "Advanced gas controls" and "Customize transaction nonce".
 
-// So let's submit a transaction with Metamask, and setting a very low
-// `maxFeePerGas`. As you do  it, note the nonce for this transaction 
-// (you need to enable the display of the nonce in the Advanced options 
-// in Metamask). You could also get the nonce here, or from Etherscan.
+// So let's submit a transaction with Metamask, setting a very low
+// `maxFeePerGas`. As you do it, note the nonce for this transaction 
+// (you may also get the nonce programmatically or from Etherscan).
 
 // a. Check that the Metamask transaction is pending. Wait a bit...
 
 // b. Now speed up that transaction. Send another transaction with the _same_ 
 // nonce, but with a more reasonable `maxFeePerGas`. Check that the transaction
-// goes through. UPDATE: for some reason, EthersJS v6 wants a new nonce instead 
-// of the same one. Please try both.
+// goes through.
 
 // Hint: if you don't know the nonce, `getNonce` will tell you the _next_ one.
-// Hint2: if you don't know what a reasonable `maxFeePerGas` is, you can 
+// Hint2: if there is a transaction in the mempool, `getNonce` will give 
+// give the current nonce (same as transaction in the mempool). Try "pending"
+// as input paramter if you need the _next_ one. 
+// Hint3: if you don't know what a reasonable `maxFeePerGas` is, you can 
 // get an idea calling `getFeeData()`.
 
-// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
-// transaction with the same nonce with zero value and recipient address
-// equal to sender address.
-
 const resubmitTransaction = async () => {
-
 
     // Your Code here!
 
 };
 
 resubmitTransaction();
+
+
+// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
+// transaction with the same nonce with zero value and recipient address
+// equal to sender address.
+
+const cancelTransaction = async () => {
+
+    // Your Code here!
+};
+
+cancelTransaction();
