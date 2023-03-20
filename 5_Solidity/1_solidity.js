@@ -1,17 +1,5 @@
-// Ethers JS: First interaction with Hardhat blockchain.
-////////////////////////////////////////////////////////////
-
-// Exercise 0. Make sure you environment is set up.
-///////////////////////////////////////////////////
-
-// In 4_Hardhat_ex you have been asked to init a new Hardhat project with
-// a Lock contract. You can reuse that project, or create a new one (with
-// the Lock contract).
-
-// It is assumed that you could deploy the Lock contract to three networks:
-// - Hardhat local network
-// - Goerli
-// - (not) Unima Blockchain
+// Ethers JS: First exercises with Solidity.
+////////////////////////////////////////////
 
 // Solidity By Example is a great resource to quickly pick up Solidity
 // development and to do some of the exercises below:
@@ -22,10 +10,27 @@
 
 // https://docs.soliditylang.org/en/latest/index.html
 
+
+// Exercise 0. Make sure you environment is set up.
+///////////////////////////////////////////////////
+
+// In 4_Hardhat_ex you have been asked to init a new Hardhat project with
+// a Lock contract. You can reuse that project, or create a new one (with
+// the Lock contract).
+
+// You could deploy the Lock contract to any of the following networks:
+// 1. Hardhat local network
+// 2. Goerli
+// 3. (not) Unima Blockchain
+
+// Given that you might need to deploy the same contract multiple times, 1 
+// could be the easiest and fastest solution.
+
+
 // Exercise 1. A Closer Look at Lock.
 ////////////////////////////////////
 
-// Let's open again at the Lock2 contract that you created in one of the
+// Let's open again the Lock2 contract that you created in one of the
 // previous exercises (you can also work with the Lock contract).
 
 // a. What is the meaning of the `pragma` directive at the top of the file?
@@ -116,9 +121,9 @@ async function readVar() {
 
   // c. Getting the contract (as we did in previously...).
   const lock = await hre.ethers.getContractAt(
-    contractName,
-    contractAddress,
-    hhSigner
+      contractName,
+      contractAddress,
+      hhSigner
   );
 
   console.log(contractName + " globalVar:", await lock.globalVar());
@@ -127,18 +132,7 @@ async function readVar() {
 
   console.log(contractName + " GLOBAL_VAR:", await lock.GLOBAL_VAR());
 
-  //   let date = await hre.ethers.provider.getStorageAt(contractAddress, 0);
-  //   date = parseInt(date, 16);
-  //   date = new Date(date * 1000);
-  //   console.log(date);
 
-  //   let owner = await hre.ethers.provider.getStorageAt(contractAddress, 1);
-  //   console.log(owner);
-  //   // date = parseInt(storage, 16);
-  //   // date = new Date(date * 1000);
-  //   // console.log(date);
-  //   let a = hre.ethers.utils.toUtf8String(owner);
-  //   console.log(a);
 }
 
 // readVar();
@@ -182,9 +176,9 @@ async function constructor() {
   const hhSigner = hardhatSigners[0];
 
   const lock = await hre.ethers.getContractAt(
-    contractName,
-    contractAddress,
-    hhSigner
+      contractName,
+      contractAddress,
+      hhSigner
   );
 
   let blockNum = await lock.blockNumber();
@@ -223,15 +217,15 @@ async function constructor() {
 
 // Luckily, we can query them with Ethers.JS.
 
-// a. Create the event "WithdrawalAttempt" emitting the address attempting 
+// a. Create the event "WithdrawalAttempt" emitting the address attempting
 // to withdraw.
 
 // b. Emit the event "WithdrawalAttempt" before the require statements in the
 // withdraw method.
 
-// c. Listen to both events "WithdrawalAttempt" and "Withdrawal". 
+// c. Listen to both events "WithdrawalAttempt" and "Withdrawal".
 
-// d. Try to withdraw from an unauthorized address. Can you see the 
+// d. Try to withdraw from an unauthorized address. Can you see the
 // "WithdrawalAttempt", but not the "Withdrawal" event? Or rather nothing?
 
 // The `require` command reverts completely a transaction if conditions are
@@ -254,30 +248,30 @@ async function events() {
   const hhSigner = hardhatSigners[0];
 
   const lock = await hre.ethers.getContractAt(
-    contractName,
-    contractAddress,
-    hhSigner
+      contractName,
+      contractAddress,
+      hhSigner
   );
 
   lock.on("WithdrawalAttempt", (...args) => {
-    console.log("Attempt");
-    console.log(args);
+      console.log("Attempt");
+      console.log(args);
   });
 
   lock.on("Withdrawal", (...args) => {
-    console.log("Withdrawal");
-    console.log(args);
-    process.exit(0);
+      console.log("Withdrawal");
+      console.log(args);
+      process.exit(0);
   });
 
   try {
-    await lock.withdraw();
+      await lock.withdraw();
+  } catch (e) {
+      console.log("An exception occurred");
   }
-  catch (e) {
-    console.log("An exception occurred");
-  }
+}
 
-events();
+// events();
 
 // f. Bonus. You can query all the past events of a smart contract using
 
@@ -287,34 +281,171 @@ events();
 // information is available.
 
 async function getAllEvents() {
-    console.log("Bonus. Exercise 4: Get All Events");
+  console.log("Bonus. Exercise 4: Get All Events");
 
-    const contractName = "Lock3";
+  const contractName = "Lock3";
 
-    // Manual lock and block number.
-    contractAddress = "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318";
+  // Manual lock and block number.
+  contractAddress = "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318";
 
-    const hardhatSigners = await hre.ethers.getSigners();
-    const hhSigner = hardhatSigners[0];
+  const hardhatSigners = await hre.ethers.getSigners();
+  const hhSigner = hardhatSigners[0];
 
-    const lock = await hre.ethers.getContractAt(
-        contractName,
-        contractAddress,
-        hhSigner
-    );
+  const lock = await hre.ethers.getContractAt(
+      contractName,
+      contractAddress,
+      hhSigner
+  );
 
-    let fromBlock = 0;
-    let toBlock = hre.ethers.provider.getBlock().number;
-    const events = await lock.queryFilter("*", fromBlock, toBlock);
+  let fromBlock = 0;
+  let toBlock = hre.ethers.provider.getBlock().number;
+  const events = await lock.queryFilter("*", fromBlock, toBlock);
 
-    console.log(contractName + ": " + events.length + " found.");
+  console.log(contractName + ": " + events.length + " found.");
 
-    console.log('First Event:');
-    console.log(events[0]);
+  console.log("First Event:");
+  console.log(events[0]);
 }
 
 // getAllEvents();
 
+// Exercise 5. Mappings (and payable).
+//////////////////////////////////////
 
-// Exercise 3. Open Zeppelin.
-/////////////////////////////
+// Maps are key-value data structures that are optimized for fast retrieval.
+
+// You can immediately know if an index (key) exists in the mapping, but
+// you cannot iterate through the mapping to know all the existing keys.
+
+// https://solidity-by-example.org/mapping/
+
+// a. Let's modify the Lock contract to support multiple owners. The first
+// owner is the creator of the contract, but owners can be added at any time.
+
+// Hint: you need a mapping.
+
+// Hint: the payable keyword defines method and addresses that can receive
+// ether into the contract.
+
+// https://solidity-by-example.org/payable/
+
+// Hint2: There exists two types of addresses: payable and non payable.
+// https://docs.soliditylang.org/en/latest/types.html#address
+
+// b. Bonus. The withdraw method now returns a fraction of the total
+// locked value. For instance, if the contract has three owners, each owner
+// is entitled to withdraw the total locked divided by three. Each owner
+// can withdraw only once.
+
+// Hint: you could revert the transaction if an owner has already withdrawn.
+
+async function mappings() {
+  console.log("Bonus. Exercise 5: Mappings");
+
+  // Get signers.
+  const hardhatSigners = await hre.ethers.getSigners();
+  const hhSigner = hardhatSigners[0];
+
+  // Get contract.
+  const contractName = "Lock4";
+  // With requires.
+  // const contractAddress = "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c";
+  // Wihtout requires.
+  // const contractAddress = "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E";
+  // 0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690
+  // With console.log.
+  const contractAddress = "0xD84379CEae14AA33C123Af12424A37803F885889";
+
+  // Contract with default signer (and contract deployer).
+  const lock = await hre.ethers.getContractAt(
+      contractName,
+      contractAddress,
+      hhSigner
+  );
+  // Contract with signer at index 2.
+  const lock1 = await hre.ethers.getContractAt(
+      contractName,
+      contractAddress,
+      hardhatSigners[1]
+  );
+  // Contract with signer at index 2.
+  const lock2 = await hre.ethers.getContractAt(
+      contractName,
+      contractAddress,
+      hardhatSigners[2]
+  );
+  // Contract with signer at index 3.
+  const lock3 = await hre.ethers.getContractAt(
+      contractName,
+      contractAddress,
+      hardhatSigners[3]
+  );
+  // Contract with signer at index 4.
+  const lock4 = await hre.ethers.getContractAt(
+      contractName,
+      contractAddress,
+      hardhatSigners[4]
+  );
+
+  // Let's have 5 owners in total.
+  
+  // Default signer adds two other owners.
+  await lock.addOwner(hardhatSigners[1].address);
+  await lock.addOwner(hardhatSigners[2].address);
+  // Owner at index 2 adds another one.
+  await lock2.addOwner(hardhatSigners[3].address);
+  // Owner at index 3 adds another one.
+  await lock3.addOwner(hardhatSigners[4].address);
+
+  // Let's count how many we have.
+  getContractStatus(lock);
+
+  // Print the mapping value.
+  // let owner = await lock.owners(hhSigner.address);
+  // console.log(owner)
+  // owner = await lock.owners(hardhatSigners[1].address);
+  // console.log(owner)
+  // owner = await lock.owners(hardhatSigners[2].address);
+  // console.log(owner)
+  // owner = await lock.owners(hardhatSigners[3].address);
+  // console.log(owner)
+  // owner = await lock.owners(hardhatSigners[4].address);
+  // console.log(owner)
+  
+  // owner = await lock.owners(hardhatSigners[5].address);
+  // console.log(owner)
+  
+
+  // Each owner should get 0.2 Ether. Let's check whether it works.
+
+  await checkBalanceBeforeAfter(hhSigner, lock);
+  await checkBalanceBeforeAfter(hardhatSigners[1], lock1);
+  await checkBalanceBeforeAfter(hardhatSigners[2], lock2);
+  await checkBalanceBeforeAfter(hardhatSigners[3], lock3);
+  await checkBalanceBeforeAfter(hardhatSigners[4], lock4);
+}
+
+const checkBalanceBeforeAfter = async (signer, lockContract) => {
+  // Check the balance change for signer.
+  let b1 = await signer.getBalance();
+  let tx = await lockContract.withdraw();
+  await tx.wait();
+  let b2 = await signer.getBalance();
+  // With Ethers v5 we need to explicitely cast to BigInt. 
+  let diff = BigInt(b2) - BigInt(b1);
+  b2 = ethers.utils.formatEther(diff);
+  console.log('The balance after withdrawing is net +' + b2 + ' ETH');
+
+  await getContractStatus(lockContract);
+};
+
+const getContractStatus = async lockContract => {
+  // Report info about contract.
+  let leftInContract = await hre.ethers.provider.getBalance(lockContract.address);
+  leftInContract = ethers.utils.formatEther(leftInContract);
+  let numOwners = await lockContract.ownerCounter();
+  console.log('On lock there is +' + leftInContract + ' ETH left and ' + 
+                  numOwners + " owners now");
+};
+
+mappings();
