@@ -18,6 +18,10 @@
 
 // https://solidity-by-example.org/
 
+// For the full syntax and detailed explanations refer to the latest docs:
+
+// https://docs.soliditylang.org/en/latest/index.html
+
 // Exercise 1. A Closer Look at Lock.
 ////////////////////////////////////
 
@@ -42,6 +46,9 @@
 // d. The code of the contract Lock is introduced by the `contract` keyword
 // and wrapped in curly braces { ... }. Before `contract` you have the option
 // to `import` some code into the file.
+//
+// Read about imports:
+// https://solidity-by-example.org/import/
 //
 // In the Lock contract file, there is a comment to import a hardhat plugin to
 // print text with `console.log` to the terminal where you launched
@@ -82,15 +89,11 @@
 // Declare it as a constant (follow the convention) to optimize your code.
 // Hint: https://solidity-by-example.org/constants/
 
-
 // d. You can also optimize your code a bit, if you declare unlockTime as
 // immutable.
 // Hint: https://solidity-by-example.org/immutable/
 
-
-
 async function readVar() {
-
   const contractName = "Lock";
 
   // No public globalVar.
@@ -120,40 +123,37 @@ async function readVar() {
 
   console.log(contractName + " globalVar:", await lock.globalVar());
 
-    // d.
-    
+  // d.
+
   console.log(contractName + " GLOBAL_VAR:", await lock.GLOBAL_VAR());
 
+  //   let date = await hre.ethers.provider.getStorageAt(contractAddress, 0);
+  //   date = parseInt(date, 16);
+  //   date = new Date(date * 1000);
+  //   console.log(date);
 
-//   let date = await hre.ethers.provider.getStorageAt(contractAddress, 0);
-//   date = parseInt(date, 16);
-//   date = new Date(date * 1000);
-//   console.log(date);
-
-//   let owner = await hre.ethers.provider.getStorageAt(contractAddress, 1);
-//   console.log(owner);
-//   // date = parseInt(storage, 16);
-//   // date = new Date(date * 1000);
-//   // console.log(date);
-//   let a = hre.ethers.utils.toUtf8String(owner);
-//   console.log(a);
-
+  //   let owner = await hre.ethers.provider.getStorageAt(contractAddress, 1);
+  //   console.log(owner);
+  //   // date = parseInt(storage, 16);
+  //   // date = new Date(date * 1000);
+  //   // console.log(date);
+  //   let a = hre.ethers.utils.toUtf8String(owner);
+  //   console.log(a);
 }
 
 // readVar();
-
 
 // Exercise 3. Constructor.
 ///////////////////////////
 
 // The constructor is executed once, at deployment time.
 
-// It can take input parameters as passed by the deployment script. Let's 
+// It can take input parameters as passed by the deployment script. Let's
 // understand how they are connected.
 
-// a. Let's make a new copy of Lock2, and name it Lock3. 
+// a. Let's make a new copy of Lock2, and name it Lock3.
 // Remove the input parameter and the require statement from the contructor,
-// and assign a fixed value to unlockTime. 
+// and assign a fixed value to unlockTime.
 // Also create a new deploy script (for instance deploy3.js) to deploy Lock3,
 // and make sure that it does not pass any input parameter to Lock3.
 // Hint: you can take the value for unlockTime from the console.log of a
@@ -169,10 +169,10 @@ async function readVar() {
 
 // Hint: you can get the block number from the state variable `block`.
 
-
+// Checkpoint. How can you find out the block at which a contract was deployed
+// if you don't keep track of the block number?
 
 async function constructor() {
-
   const contractName = "Lock3";
 
   // Manual lock and block number.
@@ -187,45 +187,134 @@ async function constructor() {
     hhSigner
   );
 
-    let blockNum = await lock.blockNumber();
+  let blockNum = await lock.blockNumber();
 
   console.log(contractName + " blockNumber:", Number(blockNum));
 
+  //   let date = await hre.ethers.provider.getStorageAt(contractAddress, 0);
+  //   date = parseInt(date, 16);
+  //   date = new Date(date * 1000);
+  //   console.log(date);
 
-//   let date = await hre.ethers.provider.getStorageAt(contractAddress, 0);
-//   date = parseInt(date, 16);
-//   date = new Date(date * 1000);
-//   console.log(date);
-
-//   let owner = await hre.ethers.provider.getStorageAt(contractAddress, 1);
-//   console.log(owner);
-//   // date = parseInt(storage, 16);
-//   // date = new Date(date * 1000);
-//   // console.log(date);
-//   let a = hre.ethers.utils.toUtf8String(owner);
-//   console.log(a);
-
+  //   let owner = await hre.ethers.provider.getStorageAt(contractAddress, 1);
+  //   console.log(owner);
+  //   // date = parseInt(storage, 16);
+  //   // date = new Date(date * 1000);
+  //   // console.log(date);
+  //   let a = hre.ethers.utils.toUtf8String(owner);
+  //   console.log(a);
 }
 
-constructor();
+// constructor();
+
+// Exercise 4. Events (and reverts).
+////////////////////////////////////
+
+// Events allow logging to the Ethereum blockchain. Some use cases are:
+
+// - Listening for events and updating a user interface
+// - A cheap form of storage
+
+// https://solidity-by-example.org/events/
+
+// Events are stored forever on the blockchain, but they cannot be queried
+// by smart contracts (not even the contract that created it). It's their
+// inaccessibility to smart contracts that makes them cheaper to emit.
+
+// Luckily, we can query them with Ethers.JS.
+
+// a. Create the event "WithdrawalAttempt" emitting the address attempting 
+// to withdraw.
+
+// b. Emit the event "WithdrawalAttempt" before the require statements in the
+// withdraw method.
+
+// c. Listen to both events "WithdrawalAttempt" and "Withdrawal". 
+
+// d. Try to withdraw from an unauthorized address. Can you see the 
+// "WithdrawalAttempt", but not the "Withdrawal" event? Or rather nothing?
+
+// The `require` command reverts completely a transaction if conditions are
+// not met. It's all or nothing. If a transaction is reverted, no changes
+// at all are taking place, meaning that no event is ever emitted, even if
+// the require statement comes _after_ the emit statement.
+
+// e. Try now to withdraw from an authorized address and enjoy listening
+// the events. What a symphony!
+
+async function events() {
+  console.log("Exercise 4: Events");
+
+  const contractName = "Lock3";
+
+  // Manual lock and block number and no time check.
+  contractAddress = "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318";
+
+  const hardhatSigners = await hre.ethers.getSigners();
+  const hhSigner = hardhatSigners[0];
+
+  const lock = await hre.ethers.getContractAt(
+    contractName,
+    contractAddress,
+    hhSigner
+  );
+
+  lock.on("WithdrawalAttempt", (...args) => {
+    console.log("Attempt");
+    console.log(args);
+  });
+
+  lock.on("Withdrawal", (...args) => {
+    console.log("Withdrawal");
+    console.log(args);
+    process.exit(0);
+  });
+
+  try {
+    await lock.withdraw();
+  }
+  catch (e) {
+    console.log("An exception occurred");
+  }
+
+events();
+
+// f. Bonus. You can query all the past events of a smart contract using
+
+// <contract>.queryFilter("*", fromBlock, toBlock);
+
+// Try to get how many past events have been emitted, and review what
+// information is available.
+
+async function getAllEvents() {
+    console.log("Bonus. Exercise 4: Get All Events");
+
+    const contractName = "Lock3";
+
+    // Manual lock and block number.
+    contractAddress = "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318";
+
+    const hardhatSigners = await hre.ethers.getSigners();
+    const hhSigner = hardhatSigners[0];
+
+    const lock = await hre.ethers.getContractAt(
+        contractName,
+        contractAddress,
+        hhSigner
+    );
+
+    let fromBlock = 0;
+    let toBlock = hre.ethers.provider.getBlock().number;
+    const events = await lock.queryFilter("*", fromBlock, toBlock);
+
+    console.log(contractName + ": " + events.length + " found.");
+
+    console.log('First Event:');
+    console.log(events[0]);
+}
+
+// getAllEvents();
+
 
 // Exercise 3. Open Zeppelin.
 /////////////////////////////
-
-// How about creating a variable of the type:
-
-// "This contract was created at block number <BLOCK_NUMBER>"
-
-// Where <BLOCK_NUMBER> is the actual block number at which the contract
-// was deployed.
-
-// This operation requires joining a string and a number, an operation that
-// is not supported in Solidity. Generally, string manipulations should be
-// avoided because they cost gas, but if you really want to do it, you can
-// use a library provided by Open Zeppelin.
-
-
-// Variables in Solidity are slightly different than in other programming
-// languages. All variables are "public," in the sense that a copy is stored
-// in the memory of each computer running an Ethereum client. So even "private"
-// variables are in fact
