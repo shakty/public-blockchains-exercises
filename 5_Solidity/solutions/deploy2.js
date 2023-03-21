@@ -11,7 +11,7 @@ async function main() {
 
   const lockedAmount = hre.ethers.utils.parseEther("1");
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
+  const Lock = await hre.ethers.getContractFactory("Lock2");
   const lock = await Lock.deploy({ value: lockedAmount });
 
   await lock.deployed();
