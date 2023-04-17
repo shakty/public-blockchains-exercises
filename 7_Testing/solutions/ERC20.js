@@ -1,3 +1,5 @@
+// Place in tests/ to execute it.
+
 const {
     time,
     loadFixture,
