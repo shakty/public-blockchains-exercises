@@ -120,7 +120,8 @@ describe("ERC20", function () {
                 .withArgs(owner.address, otherAccount.address, COINS);
 
             // Transfer COINS tokens from owner to otherAccount
-            // We use .connect(signer) to send a transaction from another account
+            // We use .connect(signer) to send a transaction from 
+            // another account.
             await expect(
                 myErc20.connect(otherAccount).transfer(owner.address, COINS)
             )
