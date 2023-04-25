@@ -32,7 +32,7 @@ const getAssContract = async (
     signer = deployer
 ) => {
     // Fetch the ABI from the artifacts.
-    const assABI = require("../../artifacts/contracts/assignment_2/" +
+    const assABI = require("../../artifacts/contracts/" +
         cName +
         ".sol/" +
         cName +
