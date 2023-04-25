@@ -15,6 +15,10 @@ nft
 3_openzeppelin.js
 Home_Assignments
 
+2_rawTransactions.js
+deploy_test.js
+TestContract.sol
+
 #Hardhat files
 cache
 artifacts
