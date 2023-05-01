@@ -30,7 +30,7 @@ console.log(ethers.version);
 // To generate a random seed.
 const crypto = require("crypto");
 
-const cAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+const cAddress = "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1";
 const cName = "TestContract";
 
 const localhostProvider = new ethers.providers.JsonRpcProvider(
@@ -102,6 +102,7 @@ const getContract = async (
 // Hint: No parentheses.
 
 const rawTransactionBasic = async () => {
+    console.log("Exercise 2. Raw Transactions with Encoding frmo Hashex.org.");
     console.log();
     
     const contract = await getContract(deployer);
@@ -164,6 +165,7 @@ const doKeccak256 = (signature) => {
 };
 
 const rawTransaction2DIY = async () => {
+    console.log("Exercise 2. Raw Transactions with Own Encoding.");
     console.log();
 
     const contract = await getContract(deployer);
@@ -212,7 +214,7 @@ const rawTransaction2DIY = async () => {
 
 // Input parameters to a function belongs to roughly two types:
 
-// - dynamic: length decided at run-time (arrays, strings, bytes)
+// - dynamic: length defined at run-time (arrays, strings, bytes)
 // - static:  length predefined at compilation time (all other types)
 
 // This distinction is important for the encoding because ABI encoding needs
@@ -237,6 +239,8 @@ const encodeSignature = (signature, verbose) => {
 }
 
 const rawTransactionStaticParams = async () => {
+    console.log("Exercise 4. Raw Transactions with Static Types.");
+    console.log();
 
     const contract = await getContract(deployer);
     // Reset contract state.
@@ -247,30 +251,19 @@ const rawTransactionStaticParams = async () => {
 
     // Set greeting with raw transaction.
 
-    let signature = "setGreeting(string)";
+    let signature = "setGreeting(uint8)";
     // Hash the signature with Keccak256 and takes 4 bytes.
-    let calldata = encodeSignature(signature);
+    let encodedSignature = encodeSignature(signature);
+
+    // v5 function.
+    let encodedParam = ethers.utils.hexZeroPad(1, 32);
+    console.log(encodedParam);
     
-
-    // Add parameter String parameter "Buongiorno", or get inspired here:
-    // https://www.berlitz.com/blog/hello-different-languages
-
-    const abc = new ethers.utils.AbiCoder();
-    let encodedParam = abc.encode(["string"], ["Buongiorno"]);
-    encodedParam = encodedParam.substring(2);
-    console.log("Encoded params:", encodedParam);
-
-    calldata += encodedParam;
+    calldata = encodedSignature + encodedParam;
     console.log("Calldata:      ", calldata);
 
-    // calldata = "0x" + "a41368620000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000a42756f6e67696f726e6f00000000000000000000000000000000000000000000";
-    // console.log()
-    // console.log("Calldata:      ", calldata);
-
-    // return
-
     console.log();
-    console.log("**Raw transaction**: setGreeting(string)");
+    console.log("**Raw transaction**: setGreeting(uint8)");
     console.log();
 
     let tx = await signer.sendTransaction({
@@ -303,17 +296,27 @@ const rawTransactionStaticParams = async () => {
     console.log("Greeting after reset:", greeting);    
 };
 
-rawTransactionStaticParams();
+// rawTransactionStaticParams();
 
-// Exercise 3: Raw transaction with parameters & do your own encoding.
+// Exercise 4: Raw transaction with _dynamic_ parameters & do your own encoding.
 //////////////////////////////////////////////////////////////////////
 
-// Now let's do it even more complicated. Let's send parameters along.
+// Now let's do it even more complicated. Let's send dynamic parameters along.
 
-// Hint: You can compare your own encoding with the output from
+// Manually encoding dynamic parameters is rather complex:
+
+// https://docs.soliditylang.org/en/v0.8.11/abi-spec.html#formal-specification-of-the-encoding
+
+// Fortunately, Ethers.JS has a utility function that does the job for you.
+// Hint: check the Ethers.JS doc about how to create an `ABI Coder` and
+// then use the .encode(...) method.
+
+// Hint2: You can compare your own encoding with the output from
 // https://abi.hashex.org/
 
 const rawTransactionDynamicParams = async () => {
+    console.log("Exercise 4. Raw Transactions with Dynamic Types.");
+    console.log();
 
     const contract = await getContract(deployer);
     // Reset contract state.
@@ -328,7 +331,6 @@ const rawTransactionDynamicParams = async () => {
     // Hash the signature with Keccak256 and takes 4 bytes.
     let calldata = encodeSignature(signature);
     
-
     // Add parameter String parameter "Buongiorno", or get inspired here:
     // https://www.berlitz.com/blog/hello-different-languages
 
@@ -339,12 +341,6 @@ const rawTransactionDynamicParams = async () => {
 
     calldata += encodedParam;
     console.log("Calldata:      ", calldata);
-
-    // calldata = "0x" + "a41368620000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000a42756f6e67696f726e6f00000000000000000000000000000000000000000000";
-    // console.log()
-    // console.log("Calldata:      ", calldata);
-
-    // return
 
     console.log();
     console.log("**Raw transaction**: setGreeting(string)");
@@ -381,6 +377,7 @@ const rawTransactionDynamicParams = async () => {
 };
 
 rawTransactionDynamicParams();
+
 
 
 
