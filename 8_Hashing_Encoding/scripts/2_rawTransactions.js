@@ -193,7 +193,6 @@ const rawTransaction2DIY = async () => {
     calldata = calldata.substring(0, 10); // 8 + 2 (0x).
     console.log("Taking 4 Bytes:  ", calldata);
 
-
     const tx = await signer.sendTransaction({
         to: cAddress,
         data: calldata
@@ -207,10 +206,22 @@ const rawTransaction2DIY = async () => {
 
 // rawTransactionDIY();
 
-// Exercise 3: Raw transaction with parameters & do your own encoding.
-//////////////////////////////////////////////////////////////////////
 
-// Now let's do it even more complicated. Let's send parameters along.
+// Exercise 3: Raw transaction with _static_ parameters & do your own encoding.
+///////////////////////////////////////////////////////////////////////////////
+
+// Input parameters to a function belongs to roughly two types:
+
+// - dynamic: length decided at run-time (arrays, strings, bytes)
+// - static:  length predefined at compilation time (all other types)
+
+// This distinction is important for the encoding because ABI encoding needs
+// to fit everything in chunks of fixed length (32 bytes), and user-inputed
+// dynamic types might be longer or shorter than that.
+
+// Let's start with the simple case, static types.
+
+// TODO: here to Hex bool.
 
 // Hint: You can compare your own encoding with the output from
 // https://abi.hashex.org/
@@ -225,7 +236,7 @@ const encodeSignature = (signature, verbose) => {
     return hashed;
 }
 
-const rawTransactionParams = async () => {
+const rawTransactionStaticParams = async () => {
 
     const contract = await getContract(deployer);
     // Reset contract state.
@@ -245,7 +256,8 @@ const rawTransactionParams = async () => {
     // https://www.berlitz.com/blog/hello-different-languages
 
     const abc = new ethers.utils.AbiCoder();
-    const encodedParam = abc.encode(["string"], ["Buongiorno"]);
+    let encodedParam = abc.encode(["string"], ["Buongiorno"]);
+    encodedParam = encodedParam.substring(2);
     console.log("Encoded params:", encodedParam);
 
     calldata += encodedParam;
@@ -255,11 +267,13 @@ const rawTransactionParams = async () => {
     // console.log()
     // console.log("Calldata:      ", calldata);
 
+    // return
+
     console.log();
     console.log("**Raw transaction**: setGreeting(string)");
     console.log();
 
-    tx = await signer.sendTransaction({
+    let tx = await signer.sendTransaction({
         to: cAddress,
         data: calldata
     });
@@ -278,7 +292,7 @@ const rawTransactionParams = async () => {
     signature = "reset()";
     calldata = encodeSignature(signature);
 
-    const tx = await signer.sendTransaction({
+    tx = await signer.sendTransaction({
         to: cAddress,
         data: calldata
     });
@@ -289,7 +303,86 @@ const rawTransactionParams = async () => {
     console.log("Greeting after reset:", greeting);    
 };
 
-rawTransactionParams();
+rawTransactionStaticParams();
+
+// Exercise 3: Raw transaction with parameters & do your own encoding.
+//////////////////////////////////////////////////////////////////////
+
+// Now let's do it even more complicated. Let's send parameters along.
+
+// Hint: You can compare your own encoding with the output from
+// https://abi.hashex.org/
+
+const rawTransactionDynamicParams = async () => {
+
+    const contract = await getContract(deployer);
+    // Reset contract state.
+    await contract.reset();
+
+    let greeting = await contract.greeting();
+    console.log("Current greeting:", greeting);
+
+    // Set greeting with raw transaction.
+
+    let signature = "setGreeting(string)";
+    // Hash the signature with Keccak256 and takes 4 bytes.
+    let calldata = encodeSignature(signature);
+    
+
+    // Add parameter String parameter "Buongiorno", or get inspired here:
+    // https://www.berlitz.com/blog/hello-different-languages
+
+    const abc = new ethers.utils.AbiCoder();
+    let encodedParam = abc.encode(["string"], ["Buongiorno"]);
+    encodedParam = encodedParam.substring(2);
+    console.log("Encoded params:", encodedParam);
+
+    calldata += encodedParam;
+    console.log("Calldata:      ", calldata);
+
+    // calldata = "0x" + "a41368620000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000a42756f6e67696f726e6f00000000000000000000000000000000000000000000";
+    // console.log()
+    // console.log("Calldata:      ", calldata);
+
+    // return
+
+    console.log();
+    console.log("**Raw transaction**: setGreeting(string)");
+    console.log();
+
+    let tx = await signer.sendTransaction({
+        to: cAddress,
+        data: calldata
+    });
+
+    await waitForTx(tx);
+
+    // Check if greeting was updated.
+    greeting = await contract.greeting();
+    console.log("Updated greeting:", greeting);
+
+    console.log();
+    console.log("**Raw transaction**: reset()");
+    console.log();
+    
+    // Reset.
+    signature = "reset()";
+    calldata = encodeSignature(signature);
+
+    tx = await signer.sendTransaction({
+        to: cAddress,
+        data: calldata
+    });
+
+    await waitForTx(tx);
+
+    greeting = await contract.greeting();
+    console.log("Greeting after reset:", greeting);    
+};
+
+rawTransactionDynamicParams();
+
+
 
 const getCode = async () => {
     const code = await notUniMaProvider.getCode(cAddress);
