@@ -15,9 +15,6 @@ nft
 3_openzeppelin.js
 Home_Assignments
 
-deploy_test.js
-TestContract.sol
-
 #Hardhat files
 cache
 artifacts

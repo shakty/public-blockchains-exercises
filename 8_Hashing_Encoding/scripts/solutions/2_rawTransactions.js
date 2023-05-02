@@ -1,6 +1,6 @@
 const path = require('path');
-const pathToDotEnv = path.join(__dirname, '..', '..', '.env');
-require("dotenv").config({ path: pathToDotEnv });
+const pathToEnv = path.join(__dirname, '..', '..', '.env');
+require("dotenv").config({ path: pathToEnv });
 
 
 const { BigNumber, ethers } = require("ethers");
@@ -100,7 +100,7 @@ const rawTransactionBasic = async () => {
     console.log();
 
     // Fill in this value with the encoded signature of reset():
-    let encodedSignature = "ENCODED_SIGNATURE_HERE"; 
+    let encodedSignature = "ENCODED_SIGNATURE_HERE"; // "d826f88f"; 
     let calldata = "0x" + encodedSignature;
 
     // Raw transaction.
@@ -134,12 +134,11 @@ const rawTransactionBasic = async () => {
 // Luckily, we have worked with Keccack256 in the previous exercise sheet.
 // It is time to send your first raw transaction.
 
-
-// Takes a function's signature as input and returns the Keccak256 hash.
 const doKeccak256 = (signature) => {
-
-    // Your code here.
-
+    // Convert string to bytes.
+    signature = ethers.utils.toUtf8Bytes(signature);
+    // Hash the bytes.
+    return ethers.utils.keccak256(signature);
 };
 
 const rawTransaction2DIY = async () => {
@@ -169,10 +168,9 @@ const rawTransaction2DIY = async () => {
     let calldata = doKeccak256(signature);
     console.log("Hashed signature:", calldata);
 
-
-    // Your code here!
-    // let calldata = ... ;
-
+    // Take the first 4 bytes.
+    calldata = calldata.substring(0, 10); // 8 + 2 (0x).
+    console.log("Taking 4 Bytes:  ", calldata);
 
     const tx = await signer.sendTransaction({
         to: cAddress,
@@ -202,6 +200,7 @@ const rawTransaction2DIY = async () => {
 
 // Let's start with the simple case, static types.
 
+
 // Hint: In Ethers v5, the function `hexZeroPad()` can help.
 
 // Hint2: You can compare your own encoding with the output from
@@ -212,9 +211,13 @@ const rawTransaction2DIY = async () => {
 // and return the first 4 bytes. Optionally, takes a verbose
 // parameter to print to console its operations.
 const encodeSignature = (signature, verbose) => {
-    
-    // Your code here.
-
+    // Hash the signature with Keccak256.    
+    let hashed = doKeccak256(signature);
+    if (verbose) console.log("Hashed signature:", hashed);
+    // Take the first 4 bytes.
+    hashed = hashed.substring(0, 10); // 8 + 2 (0x).
+    if (verbose) console.log("Taking 4 Bytes:  ", hashed);
+    return hashed;
 };
 
 const rawTransactionStaticParams = async () => {
@@ -234,9 +237,12 @@ const rawTransactionStaticParams = async () => {
     // Hash the signature with Keccak256 and takes 4 bytes.
     let encodedSignature = encodeSignature(signature);
 
-    // Your code here.
-
-    // let calldata = ... ;
+    // v5 function.
+    let encodedParam = ethers.utils.hexZeroPad(1, 32);
+    console.log(encodedParam);
+    
+    calldata = encodedSignature + encodedParam;
+    console.log("Calldata:      ", calldata);
 
     console.log();
     console.log("**Raw transaction**: setGreeting(uint8)");
@@ -311,9 +317,13 @@ const rawTransactionDynamicParams = async () => {
     // Encode String parameter "Buongiorno", or get inspired here:
     // https://www.berlitz.com/blog/hello-different-languages
 
-   
-    // Your code here.
-    // let calldata = ... ;
+    const abc = new ethers.utils.AbiCoder();
+    let encodedParam = abc.encode(["string"], ["Buongiorno"]);
+    encodedParam = encodedParam.substring(2);
+    console.log("Encoded params:", encodedParam);
+
+    calldata += encodedParam;
+    console.log("Calldata:      ", calldata);
 
     console.log();
     console.log("**Raw transaction**: setGreeting(string)");
