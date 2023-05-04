@@ -1,5 +1,5 @@
 const path = require('path');
-const pathToEnv = path.join(__dirname, '..', '..', '.env');
+const pathToEnv = path.join(__dirname, '..', '..', '..', '.env');
 require("dotenv").config({ path: pathToEnv });
 
 
@@ -7,7 +7,7 @@ const { BigNumber, ethers } = require("ethers");
 console.log(ethers.version);
 
 // Todo: Update this contract address.
-const cAddress = "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1";
+const cAddress = "0x09635F643e140090A9A8Dcd712eD6285858ceBef";
 const cName = "TestContract";
 
 const localhostProvider = new ethers.providers.JsonRpcProvider(
@@ -33,7 +33,7 @@ const getContract = async (
     signer = deployer
 ) => {
     // Fetch the ABI from the artifacts.
-    const cABI = require("../artifacts/contracts/" +
+    const cABI = require("../../artifacts/contracts/" +
         cName +
         ".sol/" +
         cName +
@@ -79,7 +79,7 @@ const getContract = async (
 // Hint: No parentheses.
 
 const rawTransactionBasic = async () => {
-    console.log("Exercise 2. Raw Transactions with Encoding frmo Hashex.org.");
+    console.log("Exercise 1. Raw Transactions with Encoding frmo Hashex.org.");
     console.log();
     
     const contract = await getContract(deployer);
@@ -100,7 +100,7 @@ const rawTransactionBasic = async () => {
     console.log();
 
     // Fill in this value with the encoded signature of reset():
-    let encodedSignature = "ENCODED_SIGNATURE_HERE"; // "d826f88f"; 
+    let encodedSignature = "d826f88f";
     let calldata = "0x" + encodedSignature;
 
     // Raw transaction.
@@ -141,7 +141,7 @@ const doKeccak256 = (signature) => {
     return ethers.utils.keccak256(signature);
 };
 
-const rawTransaction2DIY = async () => {
+const rawTransactionDIY = async () => {
     console.log("Exercise 2. Raw Transactions with Own Encoding.");
     console.log();
 
@@ -221,7 +221,7 @@ const encodeSignature = (signature, verbose) => {
 };
 
 const rawTransactionStaticParams = async () => {
-    console.log("Exercise 4. Raw Transactions with Static Types.");
+    console.log("Exercise 3. Raw Transactions with Static Types.");
     console.log();
 
     const contract = await getContract(deployer);
@@ -233,19 +233,20 @@ const rawTransactionStaticParams = async () => {
 
     // Set greeting with raw transaction.
 
-    let signature = "setGreeting(uint8)";
+    let signature = "chooseGreeting(uint8)";
     // Hash the signature with Keccak256 and takes 4 bytes.
     let encodedSignature = encodeSignature(signature);
 
     // v5 function.
     let encodedParam = ethers.utils.hexZeroPad(1, 32);
+    encodedParam = encodedParam.substring(2);
     console.log(encodedParam);
-    
+
     calldata = encodedSignature + encodedParam;
     console.log("Calldata:      ", calldata);
 
     console.log();
-    console.log("**Raw transaction**: setGreeting(uint8)");
+    console.log("**Raw transaction**: chooseGreeting(uint8)");
     console.log();
 
     let tx = await signer.sendTransaction({

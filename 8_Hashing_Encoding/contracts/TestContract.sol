@@ -14,7 +14,7 @@ contract TestContract {
         greeting = _greeting;
     }
 
-    function setGreeting(uint8 choice) public {
+    function chooseGreeting(uint8 choice) public {
         
         // console.log(choice);
 

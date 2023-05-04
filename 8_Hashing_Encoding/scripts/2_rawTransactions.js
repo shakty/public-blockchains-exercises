@@ -79,7 +79,7 @@ const getContract = async (
 // Hint: No parentheses.
 
 const rawTransactionBasic = async () => {
-    console.log("Exercise 2. Raw Transactions with Encoding frmo Hashex.org.");
+    console.log("Exercise 1. Raw Transactions with Encoding frmo Hashex.org.");
     console.log();
     
     const contract = await getContract(deployer);
@@ -142,7 +142,7 @@ const doKeccak256 = (signature) => {
 
 };
 
-const rawTransaction2DIY = async () => {
+const rawTransactionDIY = async () => {
     console.log("Exercise 2. Raw Transactions with Own Encoding.");
     console.log();
 
@@ -218,7 +218,7 @@ const encodeSignature = (signature, verbose) => {
 };
 
 const rawTransactionStaticParams = async () => {
-    console.log("Exercise 4. Raw Transactions with Static Types.");
+    console.log("Exercise 3. Raw Transactions with Static Types.");
     console.log();
 
     const contract = await getContract(deployer);
@@ -230,7 +230,7 @@ const rawTransactionStaticParams = async () => {
 
     // Set greeting with raw transaction.
 
-    let signature = "setGreeting(uint8)";
+    let signature = "chooseGreeting(uint8)";
     // Hash the signature with Keccak256 and takes 4 bytes.
     let encodedSignature = encodeSignature(signature);
 
@@ -239,7 +239,7 @@ const rawTransactionStaticParams = async () => {
     // let calldata = ... ;
 
     console.log();
-    console.log("**Raw transaction**: setGreeting(uint8)");
+    console.log("**Raw transaction**: chooseGreeting(uint8)");
     console.log();
 
     let tx = await signer.sendTransaction({
