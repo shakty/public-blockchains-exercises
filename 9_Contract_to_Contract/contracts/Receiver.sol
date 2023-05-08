@@ -7,16 +7,25 @@ import "hardhat/console.sol";
 // Create contract > define Contract Name
 contract Receiver {
 
-    // Function to receive Ether. msg.data must be empty
+    // Special functions to receive Ether:
+    
+    // Checkpoint: no function keyword. Why? What if they would?
+
+    // receive: called if msg.data is empty.
     receive() external payable {
         console.log('Receiver was called!');
-        // console.log(msg.data);
     }
 
-    // Fallback function is called when msg.data is not empty
+    // fallback: called if msg.data is _not_ empty.
     fallback() external payable {
         console.log('Fallback was called!');
-        // console.log(msg.data);
+    }
+
+    // Custom functions to receive Ether:
+
+    // any other function with payable modifier.
+    function donateEther() external payable {
+        console.log('Thanks :)');
     }
    
 }

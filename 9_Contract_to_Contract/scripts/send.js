@@ -90,8 +90,73 @@ const send = async(to, amount = 1, data) => {
 // let encodedSignature = "0xd826f88f";
 // send(receiverAddress, 1, encodedSignature);
 
+const donateEther = async(address = receiverAddress, 
+                          cName = "Receiver", amount = 1) => {
+    
+    console.log('***Before:');
+    await checkBalances();
+
+    const c = await getContract(signer, cName, address);
+
+    let tx = await c.donateEther({
+        value: ethers.utils.parseEther('' + amount)
+    });
+
+    await waitForTx(tx);
+
+    console.log('***After:');
+    await checkBalances();
+};
+
+// donateEther();
+
+// donateEther(senderAddress, "Sender", 10);
 
 
+
+// Using the Sender Contract.
+
+const sendWithSender = async(method, amount = 1) => {
+    
+    console.log('***Before:');
+    await checkBalances();
+
+    const senderContract = await getContract(signer, "Sender", senderAddress);
+
+    let tx;
+    amount = ethers.utils.parseEther('' + amount);
+
+    if (method === "transfer") {
+        tx = await senderContract.sendViaTransfer(receiverAddress, {
+            value: amount,
+        });
+    }
+    else if (method === "call") {
+        tx = await senderContract.sendViaCall(receiverAddress, {
+            value: amount,
+        });
+    }
+    else if (method === "send") {
+        tx = await senderContract.sendViaSend(receiverAddress, {
+            value: amount,
+        });
+    }
+    else {
+        console.log('***Unknown sending method', method);
+        return;
+    }
+
+    await waitForTx(tx);
+
+    console.log('***After:');
+    await checkBalances();
+};
+
+// sendWithSender("transfer");
+
+// sendWithSender("send");
+
+// sendWithSender("call");
 
 // Helper function.
 

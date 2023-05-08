@@ -17,14 +17,19 @@ contract Sender {
         // Send returns a boolean value indicating success or failure.
         // This function is not recommended for sending Ether.
         bool sent = _to.send(msg.value);
-        require(sent, "Failed to send Ether");
+        require(sent, "Failed to send Ether via Send");
     }
 
     function sendViaCall(address payable _to) public payable {
         // Call returns a boolean value indicating success or failure.
         // This is the current recommended method to use.
         (bool sent, bytes memory data) = _to.call{value: msg.value}("");
-        require(sent, "Failed to send Ether");
+        require(sent, "Failed to send Ether via Call");
     }
    
+    // Receives ether.
+    function donateEther() external payable {
+        console.log('Thanks :)');
+    }
+
 }
