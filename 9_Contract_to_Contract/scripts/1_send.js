@@ -21,6 +21,36 @@ console.log("Signer 1: ", signer.address);
 console.log("Signer 2: ", deployer.address);
 
 
+const getContract = async (signer, cName, address) => {
+    // Fetch the ABI from the artifacts.
+    const abi = require("../artifacts/contracts/" +
+        cName +
+        ".sol/" +
+        cName +
+        ".json").abi;
+
+    // Create the contract and print the address.
+    return new ethers.Contract(address, abi, signer);
+};
+
+const checkBalances = async() => {
+    let balanceEther = await provider.getBalance(senderAddress);
+    console.log("   Sender Ether:", ethers.utils.formatEther(balanceEther));
+    
+    balanceEther = await provider.getBalance(receiverAddress);
+    console.log(" Receiver Ether:", ethers.utils.formatEther(balanceEther));
+
+    balanceEther = await provider.getBalance(receiver2Address);
+    console.log("Receiver2 Ether:", ethers.utils.formatEther(balanceEther));
+
+    balanceEther = await provider.getBalance(testAddress);
+    console.log("     Test Ether:", ethers.utils.formatEther(balanceEther));
+
+    balanceEther = await provider.getBalance(signer.address);
+    console.log("   Signer Ether:", ethers.utils.formatEther(balanceEther));
+};
+
+
 // Exercise 0 Auto import contract addresses.
 /////////////////////////////////////////////
 
@@ -95,7 +125,7 @@ const send = async(to, amount = 1, data) => {
 
 // Test your implementation with the code below.
 
-const sendWithSender = async(method, amount = 1) => {
+const sendWithSender = async(method, to, amount = 1) => {
     
     console.log('***Before:');
     await checkBalances();
@@ -106,17 +136,17 @@ const sendWithSender = async(method, amount = 1) => {
     amount = ethers.utils.parseEther('' + amount);
 
     if (method === "transfer") {
-        tx = await senderContract.sendViaTransfer(receiverAddress, {
+        tx = await senderContract.sendViaTransfer(to, {
             value: amount,
         });
     }
     else if (method === "call") {
-        tx = await senderContract.sendViaCall(receiverAddress, {
+        tx = await senderContract.sendViaCall(to, {
             value: amount,
         });
     }
     else if (method === "send") {
-        tx = await senderContract.sendViaSend(receiverAddress, {
+        tx = await senderContract.sendViaSend(to, {
             value: amount,
         });
     }
@@ -132,11 +162,11 @@ const sendWithSender = async(method, amount = 1) => {
 };
 
 
-// sendWithSender("transfer");
+// sendWithSender("transfer", receiverAddress);
 
-// sendWithSender("send");
+// sendWithSender("send", receiverAddress);
 
-// sendWithSender("call");
+// sendWithSender("call", receiverAddress);
 
 // console.log('Sending to Receiver: using payable function');
 
@@ -163,32 +193,6 @@ const donateEther = async(address = receiverAddress,
 
 // Helper functions.
 ////////////////////
-
-const getContract = async (signer, cName, address) => {
-    // Fetch the ABI from the artifacts.
-    const abi = require("../artifacts/contracts/" +
-        cName +
-        ".sol/" +
-        cName +
-        ".json").abi;
-
-    // Create the contract and print the address.
-    return new ethers.Contract(address, abi, signer);
-};
-
-const checkBalances = async() => {
-    let balanceEther = await provider.getBalance(senderAddress);
-    console.log("  Sender Ether:", ethers.utils.formatEther(balanceEther));
-    
-    balanceEther = await provider.getBalance(receiverAddress);
-    console.log("Receiver Ether:", ethers.utils.formatEther(balanceEther));
-
-    balanceEther = await provider.getBalance(testAddress);
-    console.log("    Test Ether:", ethers.utils.formatEther(balanceEther));
-
-    balanceEther = await provider.getBalance(signer.address);
-    console.log("  Signer Ether:", ethers.utils.formatEther(balanceEther));
-};
 
 
 const waitForTx = async (tx, verbose) => {

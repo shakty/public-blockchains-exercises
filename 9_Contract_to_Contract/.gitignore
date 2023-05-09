@@ -10,3 +10,5 @@ cache
 artifacts
 
 .addresses*.json
+
+Receiver2.sol

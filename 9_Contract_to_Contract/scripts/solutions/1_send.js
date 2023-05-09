@@ -21,6 +21,32 @@ console.log("Signer 1: ", signer.address);
 console.log("Signer 2: ", deployer.address);
 
 
+const getContract = async (signer, cName, address) => {
+    // Fetch the ABI from the artifacts.
+    const abi = require("../artifacts/contracts/" +
+        cName +
+        ".sol/" +
+        cName +
+        ".json").abi;
+
+    // Create the contract and print the address.
+    return new ethers.Contract(address, abi, signer);
+};
+
+const checkBalances = async() => {
+    let balanceEther = await provider.getBalance(senderAddress);
+    console.log("  Sender Ether:", ethers.utils.formatEther(balanceEther));
+    
+    balanceEther = await provider.getBalance(receiverAddress);
+    console.log("Receiver Ether:", ethers.utils.formatEther(balanceEther));
+
+    balanceEther = await provider.getBalance(testAddress);
+    console.log("    Test Ether:", ethers.utils.formatEther(balanceEther));
+
+    balanceEther = await provider.getBalance(signer.address);
+    console.log("  Signer Ether:", ethers.utils.formatEther(balanceEther));
+};
+
 // Exercise 0 Auto import contract addresses.
 /////////////////////////////////////////////
 
@@ -107,9 +133,16 @@ const donateEther = async(address = receiverAddress,
 // Exercise 1. Sending Ether through the Sender contract.
 /////////////////////////////////////////////////////////
 
-// This triggers a Contract to Contract interaction.
+// Complete the missing methods in the _Sender_ contract to send Ether 
+// to another contract.
 
-const sendWithSender = async(method, amount = 1) => {
+// a. Transfer
+// b. Send
+// c. Call
+
+// Test your implementation with the code below.
+
+const sendWithSender = async(method, to, amount = 1) => {
     
     console.log('***Before:');
     await checkBalances();
@@ -120,17 +153,17 @@ const sendWithSender = async(method, amount = 1) => {
     amount = ethers.utils.parseEther('' + amount);
 
     if (method === "transfer") {
-        tx = await senderContract.sendViaTransfer(receiverAddress, {
+        tx = await senderContract.sendViaTransfer(to, {
             value: amount,
         });
     }
     else if (method === "call") {
-        tx = await senderContract.sendViaCall(receiverAddress, {
+        tx = await senderContract.sendViaCall(to, {
             value: amount,
         });
     }
     else if (method === "send") {
-        tx = await senderContract.sendViaSend(receiverAddress, {
+        tx = await senderContract.sendViaSend(to, {
             value: amount,
         });
     }
@@ -145,43 +178,15 @@ const sendWithSender = async(method, amount = 1) => {
     await checkBalances();
 };
 
-sendWithSender("transfer");
+// sendWithSender("transfer", receiverAddress);
 
-// sendWithSender("send");
+// sendWithSender("send", receiverAddress);
 
-// sendWithSender("call");
-
-
+// sendWithSender("call", receiverAddress);
 
 
 // Helper functions.
 ////////////////////
-
-const getContract = async (signer, cName, address) => {
-    // Fetch the ABI from the artifacts.
-    const abi = require("../artifacts/contracts/" +
-        cName +
-        ".sol/" +
-        cName +
-        ".json").abi;
-
-    // Create the contract and print the address.
-    return new ethers.Contract(address, abi, signer);
-};
-
-const checkBalances = async() => {
-    let balanceEther = await provider.getBalance(senderAddress);
-    console.log("  Sender Ether:", ethers.utils.formatEther(balanceEther));
-    
-    balanceEther = await provider.getBalance(receiverAddress);
-    console.log("Receiver Ether:", ethers.utils.formatEther(balanceEther));
-
-    balanceEther = await provider.getBalance(testAddress);
-    console.log("    Test Ether:", ethers.utils.formatEther(balanceEther));
-
-    balanceEther = await provider.getBalance(signer.address);
-    console.log("  Signer Ether:", ethers.utils.formatEther(balanceEther));
-};
 
 
 const waitForTx = async (tx, verbose) => {
