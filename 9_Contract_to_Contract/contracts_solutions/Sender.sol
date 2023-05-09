@@ -11,16 +11,17 @@ contract Sender {
         console.log('***Transfer');
         console.log(msg.value);
         
-        // Your code here!    
+        _to.transfer(msg.value);
     }
 
     // Send returns a boolean value indicating success or failure.
-    // This function is generally not recommended for sending Ether.
+    // This function is not recommended for sending Ether.
     function sendViaSend(address payable _to) public payable {
         console.log('***Send');
         console.log(msg.value);
 
-        // Your code here!    
+        bool sent = _to.send(msg.value);
+        require(sent, "Failed to send Ether via Send");
     }
 
     // Call returns a boolean value indicating success or failure.
@@ -28,15 +29,14 @@ contract Sender {
     function sendViaCall(address payable _to) public payable {
         console.log('***Call');
         console.log(msg.value);
-
-        // Your code here!
+        
+        (bool sent, bytes memory data) = _to.call{value: msg.value}("");
+        require(sent, "Failed to send Ether via Call");
     }
    
     // Receives ether.
     function donateEther() external payable {
         console.log('Thanks :)');
-
-        // Your code here! Or not...
     }
 
 }

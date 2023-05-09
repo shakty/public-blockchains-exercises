@@ -86,7 +86,14 @@ const send = async(to, amount = 1, data) => {
 // Exercise 1. Sending Ether through the Sender contract.
 /////////////////////////////////////////////////////////
 
-// This triggers a Contract to Contract interaction.
+// Complete the missing methods in the _Sender_ contract to send Ether 
+// to another contract.
+
+// a. Transfer
+// b. Send
+// c. Call
+
+// Test your implementation with the code below.
 
 const sendWithSender = async(method, amount = 1) => {
     
@@ -124,13 +131,34 @@ const sendWithSender = async(method, amount = 1) => {
     await checkBalances();
 };
 
-sendWithSender("transfer");
+
+// sendWithSender("transfer");
 
 // sendWithSender("send");
 
 // sendWithSender("call");
 
+// console.log('Sending to Receiver: using payable function');
 
+const donateEther = async(address = receiverAddress, 
+                          cName = "Receiver", amount = 1) => {
+
+    console.log('***Before:');
+    await checkBalances();
+
+    const c = await getContract(signer, cName, address);
+
+    let tx = await c.donateEther({
+        value: ethers.utils.parseEther('' + amount)
+    });
+
+    await waitForTx(tx);
+
+    console.log('***After:');
+    await checkBalances();
+};
+
+// donateEther();
 
 
 // Helper functions.
