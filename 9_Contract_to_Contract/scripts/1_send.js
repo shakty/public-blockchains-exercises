@@ -152,7 +152,7 @@ const sendWithSender = async(method, amount = 1) => {
     await checkBalances();
 };
 
-// sendWithSender("transfer");
+sendWithSender("transfer");
 
 // sendWithSender("send");
 

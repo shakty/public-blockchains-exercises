@@ -9,11 +9,17 @@ contract Sender {
     // address payable public receiverContract = 0x809d550fca64d94Bd9F66E60752A544199cfAC3D;
 
     function sendViaTransfer(address payable _to) public payable {
+        console.log('***Transfer');
+        console.log(msg.value);
+        
         // This function is no longer recommended for sending Ether.
         _to.transfer(msg.value);
     }
 
     function sendViaSend(address payable _to) public payable {
+        console.log('***Send');
+        console.log(msg.value);
+
         // Send returns a boolean value indicating success or failure.
         // This function is not recommended for sending Ether.
         bool sent = _to.send(msg.value);
@@ -21,6 +27,9 @@ contract Sender {
     }
 
     function sendViaCall(address payable _to) public payable {
+        console.log('***Call');
+        console.log(msg.value);
+
         // Call returns a boolean value indicating success or failure.
         // This is the current recommended method to use.
         (bool sent, bytes memory data) = _to.call{value: msg.value}("");
