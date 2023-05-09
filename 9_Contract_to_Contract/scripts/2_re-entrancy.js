@@ -52,6 +52,22 @@ const checkBalances = async() => {
 
 };
 
+// Exercise 1. Attack!
+//////////////////////
+
+// Attack the Bank contract and withdraw all its Ether.
+
+// The withdraw method of the Bank contract can be exploited with a re-entrancy 
+// attack. It consists in calling the same method again before the method 
+// finishes its evaluation. This is possible if, as in this case, the method
+// is sending Ether, which might potentially trigger a `fallback` function
+// of another contract. This in turn could call the withdraw method again...
+
+// Implement the fallback method of the Attacker contract to drain all the
+// liquidity of the Bank.
+
+// Hint: https://solidity-by-example.org/hacks/re-entrancy/
+
 const attack = async(amount = 10) => {
     
     const bank = await getContract(depositer, "Bank", bankAddress);
@@ -76,7 +92,15 @@ const attack = async(amount = 10) => {
     await checkBalances();
 };
 
-attack();
+// attack();
+
+// Exercise 2. Prevent the attack!
+//////////////////////////////////
+
+// Modify the Bank contract introducing a re-entrancy guard. Repeat the
+// attack of exercise 1 and see if it is successful this time.
+
+// Hint: https://solidity-by-example.org/hacks/re-entrancy/
 
 const attackGuard = async(amount = 10) => {
     

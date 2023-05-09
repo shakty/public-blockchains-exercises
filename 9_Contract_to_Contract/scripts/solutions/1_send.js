@@ -53,7 +53,11 @@ const send = async(to, amount = 1, data) => {
     console.log('***Before:');
     await checkBalances();
 
-    // Your code here.
+    const tx = await signer.sendTransaction({
+        to: to,
+        value: ethers.utils.parseEther('' + amount),
+        data: data
+    });
 
     await waitForTx(tx);
 
@@ -64,7 +68,6 @@ const send = async(to, amount = 1, data) => {
 // console.log('Sending to Test');
 // send(testAddress);
 
-
 // b. Send Ether to the _Receiver_ contract. 
 
 // This contract is "smarter", and it offers several ways of accepting Ether.
@@ -72,16 +75,34 @@ const send = async(to, amount = 1, data) => {
 // those possibilities.
 
 // console.log('Sending to Receiver: no msg.data');
-
-// Your code here.
+// send(receiverAddress);
 
 // console.log('Sending to Receiver: msg.data not empty');
-
-// Your code here.
+// let encodedSignature = "0xd826f88f";
+// send(receiverAddress, 1, encodedSignature);
 
 // console.log('Sending to Receiver: using payable function');
 
-// Your code here.
+const donateEther = async(address = receiverAddress, 
+                          cName = "Receiver", amount = 1) => {
+    
+    console.log('***Before:');
+    await checkBalances();
+
+    const c = await getContract(signer, cName, address);
+
+    let tx = await c.donateEther({
+        value: ethers.utils.parseEther('' + amount)
+    });
+
+    await waitForTx(tx);
+
+    console.log('***After:');
+    await checkBalances();
+};
+
+// donateEther();
+
 
 // Exercise 1. Sending Ether through the Sender contract.
 /////////////////////////////////////////////////////////
