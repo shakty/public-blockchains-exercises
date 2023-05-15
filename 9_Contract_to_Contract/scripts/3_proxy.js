@@ -35,7 +35,7 @@ const getContract = async (signer, cName, address) => {
 
 
 // Loading addresses from file saved from deploy script.
-const [ v1Address, v2Address, proxyAddress ] = 
+const [ v1Address, v2Address, v3Address, proxyAddress ] = 
     require(path.join(__dirname, '.addresses_proxy.json'));
 
 
@@ -101,7 +101,10 @@ const upgradeAndGuess = async(address) => {
 
 };
 
-upgradeAndGuess(v2Address);
+// upgradeAndGuess(v2Address);
+
+
+// upgradeAndGuess(v3Address);
 
 // Helper functions.
 ////////////////////

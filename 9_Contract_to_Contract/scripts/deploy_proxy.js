@@ -29,6 +29,12 @@ async function main() {
 
   console.log(`Logic V2 deployed to ${v2.address}`);
 
+  const LogicV3 = await hre.ethers.getContractFactory("LogicV3");
+  const v3 = await LogicV3.deploy();
+  await v3.deployed();
+
+  console.log(`Logic V3 deployed to ${v3.address}`);
+
   const secretNumber = 100;
 
   const Proxy = await hre.ethers.getContractFactory("Proxy");
@@ -39,7 +45,7 @@ async function main() {
 
   // Save the addresses so that we can re-use them in the interact.js script.
   // Order matters.
-  _saveAddresses([ v1.address, v2.address, proxy.address ]);
+  _saveAddresses([ v1.address, v2.address, v3.address, proxy.address ]);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
