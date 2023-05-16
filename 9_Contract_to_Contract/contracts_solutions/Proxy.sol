@@ -32,13 +32,7 @@ contract Proxy {
             abi.encodeWithSignature("checkGuess(uint256)", number)
         );
         require(success);
-        
-        // Decode the return value of the delegated call so that guessNumber
-        // returns a boolean
-
-        // Your code here (replace the line below).
-        bool correct = true;
-
+        bool correct = abi.decode(data, (bool));
         console.log("Result:", correct);
         return correct;
     }

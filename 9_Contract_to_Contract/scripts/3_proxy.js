@@ -46,6 +46,15 @@ const [ v1Address, v2Address, v3Address, proxyAddress ] =
 // contract files `Proxy.sol` and `LogicV[1,2,3].sol` to understand how 
 // this can be done. 
 
+// Exercise 0. Decode the return value of a delegated call.
+/////////////////////////////////////////////////////////////
+
+// The contract `Proxy.sol` has a method name `guessNumber(...)`. This
+// method should return true if the caller guessed the secret number,
+// false otherwise. However, the method is incomplete as it needs to parse
+// the encoded value returned by the delegated call. Decode it, and return it.
+// Hint: abi.decode(...)
+
 
 // Exercise 1. Make a static call to guess the number with logic V1.
 ////////////////////////////////////////////////////////////////////
@@ -149,7 +158,7 @@ const upgradeAndGuess = async(address) => {
 // variables are declared in the Solidity file. Then check what happens when
 // you execute the guess method...
 
-upgradeAndGuess(v3Address);
+// upgradeAndGuess(v3Address);
 
 
 // Helper functions.
