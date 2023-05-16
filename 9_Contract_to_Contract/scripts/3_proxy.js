@@ -33,52 +33,90 @@ const getContract = async (signer, cName, address) => {
     return new ethers.Contract(address, abi, signer);
 };
 
+// Contract addresses.
+//////////////////////
 
 // Loading addresses from file saved from deploy script.
 const [ v1Address, v2Address, v3Address, proxyAddress ] = 
     require(path.join(__dirname, '.addresses_proxy.json'));
 
 
-// Exercise 1. Guess the number with logic V1.
-//////////////////////////////////////////////
+// Proxy contracts are contracts that forward the execution of some of its
+// method to another contract, which is used as a library. Here we work with
+// contract files `Proxy.sol` and `LogicV[1,2,3].sol` to understand how 
+// this can be done. 
 
-// a. Send Ether to the _Test_ contract. 
 
-// Notice that the Test contract has no fallback, no receive, no
-// payable function...will it accept your Ether?
+// Exercise 1. Make a static call to guess the number with logic V1.
+////////////////////////////////////////////////////////////////////
+
+// In Web3 you can read a value, but you can get the return value of a 
+// a function, unless you make a static call. A static call is executed 
+// directly on a node and does not update the blockchain state, so 
+// a value can immediately be returned.
+
+// Check the code below, and notice how:
+// - the first operation returns a value,
+// - the second operation returns a transaction receipt.
+
+// Update the code below to make a static call and return a boolean from
+// the second transaction.
+// Hint: .callStatic.<methodName>
 
 const guess = async(num = 100) => {
     
-    console.log('***Guessing the number...');
+    console.log('  ***Guessing the number...');
 
     const proxyContract = await getContract(signer, "Proxy", proxyAddress);
     
+    // Operation 1: read.
+    let version = await proxyContract.version();
+    console.log('  Contract version: v' + Number(version));
+
+    // Operation 2: execute a function.
+    // let res = await proxyContract.guessNumber(num);
     // Making a static call.
     let res = await proxyContract.callStatic.guessNumber(num);
 
+    // The variable res is a transaction, so the logic below does not work
+    // because it expects a boolean.
+    // console.log(res);
     res = res ? ' ' : ' not ';
-
-    console.log('***The guess ' + num + ' was' + res + 'correct.');
+    console.log('  ***The guess ' + num + ' was' + res + 'correct.');
+    
 };
 
-console.log("Guess should not be correct");
-guess(1000);
+// guess(1000);
 
-console.log("Guess should be correct");
-guess(100);
+// Exercise 2. Upgrade the contract to V2.
+//////////////////////////////////////////
 
-console.log("Wrong guess should be correct due to incorrect contract in V1");
-guess(99);
+// You might have noticed that Logic V1 is buggy: it adds one to the guess
+// before comparing it with the secret number. Logic V2 fixes this.
+
+// a. Check that the wrong return values are returned in V1.
+// 
+
+const checkGuesses = async() => {
+    console.log("Guess should not be correct");
+    await guess(1000);
+
+    console.log("Guess should be correct in V2, not in V1");
+    await guess(100);
+
+    console.log("Guess should be correct in V1, not in V2");
+    await guess(99);
+};
+
+// checkGuesses();
+
+// b. Now upgrade to Logic V2 and check that return values are correct.
 
 const upgrade = async(address) => {
     
     console.log('***Upgrading logic...');
 
     const proxyContract = await getContract(signer, "Proxy", proxyAddress);
-    
-    // Making a static call.
-    // let res = await proxyContract.callStatic.upgrade(address);
-
 
     let tx = await proxyContract.upgrade(address);
 
@@ -89,22 +127,30 @@ const upgrade = async(address) => {
 
 const upgradeAndGuess = async(address) => {
 
-    const proxyContract = await getContract(signer, "Proxy", proxyAddress);
-
     await upgrade(address);
 
-    console.log('Guess should be correct in V2');
-    await guess(100);
-
-    console.log('Guess should be _not_ correct in V2');
-    await guess(99);
-
+    await checkGuesses();
 };
 
 // upgradeAndGuess(v2Address);
 
+// Exercise 3. Learn about storage clashes.
+///////////////////////////////////////////
 
-// upgradeAndGuess(v3Address);
+// The proxy is making a delegate call to a logic which is executed with 
+// the state of of the proxy. However, what really gets executed is the
+// optimized bytecode on the blockchain. This optimization makes so that
+// variable names are replaced with memory (storage) positions of 32bytes.
+
+// This means that if the order (and size) of variable differs between proxy
+// and implementation things can get weird. 
+
+// Upgrade the proxy to Logic V3, which has altered the order in which the
+// variables are declared in the Solidity file. Then check what happens when
+// you execute the guess method...
+
+upgradeAndGuess(v3Address);
+
 
 // Helper functions.
 ////////////////////

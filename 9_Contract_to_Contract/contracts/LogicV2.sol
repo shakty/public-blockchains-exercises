@@ -18,6 +18,7 @@ contract LogicV2 {
     // The function to check the guess is correct now.
     function checkGuess(uint256 number) view public returns(bool) {
         console.log('****Logic version', version);
+        console.log('****Secret number', secretNumber);
         return number == secretNumber;
     }
    
