@@ -26,9 +26,9 @@
 // Fix the two errors below with a red-line underneath.
 
 // a. Hint: follow the pattern.
-a = 1
-b = 2
-c = 3
+variable1 = 1;
+variable2 = 2;
+variable3 = 3;
 
 // b. Hint: This function needs a name after the word function.
 function sayHello() {
@@ -53,12 +53,12 @@ function sayHello() {
 // them all. Ctrl-Shift-P. Look around and remember how to get here,
 // we will use it later.
 
-// c. It would great if we could have a clone of ourselves, or even better 
+// c. It would great if we could have a clone of ourselves, or even better
 // multiple clones. It turns out that you can do it in VS Code! Highlight
-// the word "not". Then press Ctrl-D as many times as needed to highlight
-// all the next occurrences of the word "not". At every word "not" there is
-// a new cursor, so you can write multiple rows at once. Delete the word "not"
-// and replace the explanation mark with a sad face.
+// the word "not". Then press Ctrl-D (or Ctrl-Alt-Up/Down Arrow) as many times
+// as needed to highlight all the next occurrences of the word "not". 
+// At every word "not" there is a new cursor, so you can write multiple rows
+// at once. Delete "not" and replace the exclamation mark with a sad face. 
 
 catchMeIfYouCan1 = 'You did catch me :(';
 catchMeIfYouCan2 = 'You did catch me :(';
@@ -129,7 +129,7 @@ console.log(a);
 // if statement (it is the last parenthesis). Does the opening curly 
 // bracket get highlighted?
 
-if ((b+c) > 1) {
+if ((variable1 + variable2) > 1) {
     console.log("Hei!");
 }
 

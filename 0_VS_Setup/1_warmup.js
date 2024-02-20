@@ -52,12 +52,12 @@
 // Fix the two errors below with a red-line underneath.
 
 // a. Hint: follow the pattern.
-whatever = 1;
-b = 2;
-c = 3;
+variable1 = 1;
+variable2 = 2;
+variable3 3;
 
 // b. Hint: This function needs a name after the word function.
-function sayHello() {
+function () {
   console.log("Hello!");
 }
 
@@ -81,21 +81,21 @@ function sayHello() {
 
 // c. It would great if we could have a clone of ourselves, or even better
 // multiple clones. It turns out that you can do it in VS Code! Highlight
-// the word "not". Then press Ctrl-D as many times as needed to highlight
-// all the next occurrences of the word "not". At every word "not" there is
-// a new cursor, so you can write multiple rows at once. Delete the word "not"
-// and replace the explanation mark with a sad face.
+// the word "not". Then press Ctrl-D (or Ctrl-Alt-Up/Down Arrow) as many times
+// as needed to highlight all the next occurrences of the word "not". 
+// At every word "not" there is a new cursor, so you can write multiple rows
+// at once. Delete "not" and replace the exclamation mark with a sad face. 
 
-catchMeIfYouCan1 = "You did catch me!";
-catchMeIfYouCan2 = "You did catch me!";
-catchMeIfYouCan3 = "You did catch me!";
+catchMeIfYouCan1 = "You did not catch me!";
+catchMeIfYouCan2 = "You did not catch me!";
+catchMeIfYouCan3 = "You did not catch me!";
 
 // d. Sometimes you want to move an entire line of code up or down. Of course
 // there is a shortcut for that: Alt-ArrowUp/Down.
 
 // Order the lines below accordingly.
-console.log("1. I would like to go above.");
 console.log("2. I would like to go below.");
+console.log("1. I would like to go above.");
 
 // Great! To learn more about key bindings, see:
 // - https://code.visualstudio.com/docs/getstarted/keybindings
@@ -117,11 +117,11 @@ console.log("2. I would like to go below.");
 // portion of the code.
 
 let a = 1234;
-a++;
+                a++;
 if (a > 123) {
-  a--;
+a--;
 } else a++;
-console.log(a);
+            console.log(a);
 
 // Nothing happened?
 // If so, your code (technically my code, if you just cloned it)
@@ -146,7 +146,7 @@ console.log(a);
 // if statement (it is the last parenthesis). Does the opening curly
 // bracket get highlighted?
 
-if (b + c > 1) {
+if ((variable1 + variable2) > 1) {
   console.log("Hei!");
 }
 
