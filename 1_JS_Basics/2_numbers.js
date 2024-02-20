@@ -9,7 +9,8 @@
 // separate variables named a, b, c, and d.
 // Multiply these variables to obtain the size of the population
 // of the city of Luzern as reported by Wikipedia Eng. as of 03.06.2020.
-// Update 11.07.2021 Population in Luzern did not change according to Wikipedia.
+// Update 02.20.2024: The population of Luzern did not change in Wikipedia,
+// great I don't need to update the exercise!
 
 // a. Compute (18 + 107) / (5 * 25)
 

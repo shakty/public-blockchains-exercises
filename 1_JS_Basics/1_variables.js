@@ -62,10 +62,7 @@ console.log('The value of the variable primitive is: ' + primitive);
 
 // let a = 1;
 
-// This has the advantage that you can re-run the same command without
-// throwing errors such as "variable already defined" with the Hydrogen
-// package in Atom. Code Runner in VS Code does not have this issue.
-
+// This makes things a bit simpler.
 // This has also the disadvantage that the linter may complain about
 // the variable not being defined. If so, let it complain, he is a
 // grumpy old linter.

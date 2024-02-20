@@ -50,7 +50,7 @@ promise
 // Now implement the example above in an async way.
 // Hint: setTimeout
 
-let comfortObj = 1/3;
+comfortObj = 1/3;
 
 promise = new Promise(function(resolve, reject) {
   // Write the body of this promise.
@@ -75,7 +75,7 @@ promise
 // Use the finally statement to set the value of exerciseIsOver to true,
 // and if it is true and report the value to console.
 
-let comfortObj = 1/3;
+comfortObj = 1/3;
 let exerciseIsOver = false;
 
 promise = new Promise(function(resolve, reject) {
