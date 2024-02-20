@@ -2,6 +2,8 @@
 // Let's get familiar with VS Code. //
 //////////////////////////////////////
 
+// Class changes.
+
 // Note: this code is relevant only for the editor Visual Studio Code.
 // https://code.visualstudio.com/
 
