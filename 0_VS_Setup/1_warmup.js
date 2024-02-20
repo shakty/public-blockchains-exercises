@@ -54,10 +54,10 @@
 // a. Hint: follow the pattern.
 variable1 = 1;
 variable2 = 2;
-variable3 3;
+variable3 = 3;
 
 // b. Hint: This function needs a name after the word function.
-function () {
+function hello_world() {
   console.log("Hello!");
 }
 
@@ -86,16 +86,16 @@ function () {
 // At every word "not" there is a new cursor, so you can write multiple rows
 // at once. Delete "not" and replace the exclamation mark with a sad face. 
 
-catchMeIfYouCan1 = "You did not catch me!";
-catchMeIfYouCan2 = "You did not catch me!";
-catchMeIfYouCan3 = "You did not catch me!";
+catchMeIfYouCan1 = "You did caught me :(";
+catchMeIfYouCan2 = "You did caught me :(";
+catchMeIfYouCan3 = "You did caught me :(";
 
 // d. Sometimes you want to move an entire line of code up or down. Of course
 // there is a shortcut for that: Alt-ArrowUp/Down.
 
 // Order the lines below accordingly.
-console.log("2. I would like to go below.");
 console.log("1. I would like to go above.");
+console.log("2. I would like to go below.");
 
 // Great! To learn more about key bindings, see:
 // - https://code.visualstudio.com/docs/getstarted/keybindings
@@ -117,11 +117,11 @@ console.log("1. I would like to go above.");
 // portion of the code.
 
 let a = 1234;
-                a++;
+a++;
 if (a > 123) {
-a--;
+  a--;
 } else a++;
-            console.log(a);
+console.log(a);
 
 // Nothing happened?
 // If so, your code (technically my code, if you just cloned it)
