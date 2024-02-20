@@ -1,6 +1,6 @@
-////////////////////////////////////////////////////////////////////////////////
-// Welcome to the 4nd exercise sheet of Programming Fundamentals in JavaScript!
-///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////
+// Exercise Sheet 9: Try and Catch. //
+//////////////////////////////////////
 
 // Try and catch will and input validation are key for the robustness of
 // your code when it runs in the wild.
@@ -72,5 +72,9 @@ judgePerson(brendan);
 judgePerson(brendan, function() { return ' impacted my life.'; });
 
 
-// Great work! You finish the fourth exercise sheet!
-// You are ready for final exercise of Part 1 first!
+//////////////////////////////
+// You finished this sheet! //
+//////////////////////////////
+
+// Now you are ready. Go face the "Final Exercise."
+

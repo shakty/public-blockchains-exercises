@@ -1,6 +1,6 @@
-////////////////////////////////////////////////////////////////////////////////
-// Welcome to the 4nd exercise sheet of Programming Fundamentals in JavaScript!
-///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////
+// Exercise Sheet 9: Try and Catch. //
+//////////////////////////////////////
 
 // Try and catch will and input validation are key for the robustness of
 // your code when it runs in the wild.
@@ -26,7 +26,7 @@ divideNumbers('what', {});
 
 // JavaScript makes it particularly difficult to catch these errors,
 // because of type of NaN is...guess what? 'number'! Ah, Brendan...
-typeof NaN;
+console.log(typeof NaN);
 
 // So, change the `divideNumber` function so that it checks the
 // input paramters and offer a "graceful fail" in case they are not valid.
@@ -84,5 +84,8 @@ judgePerson(brendan);
 judgePerson(brendan, function() { return ' impacted my life.'; });
 
 
-// Great work! You finish the fourth exercise sheet!
-// You are ready for final exercise of Part 1 first!
+//////////////////////////////
+// You finished this sheet! //
+//////////////////////////////
+
+// Now you are ready. Go face the "Final Exercise."

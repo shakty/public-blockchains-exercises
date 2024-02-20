@@ -1,6 +1,6 @@
-////////////////////////////////////////////////////////////////////////////////
-// Welcome to the 3nd exercise sheet of Programming Fundamentals in JavaScript!
-///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////
+// Exercise Sheet 8: Functions. //
+//////////////////////////////////
 
 // Functions are reusable portion of code which may take input parameters
 // and return a given output.
@@ -8,43 +8,81 @@
 // EXERCISE 0. Definitions.
 //////////////////////////
 
+// There are few way of creating functions in JavaScript.
+
+// Function declarations.
+// See also: https://javascript.info/function-basics
+function hello() {
+    // ... do something.
+}
+
+// Function expressions.
+// See also: https://javascript.info/function-expressions
+let hello2 = function() {
+    // ... do something.
+};
+
+// Arrow Functions.
+// See also: https://javascript.info/arrow-functions-basics
+let hello3 = () => {
+    // ... do something.
+};
+
+// JavaScript is a flexible language, but why three different ways of
+// creating a function? Why Brendan? 
+
+// First of all, Brendan Eich did not create arrow functions, they are a newer 
+// addition to the language. 
+// Note also that function definitions are not terminated by a semicolon,
+// while functions expressions and arrow functions are (it is really like
+// declaring a new variable). For the rest, continue reading.
+
+// EXERCISE 1. Your First function.
+///////////////////////////////////
+
 // Create a function named printMyName that prints out your name.
 // Verify its type and invoke it.
 
-
-// Notice that camel case naming applies also to functions.
-// Further notice  that functions definitions are not terminated by a semicolon.
-console.log(typeof printMyName);
+console.log('The type of printMyName is: ' + typeof printMyName);
 printMyName();
 
-// EXERCISE 1. Input parameters.
+// Notice that camel case naming applies also to functions.
+
+// EXERCISE 2. Input parameters.
 ////////////////////////////////
 
-// a. Create a function named `printSentence` that takes a first name as
+// Create a function named `printSentence` that takes a first name as
 // input parameter and prints a sentence containing the name. For instance:
 // printSentence('Brendan');
 // 'Brendan is great!'.
 
+// EXERCISE 3. Print Person.
+////////////////////////////
 
-// b. Modify the printSentence function so that it takes an object of the
-// type you createed in the "Objects and loops" exercise and compose a
-// sentence using all the properties contained in the object. For instance:
+// Modify the printSentence function in the previous exercise so that it
+// takes a person object like those you created in the previous exercise 
+// sheets and compose a sentence using all the properties of the object. 
+
+// For instance:
 // personObject = { first: 'Brendan', last: 'Eich', year: 1961 };
 // printSentence(personObject);
 // 'Brendan Eich is born is 1961 and he is great!'.
-// Hint: variables do not transfer across files, so you will need to recreate
-// the brendan object from Exercise Sheed 2 here.
 
 function printSentence(person) {
-    // Add code here
+    // Add code here.
 }
+
 personObject = { first: 'Brendan', last: 'Eich', year: 1961 };
 printSentence(personObject);
 
-// c. Create a new function called printSentence2 that takes two input
-// parameters of type person, and prints the same string as before,
+
+// EXERCISE 4. Print the Youngest.
+//////////////////////////////////
+
+// Create a new function called printSentence2 that takes two person objects 
+// as input parameters, and prints the same string as in exercise 3,
 // but only for the youngest person.
-// Hint: use the ternary operator ? for a more compact function.
+// Hint: you may use the ternary operator ? for a more compact code.
 
 function printSentence2(person1, person2) {
     // Add code here.
@@ -53,20 +91,20 @@ brendan = { first: 'Brendan', last: 'Eich', year: 1961 };
 linus = { first: 'Linus', last: 'Torvalds', year: 1969 };
 printSentence2(brendan, linus);
 
-// EXERCISE 2. Return values.
-/////////////////////////////
+// EXERCISE 5. Getting something back.
+//////////////////////////////////////
 
-// Printing stuff to console, is nice, but somewhat limited, right?
+// Printing stuff to console is nice but somewhat limited, right?
 // Function can do something more useful, such as returning a value with
-// the `return` statement. This gives more flexibility and allows to break
-// complex codes into subtasks.
+// the `return` statement. This gives you more flexibility and allows you to
+// break complex code into subtasks.
 
 // Create two functions. One returns the person object that is the youngest,
 // the second one prints it.
 // Hint: combine the return statement and the ternary operator for a one-liner.
 
 
-// EXERCISE 3 Scope.
+// EXERCISE 6 Scope.
 ////////////////////
 
 // Have you noticed that outside of the function variables are named
@@ -74,12 +112,12 @@ printSentence2(brendan, linus);
 // `personObject` outside of the function is called `person` inside of the
 // function. How does the function know that it is the same object? It simply
 // looks at the order in which they are inserted inside the function call.
-//
+
 // This is the beauty of "encapsulation," which separates what is inside
 // a function from what it is outside. However, the opposite is not true.
 // That is, inside a function you still have access to what is outside.
 // The set of variables that a function has access to is called the "scope."
-//
+
 // You can imagine as the whole file as wrapped inside a function, that being
 // the higher scope available herein, called the "global" scope because it is
 // accessible from every other function inside this file.
@@ -90,11 +128,7 @@ printSentence2(brendan, linus);
 // without using input parameters.
 
 
-// Certainly, this function is less general than the function with input
-// parameters, so the one with input parameters is the preferred
-// in most situations.
-
-// b. A function can also modify or create other variables, outside its
+// b. Advanced. A function can also modify/create other variables outside its
 // body, but inside its scope. Modify the whoIsYounger function so
 // that it does not return a value, but instead it stores the
 // result in a global variable youngest.
@@ -103,7 +137,7 @@ printSentence2(brendan, linus);
 
 console.log(youngest);
 
-// c. You can think at the scope of a variable like a set of nested
+// c. Ninja. You can think at the scope of a variable like a set of nested
 // Russian dolls (Matryoshkas). You don't know what is
 // inside the inner one, until you open it, but a that point you know exactly
 // what was inside all the outer dolls. But what happens if you had two
@@ -139,8 +173,8 @@ console.log(privateVariableDollB); // Will throw an error.
 // inside a function into the global space. You should try to avoid it, and
 // there exists ways to prevent it, as we will learn later in the course.
 
-// EXERCISE 4. Functions are objects.
-/////////////////////////////////////
+// EXERCISE 7. Advanced. Functions are objects.
+///////////////////////////////////////////////
 // Here is again something that is often confusing to newcomers in JavaScript.
 // Functions are objects. Thank you Brendan. So it means that functions can
 // have, and in fact they do, properties like objects and used as input
@@ -162,7 +196,7 @@ function judgePerson(person, cb) {
 judgePerson(brendan, isGreat);
 judgePerson(brendan, isNotGreat);
 
-// b. Most commonly, you will pass functions as paramters to other
+// b. Most commonly, you will pass functions as parameters to other
 // function anonimously. That is you can have functions without names,
 // which are used once and thrown away later. This has the advantage of
 // not cluttering the scope. Not every programming language support this
@@ -183,6 +217,11 @@ persons.sort(
 );
 console.log(persons);
 
+//////////////////////////////
+// You finished this sheet! //
+//////////////////////////////
 
-// Great work! You finish the third exercise sheet!
-// Stop patting yourself on the back, finish all the exercises of Part 1 first!
+// Well Done Again. You are almost done with this the Basics exercises.
+
+// Next, you will learn about "Try and Catch".
+
