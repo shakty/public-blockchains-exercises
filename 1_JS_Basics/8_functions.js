@@ -43,6 +43,9 @@ let hello3 = () => {
 // Create a function named printMyName that prints out your name.
 // Verify its type and invoke it.
 
+function printMyName() {
+    console.log("Mike")
+}
 console.log('The type of printMyName is: ' + typeof printMyName);
 printMyName();
 
@@ -69,7 +72,7 @@ printMyName();
 // 'Brendan Eich is born is 1961 and he is great!'.
 
 function printSentence(person) {
-    // Add code here.
+    console.log(`${person.first} ${person.last} is born in ${person.year} and he is great!`)
 }
 
 personObject = { first: 'Brendan', last: 'Eich', year: 1961 };
@@ -85,7 +88,8 @@ printSentence(personObject);
 // Hint: you may use the ternary operator ? for a more compact code.
 
 function printSentence2(person1, person2) {
-    // Add code here.
+    let youngestPerson = person1.year >= person2.year ? person1 : person2;
+    console.log(`${youngestPerson.first} ${youngestPerson.last} is born in ${youngestPerson.year} and he is great!`)
 }
 brendan = { first: 'Brendan', last: 'Eich', year: 1961 };
 linus = { first: 'Linus', last: 'Torvalds', year: 1969 };
@@ -103,6 +107,9 @@ printSentence2(brendan, linus);
 // the second one prints it.
 // Hint: combine the return statement and the ternary operator for a one-liner.
 
+function findYoungestPerson(person1, person2) {
+    return person1.year >= person2.year ? person1 : person2;
+}
 
 // EXERCISE 6 Scope.
 ////////////////////
@@ -127,6 +134,10 @@ printSentence2(brendan, linus);
 // that it accesses directly the brendan and linus objects created before
 // without using input parameters.
 
+function printSentenceNoArgs(brendan, linus) {
+    let youngestPerson = brendan.year >= linus.year ? brendan : linus;
+    console.log(`${youngestPerson.first} ${youngestPerson.last} is born in ${youngestPerson.year} and he is great!`)
+}
 
 // b. Advanced. A function can also modify/create other variables outside its
 // body, but inside its scope. Modify the whoIsYounger function so
@@ -135,6 +146,10 @@ printSentence2(brendan, linus);
 // Hint: whether you use let youngest = ... or simply youngest = ...
 // inside the function makes a big difference. Do you understand why?
 
+function whoIsYounger(person1, person2) {
+    youngest = person1.year >= person2.year ? person1 : person2;
+}
+whoIsYounger(linus, brendan)
 console.log(youngest);
 
 // c. Ninja. You can think at the scope of a variable like a set of nested
@@ -146,14 +161,14 @@ console.log(youngest);
 commonVariable = 0;
 
 function dollA() {
-    let privateVariableDollA = 10;
+    privateVariableDollA = 10;
     commonVariable += privateVariableDollA;
     // dollA function has no access to the variable defined inside dollB.
     // console.log(privateVariableDollB); // Will throw an error.
 }
 
 function dollB() {
-    let privateVariableDollB = -10;
+    privateVariableDollB = -10;
     commonVariable += privateVariableDollB;
     // dollB function has no access to the variable defined inside dollA.
     // console.log(privateVariableDollA); // Will throw an error.
@@ -190,7 +205,7 @@ function isNotGreat() {
     return ' who?';
 }
 function judgePerson(person, cb) {
-    // Your code here.
+    console.log(person.first + cb());
 }
 
 judgePerson(brendan, isGreat);
@@ -213,7 +228,9 @@ judgePerson(brendan, isNotGreat);
 persons = [ brendan, linus ];
 
 persons.sort(
-    // Define a comparator function in here.
+    function(a, b) {
+        return a.year <= b.year ? 1 : -1;
+    }
 );
 console.log(persons);
 

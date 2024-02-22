@@ -15,8 +15,15 @@
 // a. Implement a function that computes the fibonacci number for
 // any input number. For instance, if input is 10, the result is 55.
 // Motivational Hint: This exercise is often asked at job interviews.
-
-
+function fibonacci(n) {
+    if (n == 1) {
+        return 1
+    } else if (n == 0) {
+        return 0
+    }
+    return fibonacci(n - 2) + fibonacci(n - 1)
+}
+console.log(fibonacci(10))
 // EXERCISE 2. Bonus. Recursive Fibonacci.
 //////////////////////////////////////////
 
@@ -47,7 +54,10 @@ console.log(resultOfRecursion);
 // Now write the fibonacci recursive function.
 // Hint: it takes just 2 lines (but you could make it one).
 
-
+function fibonacciOneLiner(n) {
+    return n < 2 ? n : fibonacciOneLiner(n - 2) + fibonacciOneLiner(n - 1);
+}
+console.log(fibonacciOneLiner(10));
 
 // FUN EXERCISE!
 ////////////////

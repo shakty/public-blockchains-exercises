@@ -43,6 +43,17 @@
 // need to create a new variable with the population of Luzern here.
 // Hint2: Use console.log() to print.
 
+random = Math.random() * 100000;
+luzernPopulation = 82000;
+
+if (random > luzernPopulation) {
+    console.log("Go Luzern!");
+} else if (random === luzernPopulation) {
+    console.log("Are we in the Matrix?");
+} else {
+    console.log("Few but good!");
+}
+
 // EXERCISE 2. Block Party.
 ///////////////////////////
 
@@ -50,15 +61,23 @@
 // define variables this has important implications.
 
 // The following code isn't working. Why?
-if (2 > 1) {
-    let deepThought = 'Everything is obvious once you know the answer.'    
-}
-console.log(deepThought);
+
+// The variable deepThought was defined in the scope of the if statement and is not
+// accessible outside of it
 
 // a. Fix it using it var instead of let.
 
-// b. Fix it using let.
+if (2 > 1) {
+    var deepThought = 'Everything is obvious once you know the answer.'    
+}
+console.log(deepThought);
 
+// b. Fix it using let.
+let deepThought2;
+if (2 > 1) {
+    deepThought2 = 'Everything is obvious once you know the answer.'    
+}
+console.log(deepThought2);
 
 // EXERCISE 3. Loose vs Strict Comparisons.
 ///////////////////////////////////////////
@@ -67,13 +86,13 @@ console.log(deepThought);
 
 // Run the following loose type comparisons.
 
-if (1 == '1') console.log('True');
+if (1 === '1') console.log('True');
 else console.log('False');
 
-if (0 == false) console.log('True');
+if (0 === false) console.log('True');
 else console.log('False');
 
-if (0 == []) console.log('True');
+if (0 === []) console.log('True');
 else console.log('False');
 
 // Weird, right? See the full list of patological cases here:
