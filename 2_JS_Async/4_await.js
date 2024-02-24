@@ -64,6 +64,9 @@ hello = async () => {
   let promise = new Promise((resolve, reject) => {
     setTimeout(() => reject("Nope!"), 1000);
   });
+  // await only runs if promise is resolved
+  // if the promise is NOT resolved (reject(smth)) then an error is thrown
+  // to catch the error use a regular try/catch block
   try {
     let word = await promise;
     console.log(word);
@@ -74,9 +77,3 @@ hello = async () => {
 };
 
 hello();
-
-
-
-
-
-  

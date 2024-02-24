@@ -32,15 +32,14 @@
 
 let comfortObj = 1/3;
 
-let promise = new Promise(function(resolve, reject) {
-  if (Math.random() <= comfortObj) resolve(true);
-  else reject(false);
+let promise = new Promise((resolve, reject) => {
+  if (Math.random() <= comfortObj) resolve("Bearrrr");
+  else reject("No bear :((((");
 });
 
 console.log('Do you sleep with a Teddy bear?');
-promise
-  .then(res => console.log(`Yes, you are!`))
-  .catch(res => console.log(`No, you are not.`));
+promise.then(resolveValue => console.log(resolveValue))
+       .catch(rejectValue => console.log(rejectValue));
 
 
 // Ok, isn't this section for async code? The example above is synchronous!
@@ -50,22 +49,21 @@ promise
 // Now implement the example above in an async way.
 // Hint: setTimeout
 
+let exerciseIsOver = false;
 comfortObj = 1/3;
 
-promise = new Promise(function(resolve, reject) {
-  // Write the body of this promise.
+promise = new Promise((resolve, reject) => {
   setTimeout(() => {
     console.log('ASYNC');
-    if (Math.random() <= comfortObj) resolve(true);
-    else reject(false);
-  }, 2000);
+    if (Math.random() > comfortObj) resolve("Bearrrr");
+    else reject("No bearr :((((");
+  }, 1500);
 });
 
 console.log('Do you sleep with a Teddy bear?');
-promise
-  .then(res => console.log(`Yes, you are!`))
-  .catch(res => console.log(`No, you are not.`));
-
+promise.then(resolveValue => console.log(resolveValue))
+       .catch(rejectValue => console.log(rejectValue))
+       .finally(() => {exerciseIsOver = true; console.log("Exercise is over!")});
 
 // EXERCISE 2. Finally.
 ///////////////////////
@@ -74,25 +72,5 @@ promise
 // It is called regardless of whether the promise was successefull or failed.
 // Use the finally statement to set the value of exerciseIsOver to true,
 // and if it is true and report the value to console.
-
-comfortObj = 1/3;
-let exerciseIsOver = false;
-
-promise = new Promise(function(resolve, reject) {
-  setTimeout(() => {
-    if (Math.random() > comfortObj) resolve(true);
-    else reject(false);
-  }, 2000);   
-});
-
-console.log('Do you sleep with a Teddy bear?');
-promise
-  .then(res => console.log(`Yes, you are!`))
-  .catch(res => console.log(`No, you are not.`))
-  .finally(() => {
-    // Something here.
-    exerciseIsOver = true;
-    console.log('Is exercise over?', '1', '2', '3', '...', 'Yes!');
-  });
 
   
