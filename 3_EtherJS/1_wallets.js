@@ -184,7 +184,7 @@ exercise = '4b';
 
 let baseDevPath = "m/44'/60'/0'/0/";
 
-// Wait is the derication path? 
+// Wait is the derivation path? 
 // Basically, the mnemonic alone isn't enough to determine an address
 // and you need this extra bit of information. You may learn more here:
 // https://www.youtube.com/watch?v=tPCN3nDVzZI
