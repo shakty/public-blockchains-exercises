@@ -19,8 +19,8 @@ const path = require('path');
 let pathToDotEnv = path.resolve(process.cwd(), '.env');
 console.log(pathToDotEnv);
 
-// Checkpoint. Does the value of the terminal depends 
-// from the directory of execution?
+// Checkpoint. Does the value of the terminal depend 
+// on the directory of execution?
 
 
 // b. To avoid path issues, you can specify the path to the .env file manually
