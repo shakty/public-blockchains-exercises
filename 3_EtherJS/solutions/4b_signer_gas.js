@@ -1,5 +1,8 @@
-// Ethers JS: Signers.
-//////////////////////
+// Loading path module for operations with file paths.
+const path = require('path');
+
+// Ethers JS: Signers: Gas and Transactions.
+////////////////////////////////////////////
 
 // A Signer wraps all operations that interact with an account. An account
 // generally has a private key located somewhere, which can be used to sign a
@@ -19,11 +22,15 @@
 // a. Require the `dotenv` and `ethers` packages.
 // Hint: As you did in file 1_wallet and 2_provider.
 
-// Your code here!
+require('dotenv').config();
+const ethers = require("ethers");
 
 // b. Create a Goerli provider.
 
-// Your code here!
+const providerKey = process.env.INFURA_KEY;
+
+const goerliInfuraUrl = `${process.env.INFURA_GOERLI}${providerKey}`;
+const goerliProvider = new ethers.JsonRpcProvider(goerliInfuraUrl);
 
 // Exercise 1. Create a Signer.
 ///////////////////////////////
@@ -39,70 +46,8 @@
 // Hint: a signer is a wallet.
 // Hint2: if you get an error here, check that the private key begins with "0x".
 
-// Your code here!
-
-// Exercise 2. Sign something.
-//////////////////////////////
-
-const sign = async (message = 'Hello world') => {
-    
-    // Your code here!
-};
-
-// sign();
-
-// Exercise 3. Connect to the blockchain. 
-/////////////////////////////////////////
-
-// a. Connect the signer to the Goerli network.
-// Hint: .connect()
-
-// b. Print the next nonce necessary to send a transaction.
-// Hint: .getNonce()
-
-const connect = async() => {
-    
-    // Your code here!
-};
-
-// connect();
-
-// c. Replace the signer created above at exercise 1 with one that takes the 
-// Goerli provider as second parameter. This is necessary even
-// if you connected inside the function connect() because there might be
-// some issues with the asynchronicity of when the connection is established
-// and the remaning of the exercises. If unclear, just check the solution :)
-
-// Replace the signer created above.
-
-
-
-// Exercise 4. Send a transaction.
-//////////////////////////////////
-
-// The time has come to send a transaction programmatically! 
-
-// a. Send some Ether from one of your accounts to another one using the
-// method `sendTransaction()`. Obtain the transaction id and check on Etherscan
-// when the transaction get mined.
-// Hint: `sendTransaction()` returns an object with info about the transaction.
-// Hint2: The `value` field is specified in XX. You could use the utility
-// function `parseEther()` to format the number accordingly.
-
-// b. Instead of looking on Etherscan, wait for the transaction to be mined,
-// then compare the balance of both addresses before and after.
-// Hint: `sendTransaction()` returns an object with a `wait()` method.
-// Hint2: `formatEther()` can print a nicer balance.
-
-const account2 = process.env.METAMASK_2_ADDRESS;
-
-const sendTransaction = async () => {
-
-    // Your code here!
-};
-
-// sendTransaction();
-
+let signer = new ethers.Wallet(process.env.METAMASK_1_PRIVATE_KEY);
+console.log(signer.address);
 
 // Exercise 5. Meddling with Gas.
 /////////////////////////////////
@@ -164,15 +109,6 @@ const sendTransaction = async () => {
 // Hint: `getBlock("latest")` will give you the latest block.
 // Hint: the simple math is also explained in one of the links above.
 
-// a, b, c. 
-const checkGasPrices = async () => {
-
-    // Your code here!
-
-};
-
-// checkGasPrices();
-
 // d. Now that you understand everything, send a new transaction that is just
 // a little cheaper in terms of gas, compared to defaults.
 // Get the suggested from `maxFeePerGas` from `getFeeData()` and then shave a
@@ -185,11 +121,64 @@ const checkGasPrices = async () => {
 // e. Check the actual fee paid on Etherscan or in the transaction receipt: 
 // is it lower than your max fee?
 
+// a, b, c. 
+const checkGasPrices = async () => {
+
+    setInterval(async () => {
+        let tx = await signer.populateTransaction({
+            to: account2,
+            value: ethers.parseEther("0.01"),
+        });
+    
+        // console.log(tx);
+    
+        console.log('Gas Limit', tx.gasLimit);
+        console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(tx.maxFeePerGas, 'gwei'));
+        console.log('Max Priority Fee (GWEI)', ethers.formatUnits(tx.maxPriorityFeePerGas, 'gwei'));
+
+        console.log('---');
+        const feeData = await goerliProvider.getFeeData();
+        // console.log(feeData)
+    
+        console.log('Legacy Gas Price (GWEI)', ethers.formatUnits(feeData.gasPrice, 'gwei'));
+        console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
+        console.log('Max Priority Fee (GWEI)', ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
+        
+        console.log('');
+        const lastBlock = await goerliProvider.getBlock("latest");
+        console.log('Base Fee Previous Block (GWEI)', ethers.formatUnits(lastBlock.baseFeePerGas, 'gwei'));
+
+        // maxFeePerGas = (2 * baseFeePerGas) + maxPriorityFeePerGas
+        console.log('');
+
+    }, 1000);
+
+};
+
+// checkGasPrices();
+
 
 // d. e.
 const sendCheaperTransaction = async () => {
 
-    // Your code here!
+
+    const feeData = await goerliProvider.getFeeData();
+    // console.log(feeData)
+
+    console.log('Legacy Gas Price (GWEI)', ethers.formatUnits(feeData.gasPrice, 'gwei'));
+    console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
+    console.log('Max Priority Fee (GWEI)', ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
+
+    tx = await signer.sendTransaction({
+        to: account2,
+        value: ethers.parseEther("0.01"),
+        maxFeePerGas: feeData.maxFeePerGas - 5000000000n
+    });
+
+    console.log('Transaction is in the mempool...');
+    let receipt = await tx.wait();
+    console.log(receipt);
+    console.log('Transaction mined!');
 
 };
 
@@ -229,11 +218,37 @@ const sendCheaperTransaction = async () => {
 
 const resubmitTransaction = async () => {
 
-    // Your Code here!
+     // If there is a transaction in the mempool, it returns the same nonce,
+    // otherwise the _next_ one.
+    let nonce = await signer.getNonce();
+    // Equivalent to:
+    // let nonce = await goerliProvider.getTransactionCount(signer.address);
+
+    // Note: the line below will return the _next_ nonce when there is
+    // already a transaction in the mempool.
+    // let nextNonce = await signer.getNonce("pending");
+
+    console.log('Nonce is:', nonce);
+
+    const feeData = await goerliProvider.getFeeData();
+    
+    tx = await signer.sendTransaction({
+        to: account2,
+        value: ethers.parseEther("0.001"),
+        maxFeePerGas: 2n*feeData.maxFeePerGas,
+        maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
+        nonce: nonce
+    });
+    console.log(tx);
+    
+    console.log('Transaction is in the mempool...');
+    let receipt = await tx.wait();
+    console.log(receipt);
+    console.log('Transaction mined!');
 
 };
 
-resubmitTransaction();
+// resubmitTransaction();
 
 
 // c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
@@ -242,7 +257,28 @@ resubmitTransaction();
 
 const cancelTransaction = async () => {
 
-    // Your Code here!
+   // If there is a transaction in the mempool, it returns the
+   // same nonce, otherwise the _next_ one.
+   let nonce = await signer.getNonce();
+
+   console.log('Nonce is:', nonce);
+
+   const feeData = await goerliProvider.getFeeData();
+   
+   tx = await signer.sendTransaction({
+       to: signer.address,
+       value: ethers.parseEther("0.0"),
+       maxFeePerGas: 2n*feeData.maxFeePerGas,
+       maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
+       nonce: nonce
+   });
+   console.log(tx);
+   
+   console.log('Transaction is in the mempool...');
+   let receipt = await tx.wait();
+   console.log(receipt);
+   console.log('Transaction mined!');
+
 };
 
 cancelTransaction();
