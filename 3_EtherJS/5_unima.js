@@ -95,5 +95,5 @@ const sendTransaction = async () => {
 
 // sendTransaction();
 
-// Checkpoint. Can you send your ETH from NUMA to Goerli?
+// Checkpoint. Can you send your ETH from NUMA to Sepolia?
 
