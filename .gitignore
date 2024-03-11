@@ -19,3 +19,5 @@ Home_Assignments
 cache
 artifacts
 
+package.json
+package-lock.json
