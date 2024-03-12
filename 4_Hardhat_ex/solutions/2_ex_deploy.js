@@ -59,12 +59,13 @@ console.log("HH Wrapped Ethers version:", hre.ethers.version);
 
 // c. Important! The name of a contract is not the name of the file, it is
 // the name of the contract inside the file. Go on and rename the contract
-// name from "Lock" to "Lock2" inside both "Lock2.sol" and "deploy2.js".
+// name "Lock" into "Lock2" inside both "Lock2.sol" and "deploy2.js".
 
 // d. Deploy the "new" contract.
 
-// Exercise 2. Interact with your new Solidity contract (READ).
-///////////////////////////////////////////////////////////////
+
+// Exercise 2. Read data of your new Solidity contract.
+///////////////////////////////////////////////////////
 
 // If you remember from 3_EtherJS/2_signer.js, to interact with a smart 
 // contract you need three pieces of information:
@@ -88,14 +89,14 @@ async function main() {
   // b. Get the first of the default Hardhat signers. Print its address, and
   // checks that it matches the first address printed to console when you
   // execute: npx hardhat node
-  // Hint: hre.ethers.getSigners() returns an array of signers.
+  // Hint: hre.ethers.getSigners() returns an array.
 
   const hardhatSigners = await hre.ethers.getSigners();
   const hhSigner = hardhatSigners[0];
 
   console.log("HH Signer address:", hhSigner.address);
 
-  return
+  // return
 
   // c. Get your new contract. Hardhat Ethers automatically fetches the ABI from
   // the artifacts, so you don't need to specify it. Use the method
@@ -106,14 +107,18 @@ async function main() {
                                               contractAddress,
                                               hhSigner);  
   
+  // console.log(lock);
+  
+  console.log(contractName + " address", lock.target);
 
-  console.log(contractName + " address", lock.address);
+  // return
 
   // d. Bonus. You can get the contract also without Hardhat's wrapped Ethers.
   // The standard Ethers.JS requires a bit more code, but is is 
   // useful to understand how it works.
 
-  // First you need to setup a JSON RPC provider. 
+  // First you need to setup a JSON RPC provider. In V5 the code is a bit
+  // different, as shown below.
 
   const getContractManual = async(signer = hhSigner, 
                                   address = contractAddress) => {
@@ -127,13 +132,15 @@ async function main() {
     // d.2 Create the contract and print the address.
     const lock = new ethers.Contract(address, lock2ABI, signer);
 
-    console.log(contractName + " address standard Ethers", lock.address);
+    console.log(contractName + " address standard Ethers", lock.target);
 
     return lock;
 
   };
 
-  // const lock2 = await getContractManual();
+  const lock2 = await getContractManual();
+
+  // return
   
   // e. Print out the public variables of the contract: owner and unlockTime.
   // Hint: Public variables have automatic getters that can be invoked.
@@ -158,13 +165,18 @@ async function main() {
     console.log(contractName + " unlock date:", date);
   };
 
+  await readContract();
 
-  // await readContract();
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
+main()
+  .then(()=> {
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+    process.exit();
 });

@@ -29,22 +29,17 @@ return;
 // Exercise 1. Understand Ethers in Hardhat.
 ////////////////////////////////////////////
 
-// You have learned already how to use Ethers V6. Good!
-// Unfortunately, Ethers V6 was released in Feb 2023, and Hardhat has not yet
-// caught up. The default version of Ethers in Hardhat is V5, but V6 is 
-// currently being developed. For now you need to adapt to the V5 syntax.
-// No worries, it's quite similar.
+// Hardhat offers a wrapped version of Ethers with additional functionalities.
+// Sometimes their version numbers might differ.
 
-// a. Require ethers and print the version of Ethers, just to be sure.
+// a. Require ethers (as an npm package) and print its version to console.
 
 // Your code here!
 
 return;
 
-// b. Hardhat uses v5 because it offers a plugin that is a wrapped version of
-// Ethers which makes things a little easier. This is available under
-// hre.ethers (require statement above).
-// Print the version of this plugin, it should be the same as above.
+// b. Now prints the the version of the Hardhat's plugin available under
+// hre.ethers.
 
 // Your code here!
 
@@ -56,7 +51,7 @@ return;
 // We haven't fully understood the Lock contract and we are already creating
 // a new one? Yes, it's quite easy. 
 
-// a. Copy the contract file "Lock.sol" and rename creatively it as "Lock2.sol".
+// a. Copy the contract file "Lock.sol" and creatively rename it as "Lock2.sol".
 
 // b. Copy the deployment script "deploy.js" and repeat the same creative
 // act by renaming it into "deploy2.js".
@@ -67,8 +62,8 @@ return;
 
 // d. Deploy the "new" contract.
 
-// Exercise 2. Interact with your new Solidity contract (READ).
-///////////////////////////////////////////////////////////////
+// Exercise 2. Read data of your new Solidity contract.
+///////////////////////////////////////////////////////
 
 // If you remember from 3_EtherJS/2_signer.js, to interact with a smart 
 // contract you need three pieces of information:
@@ -108,7 +103,7 @@ async function main() {
   return;
 
   // d. Bonus. You can get the contract also without Hardhat's wrapped Ethers.
-  // The standard (here V5) Ethers.JS requires a bit more code, but is is 
+  // The standard Ethers.JS requires a bit more code, but is is 
   // useful to understand how it works.
 
   const getContractManual = async(signer = hhSigner, 
@@ -151,88 +146,6 @@ async function main() {
   };
 
   // await readContract();
-
-  // Exercise 3. Interact with your new Solidity contract (WRITE).
-  ////////////////////////////////////////////////////////////////
-
-  // a. Let's try to withdraw from the lock. 
-  // Print the balance before and after withdrawal.
-  // Hint: Invoke the asynchronous withdraw method.
-  // Hint2: Ethers V5 Syntax for accessing formatEther:
-  // balance = ethers.utils.formatEther(balance);
-  // Hint3: Do you get an error? You should! Check in the long error msg,
-  // the reason why.
-
-  const withdrawAttempt1 = async (lockContract = lock) => {
-        
-    // Your code here!
-  };
-
-  // await withdrawAttempt1();
-  
-  // Exercise 3. Remove the check for unlock date (WRITE).
-  ////////////////////////////////////////////////////////////////////
-
-  // a. Comment out the require checking for the unlock date.
-
-  // b. Deploy the Lock2 contract again and try to withdraw now.
-  // Hint: the contract address will be different.
-  
-  const withdrawAgain = async() => {
-    const newContractAddress = "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1";
-
-    // Wrapped Ethers.
-    const newLock = await hre.ethers.getContractAt(contractName,
-                                                   newContractAddress,
-                                                   hhSigner);
-    
-    // Standard Ethers (V5).
-    // const newLock = await getContractManual(hhSigner, newContractAddress);
-    
-    // Can also print:
-    // console.log(newLock.address);
-    // await readContract(newLock);  
-
-    await withdrawAttempt1(newLock);
-  };
-  
-  await withdrawAgain();
-  
-
-
-  // Exercise 4. Bonus. Connect with another address (WRITE).
-  //////////////////////////////////////////////////////////
-
-  // Redeploy the Lock2 contract and try to withdraw from an address that
-  // is not the owner now. It should trigger an error from the second
-  // `require` statement in the withdraw method.
-
-  const triggerNotOwner = async () => {
-    
-    // b.1 Add the RPC url as shown after starting `npx hardhat node`
-    const hardhatUrl = "FILL_THIS_VALUE";
-    // v5
-    const hardhatProvider = new ethers.providers.JsonRpcProvider(hardhatUrl);
-    // For your reference, in v6 we used:
-    // const hardhatProvider = new ethers.JsonRpcProvider(hardhatUrl);
-
-    // b.2 Require the `dotenv` package.
-    // For execution with npx you need to specify the path from the directory 
-    // of execution. E.g., if you execute from 4_Hardhat/:
-    require('dotenv').config({ path: "../.env" });
-
-    // b.3 Create a new signer.
-    
-    // Your code here!
-
-    // b.4 Get the contract instance and then try to withdraw.
-    // Hint: You could use the method `getContractManual` created before
-
-    // Your code here!
-    
-  };
-
-  // await triggerNotOwner();
 
 }
 
