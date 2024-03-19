@@ -105,7 +105,7 @@
 
 // https://solidity-by-example.org/variables/
 
-// Create a new _global_ variable of type `string` and query it via Ether.JS
+// Create a new _state_ variable of type `string` and query it via Ether.JS
 // (after deployment). Notice the difference if you declare it public or not.
 
 // c. The new variable you created at point b. is never changing, i.e., it is
@@ -142,11 +142,11 @@ async function readVar() {
         hhSigner
     );
   
-    // Print the global variable you just created.
+    // Print the state variable you just created.
   
-    // console.log(contractName + " globalVar:", await lock.globalVar());
+    // console.log(contractName + " stateVar:", await lock.stateVar());
     // Constant (followed the convention).
-    console.log(contractName + " GLOBAL_VAR:", await lock.GLOBAL_VAR());
+    console.log(contractName + " STATE_VAR:", await lock.STATE_VAR());
     
     console.log(contractName + " unlockTime:", await lock.unlockTime());
   
@@ -211,7 +211,7 @@ async function readVar() {
   // case, we set the "value" option that specifies how much ether to send
   // along with a transaction (as we did in 3_EtherJS/4_signer_gas.js).
   
-  // c. Let's create a new global variable that stores the block number
+  // c. Let's create a new state variable that stores the block number
   // at which the contract is deployed. This variable should be initialized in
   // the constructor. How should it be declared?
   
