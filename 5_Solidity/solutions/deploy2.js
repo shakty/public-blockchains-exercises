@@ -10,14 +10,15 @@ async function main() {
 
 
   const lockedAmount = hre.ethers.utils.parseEther("1");
+  
+  const lock = await hre.ethers.deployContract("Lock2", {
+    value: lockedAmount,
+  });
 
-  const Lock = await hre.ethers.getContractFactory("Lock2");
-  const lock = await Lock.deploy({ value: lockedAmount });
-
-  await lock.deployed();
+  await lock.waitForDeployment();
 
   console.log(
-    `Lock with 1 ETH and deployed to ${lock.address}`
+    `Lock with 1 ETH and deployed to ${lock.target}`
   );
 }
 

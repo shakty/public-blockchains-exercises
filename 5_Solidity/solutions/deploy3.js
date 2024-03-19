@@ -11,13 +11,14 @@ async function main() {
   const ethAmount = "1";
   const lockedAmount = hre.ethers.utils.parseEther(ethAmount);
 
-  const Lock = await hre.ethers.getContractFactory("Lock3");
-  const lock = await Lock.deploy({ value: lockedAmount });
+  const lock = await hre.ethers.deployContract("Lock3", {
+    value: lockedAmount,
+  });
 
-  await lock.deployed();
+  await lock.waitForDeployment();
 
   console.log(
-    `Lock with ${ethAmount} ETH and deployed to ${lock.address}`
+    `Lock with ${ethAmount} ETH and deployed to ${lock.target}`
   );
 }
 

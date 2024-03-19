@@ -1,4 +1,4 @@
-// Ethers JS: First exercises with Solidity.
+// Solidity: First exercises with Solidity.
 ////////////////////////////////////////////
 
 // Resources:
@@ -17,13 +17,13 @@
 ///////////////////////////////////////////////////
 
 // In 4_Hardhat you have learnt to init a new Hardhat project. 
-// Now, let's do it again! Create a new folder and run `npx hardhat`.
+// Now, let's do it again! Create a new folder and run `npx hardhat init`.
 // If you wish you might also re-use the old project folder. In either case,
 // you need to run this file from a hardhat project's directory.
 
 // You can deploy the contracts of these exercises to any network, e.g.:
 // - Hardhat local network
-// - Goerli
+// - Sepolia
 // - (not) Unima Blockchain
 
 // You will need to deploy the same contract multiple times, so the Hardhat
@@ -71,8 +71,8 @@
 //
 // 2. Imported code is deployed with your contract code;
 // 3. console.log works only on the local Hardhat blockchain (i.e., not on
-//    Goerli, Unima, etc.), so you should remove it before deployment on
-//    ohter nets.
+//    Sepolia Unima, etc.), so you should remove it before deployment on
+//    other nets.
 //
 // Uncomment the import, and add a few console.log to the Lock code (e.g.,
 // in the constructor), then deploy it.
@@ -84,8 +84,8 @@
 ////////////////////////////////
 
 // Important. Let's work on a new file:
-// Copy the default Lock contract into `Lock2` and create a new deploy script
-// (for instance deploy2.js) to deploy Lock2.
+// Copy the default Lock contract into `Lock2` (any name is fine) and create 
+// a new deploy script (for instance deploy2.js) to deploy Lock2. 
 
 // Hint: remember to also rename the contract.
 
@@ -209,7 +209,7 @@ async function readVar() {
   // Hint: in the deploy script, the first parameter goes to the constructor,
   // the second one is for overriding default transaction parameters. In this
   // case, we set the "value" option that specifies how much ether to send
-  // along with a transaction (as we did in 3_EtherJS/3_signer.js).
+  // along with a transaction (as we did in 3_EtherJS/4_signer_gas.js).
   
   // c. Let's create a new global variable that stores the block number
   // at which the contract is deployed. This variable should be initialized in
