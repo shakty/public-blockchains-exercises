@@ -7,8 +7,8 @@ import "hardhat/console.sol";
 contract Lock3 {
     uint256 public immutable unlockTime;
     address payable public owner;
-    string public globalVar = "This variable was proudly created by me";
-    string public constant GLOBAL_VAR = "This variable was proudly created by me and will not be changed";
+    string public stateVar = "This variable was proudly created by me";
+    string public constant STATE_VAR = "This variable was proudly created by me and will not be changed";
     uint256 public immutable blockNumber;
     
     // uint256 public creationBlock;
