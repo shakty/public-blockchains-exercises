@@ -21,10 +21,6 @@
 
 // b. Harder. From scratch.
 
-// Checkpoint. What is purpose of the variable decimals?
-// Here is a good explanation from OpenZeppelin:
-// https://docs.openzeppelin.com/contracts/4.x/erc20#a-note-on-decimals
-
 // c. Deploy your token to your favorite net and test it:
 
 // Try to execute the transfer and the transferFrom methods.
@@ -38,9 +34,8 @@ console.log(ethers.version);
 const cAddress = "";
 const cName = "MyERC20";
 
-// V5 Syntax for executing within an Hardhat project.
 const notUniMaUrl = process.env.NOT_UNIMA_URL_1;
-const notUniMaProvider = new ethers.providers.JsonRpcProvider(notUniMaUrl);
+const notUniMaProvider = new ethers.JsonRpcProvider(notUniMaUrl);
 
 // The deployer is the first address in the `accounts` field inside a 
 // network declaration in hardhat.config.js. 
@@ -66,13 +61,14 @@ const getContract = async(signer) => {
 
     // Adjust path as needed.
     // Fetch the ABI from the artifacts.
+    // It assumes that the contractname is the same as file name.
     const cABI = require("../artifacts/contracts/" + cName + 
                            ".sol/" + cName + ".json").abi;
 
     // Create the contract and print the address.
     const c = new ethers.Contract(cAddress, cABI, signer);
 
-    console.log(cName + " address: ", c.address);
+    console.log(cName + " address: ", c.target);
 
     return c;
 };
@@ -87,7 +83,7 @@ const getContractInfo = async () => {
 
 const getContractBalance = async (formatEther = true) => {
     let balance = await notUniMaProvider.getBalance(cAddress);
-    if (formatEther) balance = ethers.utils.formatEther(balance);
+    if (formatEther) balance = ethers.formatEther(balance);
     console.log("ETH in contract: ", balance);
     return balance;
 };
@@ -161,6 +157,10 @@ const transferFrom = async () => {
 };
 
 // transferFrom();
+
+// Checkpoint. What is purpose of the variable decimals?
+// Here is a good explanation from OpenZeppelin:
+// https://docs.openzeppelin.com/contracts/5.x/erc20#a-note-on-decimals
 
 // Exercise 2. Mint method.
 ///////////////////////////
