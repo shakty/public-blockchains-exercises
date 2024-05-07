@@ -2,31 +2,14 @@ const path = require('path');
 const pathToEnv = path.join(__dirname, '..', '..', '..', '.env');
 require("dotenv").config({ path: pathToEnv });
 
+const hre = require("hardhat");
 
-const { ethers } = require("ethers");
-console.log(ethers.version);
+const ethers = hre.ethers;
+// console.log(ethers.version);
 
 // Todo: Update this contract address.
-const cAddress = "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1";
+const cAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
 const cName = "Greeting";
-
-const hardhatUrl = "http://127.0.0.1:8545";
-const localhostProvider = new ethers.JsonRpcProvider(hardhatUrl);
-
-// Hardhat.
-// const [signer1, signer2] = await hre.ethers.getSigners();
-
-let signer = new ethers.Wallet(
-    process.env.HARDHAT_1_PRIVATE_KEY,
-    localhostProvider
-);
-// console.log("Signer 1: ", signer.address);
-
-let deployer = new ethers.Wallet(
-    process.env.HARDHAT_2_PRIVATE_KEY,
-    localhostProvider
-);
-// console.log("Signer 2: ", deployer.address);
 
 const getContract = async (
     signer = deployer
@@ -78,6 +61,13 @@ const getContract = async (
 // Hint: No parentheses.
 
 const rawTransactionBasic = async () => {
+    
+    const [signer, deployer] = await hre.ethers.getSigners();
+    console.log("Signer 1: ", signer.address);
+    console.log("Signer 2: ", deployer.address);
+    console.log();
+
+
     console.log("Exercise 1. Raw Transactions with Encoding frmo Hashex.org.");
     console.log();
     
@@ -141,6 +131,11 @@ const doKeccak256 = (signature) => {
 };
 
 const rawTransactionDIY = async () => {
+    const [signer, deployer] = await hre.ethers.getSigners();
+    console.log("Signer 1: ", signer.address);
+    console.log("Signer 2: ", deployer.address);
+    console.log();
+
     console.log("Exercise 2. Raw Transactions with Own Encoding.");
     console.log();
 
@@ -200,7 +195,7 @@ const rawTransactionDIY = async () => {
 // Let's start with the simple case, static types.
 
 
-// Hint: In Ethers v5, the function `hexZeroPad()` can help.
+// Hint: In Ethers, the function `zeroPadValue()` can help.
 
 // Hint2: You can compare your own encoding with the output from
 // https://abi.hashex.org/
@@ -220,6 +215,12 @@ const encodeSignature = (signature, verbose) => {
 };
 
 const rawTransactionStaticParams = async () => {
+
+    const [signer, deployer] = await hre.ethers.getSigners();
+    console.log("Signer 1: ", signer.address);
+    console.log("Signer 2: ", deployer.address);
+    console.log();
+
     console.log("Exercise 3. Raw Transactions with Static Types.");
     console.log();
 
@@ -236,8 +237,7 @@ const rawTransactionStaticParams = async () => {
     // Hash the signature with Keccak256 and takes 4 bytes.
     let encodedSignature = encodeSignature(signature);
 
-    // v5 function.
-    let encodedParam = ethers.hexZeroPad(1, 32);
+    let encodedParam = ethers.zeroPadValue(ethers.toBeArray(1), 32);
     encodedParam = encodedParam.substring(2);
     console.log(encodedParam);
 
@@ -298,6 +298,12 @@ const rawTransactionStaticParams = async () => {
 // https://abi.hashex.org/
 
 const rawTransactionDynamicParams = async () => {
+
+    const [signer, deployer] = await hre.ethers.getSigners();
+    console.log("Signer 1: ", signer.address);
+    console.log("Signer 2: ", deployer.address);
+    console.log();
+
     console.log("Exercise 4. Raw Transactions with Dynamic Types.");
     console.log();
 
