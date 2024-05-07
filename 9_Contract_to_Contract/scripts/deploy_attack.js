@@ -19,26 +19,26 @@ async function main() {
   
   const Bank = await hre.ethers.getContractFactory("Bank");
   const ba = await Bank.deploy();
-  await ba.deployed();
+  await ba.waitForDeployment();
 
-  console.log(`Bank Contract deployed to ${ba.address}`);
+  console.log(`Bank Contract deployed to ${ba.target}`);
 
   const Attacker = await hre.ethers.getContractFactory("Attacker");
-  const at = await Attacker.deploy(ba.address);
-  await at.deployed();
+  const at = await Attacker.deploy(ba.target);
+  await at.waitForDeployment();
 
-  console.log(`Attacker Contract deployed to ${at.address}`);
+  console.log(`Attacker Contract deployed to ${at.target}`);
 
   const BankWithGuard = await hre.ethers.getContractFactory("BankWithGuard");
   const ba2 = await BankWithGuard.deploy();
-  await ba2.deployed();
+  await ba2.waitForDeployment();
 
 
-  console.log(`Bank with Guard Contract deployed to ${ba2.address}`);
+  console.log(`Bank with Guard Contract deployed to ${ba2.target}`);
 
   // Save the addresses so that we can re-use them in the interact.js script.
   // Order matters.
-  _saveAddresses([ ba.address, at.address, ba2.address ]);
+  _saveAddresses([ ba.target, at.target, ba2.target ]);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -1,13 +1,16 @@
-require("dotenv").config();
-const { BigNumber, ethers } = require("ethers");
-console.log(ethers.version);
-
 const path = require('path');
+const pathToEnv = path.join(__dirname, '..', '..', '..', '.env');
+require("dotenv").config({ path: pathToEnv });
+
+const hre = require("hardhat");
+
+const ethers = hre.ethers;
+// console.log(ethers.version);
 
 // Localhost (Hardhat private keys--do not use in production).
-const provider = new ethers.providers.JsonRpcProvider(
-    "http://127.0.0.1:8545"
-);
+const hardhatUrl = "http://127.0.0.1:8545";
+const provider = new ethers.JsonRpcProvider(hardhatUrl);
+
 let depositer = new ethers.Wallet(
     "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
     provider
@@ -39,16 +42,16 @@ const getContract = async (depositer, cName, address) => {
 
 const checkBalances = async() => {
     let balanceEther = await provider.getBalance(bankAddress);
-    console.log("      Bank Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("      Bank Ether:", ethers.formatEther(balanceEther));
 
     balanceEther = await provider.getBalance(bankGuardAddress);
-    console.log("Bank Guard Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("Bank Guard Ether:", ethers.formatEther(balanceEther));
     
     balanceEther = await provider.getBalance(attackerAddress);
-    console.log("  Attacker Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("  Attacker Ether:", ethers.formatEther(balanceEther));
 
     balanceEther = await provider.getBalance(depositer.address);
-    console.log("    Depositer Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("    Depositer Ether:", ethers.formatEther(balanceEther));
 
 };
 
@@ -74,7 +77,7 @@ const attack = async(amount = 10) => {
 
     // Sending some Ether to Bank.
     let tx = await bank.deposit({
-        value: ethers.utils.parseEther('' + amount)
+        value: ethers.parseEther('' + amount)
     });
 
     console.log('***Before:');
@@ -83,7 +86,7 @@ const attack = async(amount = 10) => {
     const a = await getContract(attacker, "Attacker", attackerAddress);
 
     tx = await a.attack({
-        value: ethers.utils.parseEther('1')
+        value: ethers.parseEther('1')
     });
 
     await waitForTx(tx);
@@ -108,7 +111,7 @@ const attackGuard = async(amount = 10) => {
 
     // Sending some Ether to Bank.
     let tx = await bank.deposit({
-        value: ethers.utils.parseEther('' + amount)
+        value: ethers.parseEther('' + amount)
     });
 
     console.log('***Before:');
@@ -117,7 +120,7 @@ const attackGuard = async(amount = 10) => {
     const a = await getContract(attacker, "Attacker", attackerAddress);
 
     tx = await a.attack({
-        value: ethers.utils.parseEther('1')
+        value: ethers.parseEther('1')
     });
 
     await waitForTx(tx);

@@ -10,11 +10,13 @@ const fs = require('fs');
 const path = require('path');
 
 const _saveAddresses = (addresses) => {
-  
+
   // Your code here.
 
-  // Must save addresses to file .addresses.json.
+  // Save the addresses to file system.
 
+  // Hint: use a combination of fs.writeFileSync and JSON.stringiy
+  
   console.log("Deployed addresses saved to .addresses.json")
 };
 

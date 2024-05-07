@@ -19,33 +19,33 @@ async function main() {
   
   const LogicV1 = await hre.ethers.getContractFactory("LogicV1");
   let v1 = await LogicV1.deploy();
-  await v1.deployed();
+  await v1.waitForDeployment();
 
-  console.log(`Logic V1 deployed to ${v1.address}`);
+  console.log(`Logic V1 deployed to ${v1.target}`);
 
   const LogicV2 = await hre.ethers.getContractFactory("LogicV2");
   const v2 = await LogicV2.deploy();
-  await v2.deployed();
+  await v2.waitForDeployment();
 
-  console.log(`Logic V2 deployed to ${v2.address}`);
+  console.log(`Logic V2 deployed to ${v2.target}`);
 
   const LogicV3 = await hre.ethers.getContractFactory("LogicV3");
   const v3 = await LogicV3.deploy();
-  await v3.deployed();
+  await v3.waitForDeployment();
 
-  console.log(`Logic V3 deployed to ${v3.address}`);
+  console.log(`Logic V3 deployed to ${v3.target}`);
 
   const secretNumber = 100;
 
   const Proxy = await hre.ethers.getContractFactory("Proxy");
-  const proxy = await Proxy.deploy(v1.address, secretNumber);
-  await proxy.deployed();
+  const proxy = await Proxy.deploy(v1.target, secretNumber);
+  await proxy.waitForDeployment();
 
-  console.log(`Proxy deployed to ${proxy.address}`);
+  console.log(`Proxy deployed to ${proxy.target}`);
 
   // Save the addresses so that we can re-use them in the interact.js script.
   // Order matters.
-  _saveAddresses([ v1.address, v2.address, v3.address, proxy.address ]);
+  _saveAddresses([ v1.target, v2.target, v3.target, proxy.target ]);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

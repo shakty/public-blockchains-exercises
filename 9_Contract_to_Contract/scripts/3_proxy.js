@@ -1,13 +1,16 @@
-require("dotenv").config();
-const { BigNumber, ethers } = require("ethers");
-console.log(ethers.version);
-
 const path = require('path');
+const pathToEnv = path.join(__dirname, '..', '..', '..', '.env');
+require("dotenv").config({ path: pathToEnv });
+
+const hre = require("hardhat");
+
+const ethers = hre.ethers;
+// console.log(ethers.version);
 
 // Localhost (Hardhat private keys--do not use in production).
-const provider = new ethers.providers.JsonRpcProvider(
-    "http://127.0.0.1:8545"
-);
+const hardhatUrl = "http://127.0.0.1:8545";
+const provider = new ethers.JsonRpcProvider(hardhatUrl);
+
 let signer = new ethers.Wallet(
     "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
     provider
