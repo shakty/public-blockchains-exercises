@@ -1,5 +1,5 @@
 const path = require('path');
-const pathToEnv = path.join(__dirname, '..', '..', '..', '.env');
+const pathToEnv = path.join(__dirname, '..', '..', '.env');
 require("dotenv").config({ path: pathToEnv });
 
 const hre = require("hardhat");
@@ -104,14 +104,17 @@ const send = async(to, amount = 1, data) => {
 // Be generous and give some Ether to the contract using each of
 // those possibilities.
 
+// b1.
 // console.log('Sending to Receiver: no msg.data');
 
 // Your code here.
 
+// b2.
 // console.log('Sending to Receiver: msg.data not empty');
 
 // Your code here.
 
+// b3.
 // console.log('Sending to Receiver: using payable function');
 
 // Your code here.

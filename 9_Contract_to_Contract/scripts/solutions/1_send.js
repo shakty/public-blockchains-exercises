@@ -1,13 +1,16 @@
-require("dotenv").config();
-const { BigNumber, ethers } = require("ethers");
-console.log(ethers.version);
-
 const path = require('path');
+const pathToEnv = path.join(__dirname, '..', '..', '..', '.env');
+require("dotenv").config({ path: pathToEnv });
+
+const hre = require("hardhat");
+
+const ethers = hre.ethers;
+// console.log(ethers.version);
 
 // Localhost (Hardhat private keys--do not use in production).
-const provider = new ethers.providers.JsonRpcProvider(
-    "http://127.0.0.1:8545"
-);
+const hardhatUrl = "http://127.0.0.1:8545";
+const provider = new ethers.JsonRpcProvider(hardhatUrl);
+
 let signer = new ethers.Wallet(
     "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
     provider
@@ -23,7 +26,8 @@ console.log("Signer 2: ", deployer.address);
 
 const getContract = async (signer, cName, address) => {
     // Fetch the ABI from the artifacts.
-    const abi = require("../artifacts/contracts/" +
+    // TODO: Adjust path as needed.
+    const abi = require("../../artifacts/contracts/" +
         cName +
         ".sol/" +
         cName +
@@ -35,16 +39,16 @@ const getContract = async (signer, cName, address) => {
 
 const checkBalances = async() => {
     let balanceEther = await provider.getBalance(senderAddress);
-    console.log("  Sender Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("  Sender Ether:", ethers.formatEther(balanceEther));
     
     balanceEther = await provider.getBalance(receiverAddress);
-    console.log("Receiver Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("Receiver Ether:", ethers.formatEther(balanceEther));
 
     balanceEther = await provider.getBalance(testAddress);
-    console.log("    Test Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("    Test Ether:", ethers.formatEther(balanceEther));
 
     balanceEther = await provider.getBalance(signer.address);
-    console.log("  Signer Ether:", ethers.utils.formatEther(balanceEther));
+    console.log("  Signer Ether:", ethers.formatEther(balanceEther));
 };
 
 // Exercise 0 Auto import contract addresses.
@@ -62,6 +66,7 @@ const checkBalances = async() => {
 // Hint: if you saved them in JSON format, you can simply use `require(...)`
 
 // Loading addresses from file saved from deploy script.
+// TODO: adjust path as needed.
 const [ testAddress, senderAddress, receiverAddress ] = 
     require(path.join(__dirname, '.addresses.json'));
 
@@ -81,7 +86,7 @@ const send = async(to, amount = 1, data) => {
 
     const tx = await signer.sendTransaction({
         to: to,
-        value: ethers.utils.parseEther('' + amount),
+        value: ethers.parseEther('' + amount),
         data: data
     });
 
@@ -100,13 +105,16 @@ const send = async(to, amount = 1, data) => {
 // Be generous and give some Ether to the contract using each of
 // those possibilities.
 
+// b1.
 // console.log('Sending to Receiver: no msg.data');
 // send(receiverAddress);
 
+// b2.
 // console.log('Sending to Receiver: msg.data not empty');
 // let encodedSignature = "0xd826f88f";
 // send(receiverAddress, 1, encodedSignature);
 
+// b3.
 // console.log('Sending to Receiver: using payable function');
 
 const donateEther = async(address = receiverAddress, 
@@ -118,7 +126,7 @@ const donateEther = async(address = receiverAddress,
     const c = await getContract(signer, cName, address);
 
     let tx = await c.donateEther({
-        value: ethers.utils.parseEther('' + amount)
+        value: ethers.parseEther('' + amount)
     });
 
     await waitForTx(tx);
@@ -144,13 +152,15 @@ const donateEther = async(address = receiverAddress,
 
 const sendWithSender = async(method, to, amount = 1) => {
     
+    console.log('Sending to:', to);
+
     console.log('***Before:');
     await checkBalances();
 
     const senderContract = await getContract(signer, "Sender", senderAddress);
 
     let tx;
-    amount = ethers.utils.parseEther('' + amount);
+    amount = ethers.parseEther('' + amount);
 
     if (method === "transfer") {
         tx = await senderContract.sendViaTransfer(to, {
