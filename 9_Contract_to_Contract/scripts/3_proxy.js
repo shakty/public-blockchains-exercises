@@ -97,7 +97,7 @@ const guess = async(num = 100) => {
     // Operation 2: execute a function.
 
     // A) Direct execution.
-    // let res = await proxyContract.guessNumber(num);
+    let res = await proxyContract.guessNumber(num);
     // B) Static call.
     // TODO: update this code.
     // let res = ... 
