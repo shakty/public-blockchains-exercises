@@ -64,7 +64,8 @@ console.log();
 // the encoded value returned by the delegated call. Decode it, and return it.
 // Hint: abi.decode(...)
 
-// Checkpoint: why do we need to decode it? 
+// Checkpoint: why do we need to decode it? We are making a delegated call on
+// an address for which we haven't specified any ABI, e.g., through an interface.
 
 // Exercise 1. Make a static call to guess the number with logic V1.
 ////////////////////////////////////////////////////////////////////
@@ -99,8 +100,7 @@ const guess = async(num = 100) => {
     // A) Direct execution.
     // let res = await proxyContract.guessNumber(num);
     // B) Static call.
-    // TODO: update this code.
-    // let res = ... 
+    let res = await proxyContract.guessNumber.staticCall(num);
 
     // The logic below does not work for A) because res is a transaction,  
     // it expects a boolean.
@@ -142,8 +142,9 @@ const upgrade = async(address) => {
 
     const proxyContract = await getContract(signer, "Proxy", proxyAddress);
 
-    // TODO: upgrade the contract.
-    // Your code here.
+    let tx = await proxyContract.upgrade(address);
+
+    await tx.wait();
 
     console.log('***Upgraded to: ', address);
 };
