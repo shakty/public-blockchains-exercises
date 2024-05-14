@@ -12,7 +12,7 @@ const path = require('path');
 const _saveAddresses = (addresses) => {
   fs.writeFileSync(path.join(__dirname, ".addresses_proxy.json"),
                    JSON.stringify(addresses));
-  console.log("Deployed addresses saved to .addresses_proxy.json")
+  console.log("Deployed addresses and secret num saved to .addresses_proxy.json")
 };
 
 async function main() {
@@ -43,9 +43,12 @@ async function main() {
 
   console.log(`Proxy deployed to ${proxy.target}`);
 
+  console.log('Secret number:', secretNumber);
+
+
   // Save the addresses so that we can re-use them in the interact.js script.
   // Order matters.
-  _saveAddresses([ v1.target, v2.target, v3.target, proxy.target ]);
+  _saveAddresses([ secretNumber, v1.target, v2.target, v3.target, proxy.target ]);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
