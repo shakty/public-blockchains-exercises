@@ -178,7 +178,7 @@ if ((variable1 + variable2) > 1) {
 // d. Good! Your changes are saved. If you have the permissions, you will
 // be able to push your code online, clicking on "Push Changes".
 // If not, you might have cloned the main repo of the exercises, instead of
-// your forked copy.
+// your forked copy. May God have mercy on you.
 
 // EXERCISE 6. Code Runner.
 ///////////////////////////

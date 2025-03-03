@@ -159,10 +159,10 @@ if ((variable1 + variable2) > 1) {
 // VS Code will open a new file in which you have to type the commit message:
 // do it, save the file, and close it to execute the commit.
 
-// d. Good! Your changes are saved. If you have the permissions, you will 
-// be able to push your code online, otherwise you may have to do a 
-// "pull request". We will learn about "pull requests" later.
-// To push now look for a push icon at the bottom-right and click it.
+// d. Good! Your changes are saved. If you have the permissions, you can
+// push your code online, clicking on "Push Changes" or "Sync Changes".
+// If not, you might have cloned the main repo of the exercises, instead of
+// your forked copy. May God have mercy on you.
 
 // EXERCISE 6. Code Runner.
 ///////////////////////////
