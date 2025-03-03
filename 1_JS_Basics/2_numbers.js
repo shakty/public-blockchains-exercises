@@ -53,8 +53,9 @@ console.log(a*b*c*d);
 // and with a upper case for the first letter of every next word. So:
 // luzernPopulation
 // is probably a good candidate. But the final choice is yours!
-luzernPopulation = a*b*c*d;
-console.log(luzernPopulation);
+
+// ... = a*b*c*d;
+// console.log(...);
 
 // EXERCISE 3. Random numbers.
 //////////////////////////////

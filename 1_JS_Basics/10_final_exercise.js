@@ -30,6 +30,7 @@
 // that counts until 5 and then returns
 
 function recursive(number = 5, stopCondition = 0) {
+    
     // Stopping-rule.
     if (stopCondition === number) return stopCondition;
     console.log('Counting...' + (stopCondition+1));
