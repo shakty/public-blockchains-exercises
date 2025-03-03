@@ -171,6 +171,9 @@ if ((variable1 + variable2) > 1) {
 // and c. together.
 
 // c. Add a proper "commit" message to describe your changes. Be concise.
+// Good to know: If you don't add a commit message directly in the commit form, 
+// VS Code will open a new file in which you have to type the commit message:
+// do it, save the file, and close it to execute the commit.
 
 // d. Good! Your changes are saved. If you have the permissions, you will
 // be able to push your code online, clicking on "Push Changes".
