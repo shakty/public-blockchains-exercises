@@ -26,9 +26,9 @@ const ethers = require("ethers");
 
 const providerKey = process.env.ALCHEMY_KEY;
 
-const goerliUrl = `${process.env.ALCHEMY_GOERLI_API_URL}${providerKey}`;
-// console.log(goerliUrl);
-const goerliProvider = new ethers.JsonRpcProvider(goerliUrl);
+const sepoliaUrl = `${process.env.ALCHEMY_SEPOLIA_API_URL}${providerKey}`;
+// console.log(sepoliaUrl);
+const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 
 // Exercise 1. Bonus. Get ERC20 Balance.
 ////////////////////////////////////////
@@ -54,7 +54,7 @@ const linkABI = require('./link_abi.json');
 // Hint: you need first to create a Contract object via `ethers.Contract`, 
 // then invoke the appropriate smart contract method.
 // Hint2: want to try it with your own address? Get some LINK ERC20 tokens here: 
-// https://faucets.chain.link/goerli
+// https://faucets.chain.link/sepolia
 
 const link = async () => {
    

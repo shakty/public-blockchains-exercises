@@ -25,12 +25,12 @@ const path = require('path');
 require('dotenv').config();
 const ethers = require("ethers");
 
-// b. Create a Goerli provider.
+// b. Create a Sepolia provider.
 
 const providerKey = process.env.INFURA_KEY;
 
-const goerliInfuraUrl = `${process.env.INFURA_GOERLI}${providerKey}`;
-const goerliProvider = new ethers.JsonRpcProvider(goerliInfuraUrl);
+const sepoliaInfuraUrl = `${process.env.INFURA_SEPOLIA}${providerKey}`;
+const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaInfuraUrl);
 
 // Exercise 1. Create a Signer.
 ///////////////////////////////
@@ -137,7 +137,7 @@ const checkGasPrices = async () => {
         console.log('Max Priority Fee (GWEI)', ethers.formatUnits(tx.maxPriorityFeePerGas, 'gwei'));
 
         console.log('---');
-        const feeData = await goerliProvider.getFeeData();
+        const feeData = await sepoliaProvider.getFeeData();
         // console.log(feeData)
     
         console.log('Legacy Gas Price (GWEI)', ethers.formatUnits(feeData.gasPrice, 'gwei'));
@@ -145,7 +145,7 @@ const checkGasPrices = async () => {
         console.log('Max Priority Fee (GWEI)', ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
         
         console.log('');
-        const lastBlock = await goerliProvider.getBlock("latest");
+        const lastBlock = await sepoliaProvider.getBlock("latest");
         console.log('Base Fee Previous Block (GWEI)', ethers.formatUnits(lastBlock.baseFeePerGas, 'gwei'));
 
         // maxFeePerGas = (2 * baseFeePerGas) + maxPriorityFeePerGas
@@ -162,7 +162,7 @@ const checkGasPrices = async () => {
 const sendCheaperTransaction = async () => {
 
 
-    const feeData = await goerliProvider.getFeeData();
+    const feeData = await sepoliaProvider.getFeeData();
     // console.log(feeData)
 
     console.log('Legacy Gas Price (GWEI)', ethers.formatUnits(feeData.gasPrice, 'gwei'));
@@ -222,7 +222,7 @@ const resubmitTransaction = async () => {
     // otherwise the _next_ one.
     let nonce = await signer.getNonce();
     // Equivalent to:
-    // let nonce = await goerliProvider.getTransactionCount(signer.address);
+    // let nonce = await sepoliaProvider.getTransactionCount(signer.address);
 
     // Note: the line below will return the _next_ nonce when there is
     // already a transaction in the mempool.
@@ -230,7 +230,7 @@ const resubmitTransaction = async () => {
 
     console.log('Nonce is:', nonce);
 
-    const feeData = await goerliProvider.getFeeData();
+    const feeData = await sepoliaProvider.getFeeData();
     
     tx = await signer.sendTransaction({
         to: account2,
@@ -263,7 +263,7 @@ const cancelTransaction = async () => {
 
    console.log('Nonce is:', nonce);
 
-   const feeData = await goerliProvider.getFeeData();
+   const feeData = await sepoliaProvider.getFeeData();
    
    tx = await signer.sendTransaction({
        to: signer.address,

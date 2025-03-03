@@ -69,7 +69,7 @@ const getNonce = async() => {
 // getNonce();
 
 // Checkpoint. Is the nonce in the (not) Unima blockchain different
-// than in Goerli?
+// than in Sepolia?
 
 
 // Exercise 4. Check gas.
@@ -127,5 +127,5 @@ const sendTransaction = async () => {
 
 // sendTransaction();
 
-// Checkpoint. Can you send your ETH from NUMA to Goerli?
+// Checkpoint. Can you send your ETH from NUMA to Sepolia?
 

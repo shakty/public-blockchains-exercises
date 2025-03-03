@@ -61,7 +61,7 @@ const getNonce = async() => {
 // getNonce();
 
 // Checkpoint. Is the nonce in the (not) Unima blockchain different
-// than in Goerli?
+// than in Sepolia?
 
 
 // Exercise 4. Check gas.

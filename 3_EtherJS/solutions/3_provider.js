@@ -287,7 +287,7 @@ const blockInfo = async () => {
 // Exercise 5. ENS names.
 //////////////////////////
 
-// Resolve the name 'unima.eth' on the Goerli network, then lookup the
+// Resolve the name 'unima.eth' on the Sepolia network, then lookup the
 // address.
 
 const ens = async () => {
@@ -305,7 +305,7 @@ const ens = async () => {
 ///////////////////////////////
 
 // a. Ask for the Ether balance of "unima.eth". 
-// Hint: remember to be on the Goerli net.
+// Hint: remember to be on the Sepolia net.
 
 // b. Format the balance nicely with the formatEther utility.
 

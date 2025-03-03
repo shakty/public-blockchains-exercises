@@ -113,11 +113,11 @@ const blockNum = async () => {
 // experimental features, but also because they are replaced often and so
 // they have a shorter chain. How shorter?
 
-// Connect to the Goerli test net, get the latest block number and print
+// Connect to the Sepolia test net, get the latest block number and print
 // the difference in chain length with mainnet.
 
 
-// Look up the current block number in Mainnet and Goerli.
+// Look up the current block number in Mainnet and Sepolia.
 const blockDiff = async () => {
 
 };
@@ -137,7 +137,7 @@ const blockDiff = async () => {
 // - the built-in Date object,
 // - the setInterval and clearInterval functions
 
-// Run the function once for Mainnet and once for Goerli. Do you get similar
+// Run the function once for Mainnet and once for Sepolia. Do you get similar
 // results?
 
 // Asynchronous functions with pre-defined input parameters.
@@ -145,7 +145,7 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
 
     // JS Ternary Operator.
     let provider = providerName.toLowerCase() === "mainnet" ? 
-        mainnetProvider : goerliProvider;
+        mainnetProvider : sepoliaProvider;
 
     // Get initial block number and timestamp.
     let d = Date.now();
@@ -182,7 +182,7 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
 
 // checkBlockTime("Mainnet");
 
-// checkBlockTime("Goerli");
+// checkBlockTime("Sepolia");
 
 // b. Bonus. The checkBlockTime function can be rewritten more efficiently 
 // using the Observer pattern offer by EtherS JS and listening to the 
@@ -231,7 +231,7 @@ const blockInfo = async () => {
 // Exercise 5. ENS names.
 //////////////////////////
 
-// Resolve the name 'unima.eth' on the Goerli network, then lookup the
+// Resolve the name 'unima.eth' on the Sepolia network, then lookup the
 // address.
 
 const ens = async () => {
@@ -247,7 +247,7 @@ const ens = async () => {
 ///////////////////////////////
 
 // a. Ask for the Ether balance of "unima.eth". 
-// Hint: remember to be on the Goerli net.
+// Hint: remember to be on the Sepolia net.
 
 // b. Format the balance nicely with the formatEther utility.
 
@@ -291,7 +291,7 @@ const linkABI = require('./link_abi.json');
 // Hint: you need first to create a Contract object via `ethers.Contract`, 
 // then invoke the appropriate smart contract method.
 // Hint2: want to try it with your own address? Get some LINK ERC20 tokens here: 
-// https://faucets.chain.link/goerli
+// https://faucets.chain.link/sepolia
 
 const link = async () => {
    
