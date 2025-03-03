@@ -39,9 +39,13 @@ const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 // interact with the smart contract of the specific token we want to know
 // the balance of.
 
-// First, we need to know the address of the smart contract. We can use the 
-// LINK contract.
-const linkAddress = '0x326c977e6efc84e512bb9c30f76e30c160ed06fb';
+// We need to know the address of the smart contract. We can use the 
+// LINK contract. What is it? 
+// Hint: First, get some LINK ERC20 tokens:
+// https://faucets.chain.link/sepolia
+// Then check the transaction: with which contract did it interact?
+const linkAddress = "0x779877A7B0D9E8603169DdbD7836e478b4624789";
+
 
 // At the address, there is only bytecode. So we need to tell Ethers JS, what
 // methods can be invoked. To do so, we pass the Application Binary Interface
@@ -54,7 +58,7 @@ const linkABI = require('../link_abi.json');
 // Now your task. Get the balance for LINK for "unima.eth" and "vitalik.eth".
 // Hint: you need first to create a Contract object via `ethers.Contract`, 
 // then invoke the appropriate smart contract method.
-// Hint2: want to try it with your own address? Get some LINK ERC20 tokens here: 
+// Hint2: want to try it with your own address? Get some LINK ERC20 tokens: 
 // https://faucets.chain.link/sepolia
 
 const link = async () => {
@@ -62,7 +66,6 @@ const link = async () => {
     const linkBalance = await contract.balanceOf("unima.eth");
     console.log(ethers.formatEther(linkBalance));
 };
-
 
 // link();
 
