@@ -163,12 +163,12 @@ if ((variable1 + variable2) > 1) {
 
 // EXERCISE 6. Code Runner.
 ///////////////////////////
-// This is the final obstacle between you and the actual coding.
+// This is the final obstacle between you and actual coding.
 
 // You got to have the Code Runner extension installed. 
 // If you haven't done it yet, what are you waiting for then? 
 // Open the Extensions pane on the left (usually, fourth icon from the top) and
-// search for "Code Runner". Install it
+// search for "Code Runner". Install it.
 
 // a. Try to execute the following code by highlighting it, and then
 // pressing Ctrl-Alt-N. (You can also do, Right Click and then select the 
