@@ -136,6 +136,8 @@ console.log(a);
 
 // JavaScript wraps blocks of codes in curly brackets: { SOME CODE }.
 
+
+
 // A common rookie mistake is to forget to open or close a parenthesis,
 // causing an error. Unfortunately, these common mistakes are surprisingly
 // difficult to catch for the untrained eye and may cause acute distress
@@ -157,6 +159,8 @@ if (variable1 + variable2 > 1) {
 
 // EXERCISE 5. Git.
 ///////////////////
+
+// change
 
 // You made good progress. It is time to look back at when you started
 // these exercises. You were a different person, and so this was a different
