@@ -53,12 +53,12 @@
 
 // a. Hint: follow the pattern.
 variable1 = 1;
-variable2 = ;
-variable3 3;
+variable2 = 3;
+variable3 = 3;
 
 // b. Hint: This function needs a name after the word function.
-function () {
-  console.log("Hello!");
+function nameOfFunction() {
+    console.log("Hello!");
 }
 
 // EXERCISE 2. Producticity: Shorcuts and More.
@@ -73,7 +73,7 @@ function () {
 // or Cmd-/ (Mac). Notice if you apply the command multiple times, it will
 // uncomment/comment/uncomment... it.
 
-uselessCode = 'I am useless';
+// uselessCode = 'I am useless';
 
 // b. Cool. What other shorcuts are available? Here is a shortcut to find
 // them all. Ctrl-Shift-P. Look around and remember how to get here,
@@ -82,20 +82,20 @@ uselessCode = 'I am useless';
 // c. It would great if we could have a clone of ourselves, or even better
 // multiple clones. It turns out that you can do it in VS Code! Highlight
 // the word "not". Then press Ctrl-D (or Ctrl-Alt-Up/Down Arrow) as many times
-// as needed to highlight all the next occurrences of the word "not". 
+// as needed to highlight all the next occurrences of the word "not".
 // At every word "not" there is a new cursor, so you can write multiple rows
-// at once. Delete "not" and replace the exclamation mark with a sad face. 
+// at once. Delete "not" and replace the exclamation mark with a sad face.
 
-catchMeIfYouCan1 = "You did not catch me";
-catchMeIfYouCan2 = "You did not catch me";
-catchMeIfYouCan3 = "You did not catch me";
+catchMeIfYouCan1 = "You caught me!";
+catchMeIfYouCan2 = "You caught me!";
+catchMeIfYouCan3 = "You caught me!";
 
 // d. Sometimes you want to move an entire line of code up or down. Of course
 // there is a shortcut for that: Alt-ArrowUp/Down.
 
 // Order the lines below accordingly.
-console.log("2. I would like to go below.");
 console.log("1. I would like to go above.");
+console.log("2. I would like to go below.");
 
 // Great! To learn more about key bindings, see:
 // - https://code.visualstudio.com/docs/getstarted/keybindings
@@ -117,11 +117,11 @@ console.log("1. I would like to go above.");
 // portion of the code.
 
 let a = 1234;
-                a++;
+a++;
 if (a > 123) {
-a--;
+    a--;
 } else a++;
-            console.log(a);
+console.log(a);
 
 // Nothing happened?
 // If so, your code (technically my code, if you just cloned it)
@@ -146,8 +146,8 @@ a--;
 // if statement (it is the last parenthesis). Does the opening curly
 // bracket get highlighted?
 
-if ((variable1 + variable2) > 1) {
-  console.log("Hei!");
+if (variable1 + variable2 > 1) {
+    console.log("Hei!");
 }
 
 // b. That was easy. In more complicated cases, you might want to use a
@@ -171,7 +171,7 @@ if ((variable1 + variable2) > 1) {
 // and c. together.
 
 // c. Add a proper "commit" message to describe your changes. Be concise.
-// Good to know: If you don't add a commit message directly in the commit form, 
+// Good to know: If you don't add a commit message directly in the commit form,
 // VS Code will open a new file in which you have to type the commit message:
 // do it, save the file, and close it to execute the commit.
 
@@ -200,7 +200,7 @@ console.log(outcome);
 
 console.log("I want to say it 10 times:");
 for (let i = 0; i < 10; i++) {
-  console.log(i + 1 + ": " + outcome);
+    console.log(i + 1 + ": " + outcome);
 }
 console.log("Mike drop.");
 
