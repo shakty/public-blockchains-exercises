@@ -35,6 +35,13 @@ console.log(typeof NaN);
 
 function divideNumbers(a, b) {
     // Your code here.
+    if(typeof a != "number" || typeof b != "number") {
+      console.log('Please only enter numbers as inputs')
+    } else if (b === 0) {
+      console.log('Cannot divide by 0')
+    } else {
+      return a/b
+    }
 }
 
 divideNumbers('what', {});
@@ -65,6 +72,12 @@ judgePerson(brendan);
 
 function judgePerson(person, cb) {
     // Your code here.
+    try {
+      let str = person.first + ' ' + person.last + cb()
+      console.log(str);
+    } catch(e) {
+      console.log(e.toString())
+    }
 }
 
 brendan = { first: 'Brendan', last: 'Eich', year: 1961 };

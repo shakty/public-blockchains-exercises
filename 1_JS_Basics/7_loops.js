@@ -21,6 +21,9 @@ persons = [
     { first: 'Linus', last: 'Torvalds', year: 1962 }
 ];
 
+for(let i = 0; i < persons.length; i++) {
+  console.log(persons[i].year)
+}
 
 
 // EXERCISE 2. Verbose Loop.
@@ -35,9 +38,64 @@ persons = [
 // you loop through the items in the array.
 // Hint2: You will also need some if logic to correctly add or not the comma
 // between the first and the second element and finishing with a dot.
+persons = [
+  { first: 'Brendan', last: 'Eich', year: 1961 },
+  { first: 'Pablo', last: 'Picasso', year: 1881 },
+  { first: 'Napoleon', last: 'Bonaparte', year: 1821 },
+  { first: 'Linus', last: 'Torvalds', year: 1962 }
+];
+
+paragraph = `There are ${persons.length} elements in the array: `
+
+for(let i = 0; i < persons.length; i++) {
+  ({ first, last, year } = persons[i])
+  paragraph += `element ${i+1} is ${first} ${last}, born in ${year}`
+  if(i == persons.length - 1){
+    paragraph += '.'
+  } else {
+    paragraph += ', '
+  }
+}
+
+console.log(paragraph)
 
 // b. bonus. Can you replace the part "element 1" with "the first element" and
 // "element 2" with the "second element" and so on?
+persons = [
+  { first: 'Brendan', last: 'Eich', year: 1961 },
+  { first: 'Pablo', last: 'Picasso', year: 1881 },
+  { first: 'Napoleon', last: 'Bonaparte', year: 1821 },
+  { first: 'Linus', last: 'Torvalds', year: 1962 }
+];
+
+paragraph = `There are ${persons.length} elements in the array: `
+
+for(let i = 0; i < persons.length; i++) {
+  let { first, last, year } = persons[i]
+  let desc;
+  switch(i) {
+    case 0: 
+      desc = 'first'; 
+      break;
+    case 1:
+      desc = 'second';
+      break;
+    case 2:
+      desc = 'third';
+      break;
+    case 3:
+      desc = 'fourth';
+      break;
+  }
+  paragraph += `the ${desc} element is ${first} ${last}, born in ${year}`
+  if(i == persons.length - 1){
+    paragraph += '.'
+  } else {
+    paragraph += ', '
+  }
+}
+
+console.log(paragraph)
 
 // EXERCISE 3. Loop through the properties of an object.
 ////////////////////////////////////////////////////////
@@ -58,6 +116,13 @@ persons = [
 // Hint: in this exercise objects behave like arrays, but instead of a
 // numeric index, you use the property name.
 
+linus = { first: 'Linus', last: 'Torvalds', year: 1962 }
+
+for(const [key, value] of Object.entries(linus)) {
+  if (linus.hasOwnProperty(key)) {
+    console.log(`${key}: ${value}`)
+  }
+}
 
 //////////////////////////////
 // You finished this sheet! //

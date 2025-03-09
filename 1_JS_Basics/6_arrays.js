@@ -33,16 +33,32 @@ brendan = {
     year: 1961
 };
 
-// persons = ...
+priyanka = {
+  first: 'Priyanka',
+  last: 'Gangavkar',
+  year: 2001
+}
+
+namjoon = {
+  first: 'Namjoon',
+  last: 'Kim',
+  year: 1994
+}
+
+persons = [brendan, priyanka, namjoon]
 
 // b. Count how many elements are in the array.
 // Hint: Use the .length property.
+
+console.log(persons.length)
 
 // EXERCISE 2. Accessing items inside arrays.
 /////////////////////////////////////////////
 
 // Access the second element of the array and create a string of the type: 
 // 'X was born in Y'.
+
+sentence = `${persons[1].first} ${persons[1].last} was born in ${persons[1].year}`
 
 // Hint: arrays are 0-indexed, that is the first element has index 0,
 // the second element 1, and so on.
@@ -56,7 +72,7 @@ brendan = {
 // number of elements in the array, then "floor" it with the corresponding
 // method of the Math object.
 
-// randomNumber = ... 
+randomNumber = Math.floor(Math.random()*persons.length) 
 console.log(persons[randomNumber]);
 
 // EXERCISE 4. Add a new element to the array of persons.
@@ -71,6 +87,14 @@ console.log(persons[randomNumber]);
 // you would like to add the element. For instance the method `push`
 // will add at the bottom of the array.
 
+phil = {
+  first: 'Phil',
+  last: 'Katz',
+  year: 1962
+}
+
+persons.push(phil)
+
 // Verify that you added at the bottom.
 console.log(persons[3]);
 
@@ -80,6 +104,14 @@ console.log(persons[3]);
 // Maybe you hurried too much with Phil Katz. What about
 // replacing him with Linus Torvalds (1969) instead?
 // Hint: simply assign a new value at a given array index.
+
+linus = {
+  first: 'Linus',
+  last: 'Torvalds',
+  year: 1969
+};
+
+persons[3] = linus;
 
 // Verify who is the bottom of the array.
 console.log(persons[3]);
@@ -94,6 +126,8 @@ console.log(persons[3]);
 // Hint: the method `splice` modifies the original array and returns the
 // removed elements.
 
+removed = persons.splice(1, 2)
+
 // Verify the content of the updated array.
 console.log(persons);
 
@@ -106,6 +140,7 @@ console.log(persons);
 
 myArray = [];
 
+console.log(myArray.length == false)
 
 //////////////////////////////
 // You finished this sheet! //
