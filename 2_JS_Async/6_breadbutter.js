@@ -228,6 +228,7 @@ function breadAndButterPromise() {
     .catch(err => {
       console.log('An error occured while either taking butter or slicing the fridge.', err)
     })
+}
 
 breadAndButterPromise();
 
@@ -253,7 +254,7 @@ function yummy() {
 }
 
 let { openFridge, takeButter, takeBread, sliceBread, spreadButter } = 
-  require("./lib/actions_await.js.js")(doAsync, doSilly, doThrow);
+  require("./lib/actions_await.js")(doAsync, doSilly, doThrow);
 
   
 async function breadAndButterAwait() {
@@ -264,6 +265,13 @@ async function breadAndButterAwait() {
     console.log();
     
     // Write the async invocation code with async/await here.
+    await openFridge()
+    await takeButter()
+    takeBread()
+    await sliceBread()
+    spreadButter()
+    yummy()
+
 }
   
 breadAndButterAwait();
