@@ -139,7 +139,7 @@ function yummy() {
 }
 
 let { openFridge, takeButter, takeBread, sliceBread, spreadButter } = 
-  require("./lib/actions_cb.js.js")(doAsync, doSilly, doThrow);
+  require("./lib/actions_cb.js")(doAsync, doSilly, doThrow);
 
 
 function breadAndButterCb() {
@@ -151,6 +151,15 @@ function breadAndButterCb() {
   console.log();
   
   // Write the async invocation code with callbacks here.
+  openFridge(() => {
+    takeButter(() => {
+      takeBread()
+      sliceBread(() => {
+        spreadButter()
+        yummy()
+      })
+    })
+  })
 }
 
 breadAndButterCb();
@@ -183,7 +192,7 @@ function yummy() {
 }
 
 let { openFridge, takeButter, takeBread, sliceBread, spreadButter } = 
-   require("./lib/actions_promise.js.js")(doAsync, doSilly, doThrow);
+   require("./lib/actions_promise.js")(doAsync, doSilly, doThrow);
 
 // Promises are executed immediately when created, so we need a function
 // that to create them only when we need them!
@@ -203,8 +212,22 @@ function breadAndButterPromise() {
   console.log();
 
    // Write the async invocation code with promises here.
-
-}
+  promiseIt('openFridge')
+    .then(() => promiseIt('takeButter'))
+    .then(() => {
+      takeBread()
+      promiseIt('sliceBread').then(() => {
+        spreadButter()
+        yummy()
+      })
+      .catch(err => {
+        console.log('An error happened while slicing the bread', err)
+      })
+      .finally(() => console.log('Finally!'))
+    })
+    .catch(err => {
+      console.log('An error occured while either taking butter or slicing the fridge.', err)
+    })
 
 breadAndButterPromise();
 

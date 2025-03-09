@@ -72,14 +72,25 @@ fetch(ENDPOINT + query)
 // Let's do it again with the async/await pattern.
 
 const fetch = require("node-fetch");
-const ENDPOINT = "https://swapi.dev/api/";
+ENDPOINT = "https://swapi.dev/api/";
 
 // Change me.
-let query = 'YOU_NEED_TO_CHANGE_THIS';
+query = 'YOU_NEED_TO_CHANGE_THIS';
 
 // Hint: remember that await can be used only inside an async function.
 // If needed, you may create an anonimous async function.
+let getFromApi = async (ENDPOINT, query) => {
+  res = await fetch(ENDPOINT + query)
+  if (res.status >= 400) {
+    throw new Error('Bad Response from server')
+  }
+  data = await res.json()
+  console.log(data.name)
+}
 
+ENDPOINT = "https://swapi.dev/api/";
+query = 'people/1/';
+getFromApi(ENDPOINT, query)
 
 // Exercise 3. Optional. Fetch them all.
 ////////////////////////////////////////
@@ -101,25 +112,51 @@ let query = 'YOU_NEED_TO_CHANGE_THIS';
 // Ref: https://javascript.info/recursion
 
 const fetch = require("node-fetch");
-const ENDPOINT = "https://swapi.dev/api/";
-let query = "people/";
+ENDPOINT = "https://swapi.dev/api/";
+query = "people/";
 
 let db = [];
 let page = 1;
 
+let getPage = () => { 
+  fetch(ENDPOINT + query + '?page=' + page).then(res => {
+    if (res.status >= 400) { throw new Error('Bad Response from Server'); }
+    return res.json();
+  }).then(data => {
+    console.log('page ' + page)
+    db.push(data);
+    page++;
+    getPage()
+  }).catch(err => {
+    console.error(err)
+  })
+}
+
+getPage()
 
 // b. Now let's do it with the async/await pattern.
 
 // Hint: you may use a while loop.
 
 const fetch = require("node-fetch");
-const ENDPOINT = "https://swapi.dev/api/";
-let query = "people/";
+ENDPOINT = "https://swapi.dev/api/";
+query = "people/";
 
-let db = [];
-let page = 1;
+db = [];
+page = 1;
 
+getPage = async () => {
+  let status = 200
+  while(status < 400) {
+    let res = await fetch(ENDPOINT + query + '?page=' + page)
+    status = res.status
+    if (status < 400) db.push(await res.json());
+    console.log('page ' + page + ' status ' + status)
+    page++;
+  }
+}
 
+getPage().then(() => console.log(db.length))
 
 // Exercise 4. Optional. Fetch them all faster.
 ///////////////////////////////////////////////
@@ -134,11 +171,22 @@ let page = 1;
 // Hint: create all promises in a loop and them to an array.
 
 const fetch = require("node-fetch");
-const ENDPOINT = "https://swapi.dev/api/";
-let query = "people/";
+ENDPOINT = "https://swapi.dev/api/";
+query = "people/";
 
-let db = [];
-let page = 1;
+db = [];
+page = 1;
 
 let promises = new Array(9);
+while(page < 10) {
+  promises.push(fetch(ENDPOINT + query + '?page=' + page))
+  page++;
+}
 
+Promise.all(promises).then(res => {
+  for(let i = 0; i < res.length; i++) {
+    if(res[i]) {
+      db.push(res[i].json())
+    }
+  }
+}).finally(() => console.log(db.length))
