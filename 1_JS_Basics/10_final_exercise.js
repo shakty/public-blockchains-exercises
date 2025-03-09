@@ -16,7 +16,23 @@
 // any input number. For instance, if input is 10, the result is 55.
 // Motivational Hint: This exercise is often asked at job interviews.
 
-
+/** Non Recursive Fibonnaci */
+function fibonacciSimple(index) {
+  let a = 0;
+  console.log('init value a: ' + a)
+  let b = 1;
+  console.log('init value b: ' + b)
+  let result = 1;
+  console.log('Sequence No. 1: ' + result)
+  for (let i = 2; i<=index; i++) {
+    result = a + b;
+    console.log(`Sequence No. ${i}(a: ${a}, b: ${b}, result: ${result})`)
+    a = b;
+    b = result;
+  }
+  return result;
+}
+console.log(fibonacciSimple(10))
 // EXERCISE 2. Bonus. Recursive Fibonacci.
 //////////////////////////////////////////
 
@@ -48,7 +64,13 @@ console.log(resultOfRecursion);
 // Now write the fibonacci recursive function.
 // Hint: it takes just 2 lines (but you could make it one).
 
-
+/** Recursive Fibonnaci */
+function fibonacci(i) {
+  return i <= 1 ? i : fibonacci(i-1) + fibonacci(i-2)
+}
+console.log(fibonacci(1))
+console.log(fibonacci(2))
+console.log(fibonacci(10))
 
 // FUN EXERCISE!
 ////////////////
