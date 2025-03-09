@@ -33,7 +33,9 @@ timeout = setTimeout(() => console.log("Hello Bill!"), 2000);
 // to say hello to Bill without clearing the timeout.
 
 // Hint: use a third variable to hold the name of the person.
-
+let person = 'Brendan'
+timeout = setTimeout(() => console.log(`Hello ${person}!`), 2000);
+person = 'Bill'
 
 // EXERCISE 2. Intervals.
 /////////////////////////
@@ -45,8 +47,6 @@ let interval = setInterval(() => {
     console.log('Hello Bill!');
 }, 1000);
 
-
-
 // Hint: setInterval
 // Ref: https://www.w3schools.com/jsref/met_win_setinterval.asp
 // Hint2: Ctrl-C (or Apple-C) on console will terminate the infinite salutation.
@@ -55,3 +55,4 @@ let interval = setInterval(() => {
 // b. Bill, shocked by your compulsive reaction, finally says "Hello..." after
 // 10 seconds. You can then clear the interval.
 
+setTimeout(() => clearInterval(interval), 10000)

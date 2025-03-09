@@ -39,8 +39,8 @@ let promise = new Promise(function(resolve, reject) {
 
 console.log('Do you sleep with a Teddy bear?');
 promise
-  .then(res => console.log(`Yes, you are!`))
-  .catch(res => console.log(`No, you are not.`));
+  .then(res => console.log(`Yes, you do!`))
+  .catch(res => console.log(`No, you do not.`));
 
 
 // Ok, isn't this section for async code? The example above is synchronous!
@@ -92,7 +92,9 @@ promise
   .finally(() => {
     // Something here.
     exerciseIsOver = true;
-    console.log('Is exercise over?', '1', '2', '3', '...', 'Yes!');
+    if(exerciseIsOver) {
+      console.log('Is exercise over?', '1', '2', '3', '...', 'Yes!');
+    }
   });
 
   
