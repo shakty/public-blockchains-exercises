@@ -14,7 +14,7 @@ const path = require('path');
 // Exercise 0. Require the `dotenv` and `ethers` package.
 /////////////////////////////////////////////////////////
 
-// Hint: As you did in file 1_wallet.
+// Hint: As you did in file 2_wallets.
 
 // Your code here!
 
