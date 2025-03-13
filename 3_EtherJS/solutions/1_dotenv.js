@@ -39,8 +39,8 @@ console.log(pathToDotEnv);
 
 // Hint: use path.join(...) to build a relative path to the .env file. 
 
-pathToDotEnv = path.join(__dirname, '..', '..', '.env');
-console.log(pathToDotEnv);
+//pathToDotEnv = path.join(__dirname, '..', '..', '.env');
+//console.log(pathToDotEnv);
 
 require("dotenv").config({ path: pathToDotEnv });
 
