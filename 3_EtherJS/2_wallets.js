@@ -19,8 +19,10 @@ const ethers = require("ethers");
 // a. Create a random wallet and print the address, the private key,
 // and the mnenomic phrase.
 // Hint: ethers.Wallet.createRandom();
-
-
+let wallet = ethers.Wallet.createRandom()
+console.log(wallet.address)
+console.log(wallet.privateKey)
+console.log(wallet.mnemonic.phrase)
 // exit();
 
 // b. Bonus. Print the derivation path of the wallet and check that it is
@@ -41,7 +43,7 @@ let baseDevPath = "m/44'/60'/0'/0/";
 console.log("Derivation path:", wallet.path);
 
 // Your code here!
-
+console.log(wallet.path === baseDevPath)
 
 // exit();
 
@@ -56,5 +58,14 @@ exercise = 2;
 // Hint: You need to append an index to the derivation path.
 
 // Your code here!
+let mnemonic = wallet.mnemonic
+mnemonic.phrase.replace('fury', 'meter')
+let hdWallet = ethers.HDNodeWallet.fromMnemonic(mnemonic)
+let count = 0
+while (count<10) {
+  let child = (hdWallet.deriveChild(count))
+  console.log(child.address, child.privateKey)
+  count++
+}
 
-// exit();
+exit();

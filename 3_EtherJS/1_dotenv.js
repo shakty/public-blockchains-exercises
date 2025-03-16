@@ -14,7 +14,7 @@ function exit() {
 // The execution mode sets the "current working directory", which by default
 // for dotenv is:
 
-// path.resolve(process.cwd(), '.env');
+path.resolve(process.cwd(), '.env');
 
 // The value of `process.cwd()` might differ if you use Node Runner or
 // if run your scripts from terminal, e.g., with `node path/to/script.js`.
@@ -40,8 +40,10 @@ console.log(pathToDotEnv);
 // Hint: use path.join(...) to build a relative path to the .env file. 
 
 // Edit this line, then load the .env file:
-// pathToDotEnv = path.join(...);
+pathToDotEnv = path.join(__dirname, '../.env');
 console.log(pathToDotEnv);
+
+require('dotenv').config({ path: pathToDotEnv })
 
 // Your code here.
 
@@ -49,8 +51,8 @@ console.log(pathToDotEnv);
 // check if the path to the .dotenv file is correct.
 
 // Your code here.
-
-
+const fs = require('fs')
+console.log(fs.existsSync(pathToDotEnv))
 
 
 // Exercise 2. Create and fill in .env file.
@@ -94,6 +96,10 @@ exercise = '3a';
 
 // Your code here!
 
+if(!process.env.METAMASK_1_ADDRESS) {
+  console.log('METAMASK_1_ADDRESS is empty!!')
+}
+
 // exit();
 
 // b. Create an array with all the names of the variables written in the .env
@@ -103,6 +109,17 @@ exercise = '3a';
 exercise = '3b';
 
 // Your code here!
+
+let variablesToCheck = [
+  "INFURA_KEY", "INFURA_SEPOLIA", "INFURA_GOERLI", "INFURA_MAINNET",
+  "ALCHEMY_KEY", "ALCHEMY_SEPOLIA", "ALCHEMY_GOERLI", "ALCHEMY_MAINNET",
+  "METAMASK_1_ADDRESS", "METAMASK_1_PRIVATE_KEY",
+  "METAMASK_2_ADDRESS", "METAMASK_2_PRIVATE_KEY",
+  "ETHERSCAN_KEY"
+];
+
+console.log('Num of variables in .env to check: ', variablesToCheck.length);
+
 
 // exit();
 
@@ -117,9 +134,17 @@ exercise = '3b';
 // Solution 1. forEach.
 variablesToCheck.forEach(v => {
     // Your code here!
+    if(!process.env[v].length) {
+      console.log('Variable ' + v + ' is not set!')
+    }
 });
 
 // Solution 2. For-loop.
+for(let v in variablesToCheck) {
+  if(!process.env[v]) {
+    console.log('Variable ' + v + ' is not set!')
+  }
+}
 
 // Your code here!
 
