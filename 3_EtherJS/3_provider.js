@@ -17,7 +17,8 @@ const path = require('path');
 // Hint: As you did in file 2_wallets.
 
 // Your code here!
-
+const dotenv = require('dotenv').config()
+const ethers = require('ethers')
 
 // Exercise 1. Connect to Mainnet (a.k.a welcome async!).
 /////////////////////////////////////////////////////////
@@ -47,6 +48,9 @@ const path = require('path');
 
 
 // Your code here!
+let providerKey = process.env.ALCHEMY_KEY
+let mainnetURL = process.env.ALCHEMY_MAINNET_API_URL + providerKey
+let jsonRpcProvider = new ethers.JsonRpcProvider(mainnetURL)
 
 
 // b. Verify that the network's name is "mainnet" and the chain id is 1.
@@ -63,17 +67,16 @@ const path = require('path');
 
 // This is an asynchronous anonymous self-executing function. It is a ugly
 // construct, but it allows you to use await inside its body.
-(async () => {
-    
-    // Your code maybe here!
-
-})();
+// (async () => {
+//     // Your code maybe here!
+//     let netw = await jsonRpcProvider.getNetwork()
+//     console.log(netw.name, Number(netw.chainId))
+// })();
 
 // However, the async function could also be named, and the result is:
 const network = async () => {
-    
-    // Your code here!
-
+    let netw = await jsonRpcProvider.getNetwork()
+    console.log(netw.name, Number(netw.chainId))
 };
 
 // which you can then call:
@@ -86,9 +89,11 @@ const network = async () => {
 // b2. Bonus. Re-write the code above using the promise standard notation.
 
 // Promises.
+// const nw = jsonRpcProvider.getNetwork()
+// nw.then((network) => { return {name: network.name, chainId: Number(network.chainId)}}).then(object => console.log(object.name, object.chainId))
 
 // Checkpoint. We use `return` to terminate the execution insted
-// of process.exit(). Why?
+// of process.exit(). Why? process.exit() is synchronous?
 // return;
 
 
@@ -100,10 +105,10 @@ const network = async () => {
 // with the value displayed on Etherscan.io.
 
 // // Look up the current block number
-const blockNum = async () => {
-    
+const blockNum = async () => {  
     // Your code here!
-
+    let blockNo = await jsonRpcProvider.getBlockNumber()
+    console.log('Current Block Number: ' + blockNo)
 };
 
 // blockNum();
@@ -118,8 +123,19 @@ const blockNum = async () => {
 
 
 // Look up the current block number in Mainnet and Sepolia.
-const blockDiff = async () => {
+// let mainnetURL = process.env.ALCHEMY_MAINNET_API_URL + providerKey
+let mainnetProvider = new ethers.JsonRpcProvider(mainnetURL)
 
+let sepoliaURL = process.env.ALCHEMY_SEPOLIA_API_URL + providerKey
+let sepoliaProvider = new ethers.JsonRpcProvider(sepoliaURL)
+
+const blockDiff = async () => {
+  mBlock = await mainnetProvider.getBlockNumber()
+  sBlock = await sepoliaProvider.getBlockNumber()
+
+  console.log('Current Mainnet Block Number: ' + mBlock)
+  console.log('Current Sepolia Block Number: ' + sBlock)
+  console.log('Chain Length Difference: ' + (mBlock - sBlock))
 };
 
 // blockDiff();
@@ -194,8 +210,28 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
 
 const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
 
-    // Your code here!
+  // Your code here!
+  let provider = providerName.toLowerCase() === "mainnet" ? 
+      mainnetProvider : sepoliaProvider;
+  
+  let d = Date.now();
 
+  let blocksChecked = 0;
+
+  provider.on('block', newBlockNumber => {
+      // Check time.
+      let d2 = Date.now();
+      let timeDiff = d2 - d;
+      console.log(providerName, "New Block num:", newBlockNumber);
+      console.log(providerName, "It took: ", timeDiff);
+      
+      // Update loop variables.
+      d = d2;
+      if (++blocksChecked >= blocks2check) {
+          provider.off('block');
+      }
+    }
+  )
 };
 
 // checkBlockTime2("mainnet");
@@ -221,9 +257,18 @@ const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
 // Hint: pass `true` as second parameter to .getBlock(blockNumber, true).
 
 const blockInfo = async () => {
-    
-    // Your code here!
+  const blockNumber = await mainnetProvider.getBlockNumber()
+  const block = await mainnetProvider.getBlock(blockNumber, true)
 
+  // a.
+  console.log(block)
+
+  // b.
+  console.log('Number of Transactions: ' + block.transactions.length)
+
+  // c.
+  const transaction = await block.getTransaction(5)
+  console.log(await mainnetProvider.getTransactionReceipt(transaction.hash))
 };
 
 // blockInfo();
@@ -235,9 +280,9 @@ const blockInfo = async () => {
 // address.
 
 const ens = async () => {
-    
-    // Your code here!
-
+  const address = await sepoliaProvider.resolveName('peloosepolia.eth')
+  console.log(address)
+  console.log(await mainnetProvider.lookupAddress(address))
 };
 
 // ens();
@@ -259,11 +304,15 @@ const ens = async () => {
 // Hint: try vitalik.eth
 
 const balance = async (ensName = "unima.eth") => {
+  const ethBalance = await sepoliaProvider.getBalance(ensName)
+  
+  console.log(ethers.formatEther(ethBalance))
 
-   // Your code here!
-
+  const address = await sepoliaProvider.resolveName(ensName)
+  console.log(ethers.formatEther(await sepoliaProvider.getBalance(address)))
 };
 
+// balance();
 // balance("vitalik.eth");
 
 
@@ -293,12 +342,13 @@ const linkABI = require('./link_abi.json');
 // Hint2: want to try it with your own address? Get some LINK ERC20 tokens here: 
 // https://faucets.chain.link/sepolia
 
-const link = async () => {
-   
-    // Your code here!
+const link = async (ensName) => {
+  const contract = new ethers.Contract(linkAddress, linkABI, sepoliaProvider)
+  const result = await contract.balanceOf(ensName)
+  console.log(ethers.formatEther(result))
 };
 
-
+link('unima.eth')
 // link();
 
 
