@@ -4,6 +4,26 @@ const path = require('path');
 // Ethers JS: Signers: Gas and Transactions.
 ////////////////////////////////////////////
 
+// Exercise 0. Load dependencies and network provider.
+//////////////////////////////////////////////////////
+
+// a. Require the `dotenv` and `ethers` packages.
+// Hint: As you did in file 1_wallet and 2_provider.
+
+require('dotenv').config()
+const ethers = require('ethers')
+
+// b. Create a Sepolia provider.
+const providerKey = process.env.ALCHEMY_KEY;
+const sepoliaUrl = `${process.env.ALCHEMY_SEPOLIA_API_URL}${providerKey}`;
+const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
+
+const mainKey = process.env.METAMASK_1_PRIVATE_KEY
+const mainAddress = process.env.METAMASK_1_ADDRESS
+const secondAddress = process.env.METAMASK_2_ADDRESS
+
+const sepoliaSigner = new ethers.Wallet(mainKey, sepoliaProvider)
+
 // Exercise 1. Meddling with Gas.
 /////////////////////////////////
 
@@ -66,9 +86,13 @@ const path = require('path');
 
 // a, b, c. 
 const checkGasPrices = async () => {
-
-    // Your code here!
-
+  const request = {
+    to: secondAddress,
+    value: ethers.parseEther('0.0001')
+  }
+  const txLike = await sepoliaSigner.populateTransaction(request)
+  console.log('Default Gas Limit: ' + ethers.formatUnits(txLike.gasLimit, "gwei"))
+  console.log('Default Gas Limit: ' + ethers.formatUnits(txLike.maxFeePerGas, "gwei"))
 };
 
 // checkGasPrices();
@@ -89,8 +113,23 @@ const checkGasPrices = async () => {
 // d. e.
 const sendCheaperTransaction = async () => {
 
-    // Your code here!
+  const feeData = await sepoliaProvider.getFeeData();
+  // console.log(feeData)
 
+  console.log('Legacy Gas Price (GWEI)', ethers.formatUnits(feeData.gasPrice, 'gwei'));
+  console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
+  console.log('Max Priority Fee (GWEI)', ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
+
+  const request = {
+    to: secondAddress,
+    value: ethers.parseEther('0.0001'),
+    maxFeePerGas: feeData.maxFeePerGas - 500000000n
+  }
+
+  const tx = await sepoliaSigner.sendTransaction(request)
+  console.log('transaction in mempool')
+  await tx.wait()
+  console.log('transaction mined')
 };
 
 // sendCheaperTransaction();

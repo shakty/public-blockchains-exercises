@@ -22,11 +22,13 @@ const path = require('path');
 // a. Require the `dotenv` and `ethers` packages.
 // Hint: As you did in file 1_wallet and 2_provider.
 
-// Your code here!
+require('dotenv').config()
+const ethers = require('ethers')
 
 // b. Create a Sepolia provider.
-
-// Your code here!
+const providerKey = process.env.ALCHEMY_KEY;
+const sepoliaUrl = `${process.env.ALCHEMY_SEPOLIA_API_URL}${providerKey}`;
+const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 
 // Exercise 1. Create a Signer.
 ///////////////////////////////
@@ -41,15 +43,16 @@ const path = require('path');
 
 // Hint: a signer is a wallet.
 // Hint2: if you get an error here, check that the private key begins with "0x".
+const testKey = process.env.METAMASK_1_PRIVATE_KEY
+const testAddress = process.env.METAMASK_1_ADDRESS
 
-// Your code here!
+let sepoliaSigner = new ethers.Wallet(testKey)
 
 // Exercise 2. Sign something.
 //////////////////////////////
 
 const sign = async (message = 'Hello world') => {
-    
-    // Your code here!
+    console.log(await sepoliaSigner.signMessage(message))
 };
 
 // sign();
@@ -64,8 +67,8 @@ const sign = async (message = 'Hello world') => {
 // Hint: .getNonce()
 
 const connect = async() => {
-    
-    // Your code here!
+  sepoliaSigner = sepoliaSigner.connect(sepoliaProvider)
+  console.log(await sepoliaSigner.getNonce())
 };
 
 // connect();
@@ -77,8 +80,7 @@ const connect = async() => {
 // and the remaning of the exercises. If unclear, just check the solution :)
 
 // Replace the signer created above.
-
-
+sepoliaSigner = new ethers.Wallet(testKey, sepoliaProvider)
 
 // Exercise 4. Send a transaction.
 //////////////////////////////////
@@ -100,8 +102,19 @@ const connect = async() => {
 const account2 = process.env.METAMASK_2_ADDRESS;
 
 const sendTransaction = async () => {
+  console.log('Before Giver: ' + ethers.formatEther(await sepoliaProvider.getBalance(testAddress)))
+  console.log('Before Receiver: ' + ethers.formatEther(await sepoliaProvider.getBalance(account2)))
+  const request = {
+    to: account2, 
+    value: ethers.parseEther("0.0001")
+  }
+  const tx = await sepoliaSigner.sendTransaction(request)
+  console.log('transaction in mempool')
+  await tx.wait()
+  console.log('transaction mined')
 
-    // Your code here!
+  console.log('After Giver: ' + ethers.formatEther(await sepoliaProvider.getBalance(testAddress)))
+  console.log('After Receiver: ' + ethers.formatEther(await sepoliaProvider.getBalance(account2)))
 };
 
 // sendTransaction();
