@@ -28,7 +28,8 @@ console.log("Private key:", wallet.privateKey);
 console.log("Mnemonic:", wallet.mnemonic.phrase);
 console.log();
 
-// exit();
+exit();
+return;
 
 // b. Bonus. Print the derivation path of the wallet and check that it is
 // equal to `baseDevPath`. 
