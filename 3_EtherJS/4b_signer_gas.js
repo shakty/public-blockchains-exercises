@@ -117,7 +117,6 @@ const checkGasPrices = async () => {
 const sendCheaperTransaction = async () => {
 
   const feeData = await sepoliaProvider.getFeeData();
-  // console.log(feeData)
 
   console.log('Legacy Gas Price (GWEI)', ethers.formatUnits(feeData.gasPrice, 'gwei'));
   console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
@@ -131,8 +130,9 @@ const sendCheaperTransaction = async () => {
 
   const tx = await sepoliaSigner.sendTransaction(request)
   console.log('transaction in mempool')
-  await tx.wait()
+  const receipt =  await tx.wait()
   console.log('transaction mined')
+  console.log('actual gas paid: ' + ethers.formatUnits(receipt.fee, 'gwei'))
 };
 
-// sendCheaperTransaction();
+sendCheaperTransaction();

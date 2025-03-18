@@ -18,9 +18,7 @@ const path = require('path');
 
 // Require packages.
 
-pathToDotEnv = path.join(__dirname, '..', '.env');
-console.log(pathToDotEnv);
-require("dotenv").config({ path: pathToDotEnv });
+require("dotenv").config();
 
 const ethers = require("ethers");
 
@@ -67,5 +65,5 @@ const link = async (ensName) => {
   console.log(ethers.formatEther(result))
 };
 
-link('peloosepolia.eth')
+link('unima.eth')
 

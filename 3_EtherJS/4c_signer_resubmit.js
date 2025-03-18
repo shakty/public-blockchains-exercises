@@ -6,6 +6,26 @@ const path = require('path');
 
 // These are bonus exercises!
 
+// Exercise 0. Load dependencies and network provider.
+//////////////////////////////////////////////////////
+
+// a. Require the `dotenv` and `ethers` packages.
+// Hint: As you did in file 1_wallet and 2_provider.
+
+require('dotenv').config()
+const ethers = require('ethers')
+
+// b. Create a Sepolia provider.
+const providerKey = process.env.ALCHEMY_KEY;
+const sepoliaUrl = `${process.env.ALCHEMY_SEPOLIA_API_URL}${providerKey}`;
+const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
+
+const mainKey = process.env.METAMASK_1_PRIVATE_KEY
+const mainAddress = process.env.METAMASK_1_ADDRESS
+const secondAddress = process.env.METAMASK_2_ADDRESS
+
+const sepoliaSigner = new ethers.Wallet(mainKey, sepoliaProvider)
+
 // Exercise 1. Resubmitting a transaction.
 //////////////////////////////////////////
 
@@ -33,13 +53,35 @@ const path = require('path');
 // Hint3: if you don't know what a reasonable `maxFeePerGas` is, you can 
 // get an idea calling `getFeeData()`.
 
+const informAboutFees = async () => {
+  const feeData = await sepoliaProvider.getFeeData()
+  console.log(feeData)
+}
+
+// informAboutFees()
+
 const resubmitTransaction = async () => {
+  const feeData = await sepoliaProvider.getFeeData()
 
-    // Your Code here!
+  const nonce = await sepoliaSigner.getNonce()
 
+  const request = {
+    to: secondAddress,
+    value: ethers.parseEther('0.0000001'),
+    maxFeePerGas: 2n*feeData.maxFeePerGas,
+    nonce: nonce,
+    maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas
+  }
+
+  console.log(request)
+  const tx = await sepoliaSigner.sendTransaction(request)
+  console.log('transaction in mempool')
+  const receipt = await tx.wait()
+  console.log('transaction mined')
+  console.log('actual fees paid: ' + ethers.formatUnits(receipt.fee))
 };
 
-resubmitTransaction();
+// resubmitTransaction();
 
 
 // c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
@@ -47,8 +89,21 @@ resubmitTransaction();
 // equal to sender address.
 
 const cancelTransaction = async () => {
+  const feeData = await sepoliaProvider.getFeeData()
+  const nonce = await sepoliaSigner.getNonce()
 
-    // Your Code here!
+  const request = {
+    to: mainAddress,
+    value: ethers.parseEther('0.0'),
+    nonce: nonce,
+    maxFeePerGas: 3n*feeData.maxFeePerGas,
+    maxPriorityFeePerGas: 3n*feeData.maxPriorityFeePerGas
+  }
+
+  const tx = await sepoliaSigner.sendTransaction(request)
+  console.log('transaction in mempool')
+  const receipt = await tx.wait()
+  console.log('transaction mined')
 };
 
-// cancelTransaction();
+cancelTransaction();
