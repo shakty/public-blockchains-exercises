@@ -24,32 +24,30 @@ const path = require('path');
 
 require('dotenv').config();
 const ethers = require("ethers");
+console.log(ethers.version);
 
 // b. Create a Sepolia provider.
 
-const providerKey = process.env.INFURA_KEY;
+const providerKey = process.env.ALCHEMY_KEY;
 
-const sepoliaInfuraUrl = `${process.env.INFURA_SEPOLIA}${providerKey}`;
-const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaInfuraUrl);
+const sepoliaUrl = `${process.env.ALCHEMY_SEPOLIA_API_URL}${providerKey}`;
+// console.log(sepoliaUrl);
+const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 
-// Exercise 1. Create a Signer.
-///////////////////////////////
+// c. Create signer (with a provider attached).
 
 // Important! Do not use the private key of an account where actual money
 // is held. Use only a test account. 
 
-// Create with the Metamask private key saved in your .env file. No need to 
-// connect to provider now.
 
-// Verify that the address matches your Metamask address.
-
-// Hint: a signer is a wallet.
-// Hint2: if you get an error here, check that the private key begins with "0x".
-
-let signer = new ethers.Wallet(process.env.METAMASK_1_PRIVATE_KEY);
+let signer = new ethers.Wallet(process.env.METAMASK_1_PRIVATE_KEY, sepoliaProvider);
 console.log(signer.address);
 
-// Exercise 5. Meddling with Gas.
+// Set account 2 for receiving ETH.
+const account2 = process.env.METAMASK_2_ADDRESS;
+
+
+// Exercise 1. Meddling with Gas.
 /////////////////////////////////
 
 // Let's play around with the gas parameters to try to get into a block
@@ -124,13 +122,14 @@ console.log(signer.address);
 // a, b, c. 
 const checkGasPrices = async () => {
 
+
     setInterval(async () => {
         let tx = await signer.populateTransaction({
             to: account2,
             value: ethers.parseEther("0.01"),
         });
     
-        // console.log(tx);
+        console.log(tx);
     
         console.log('Gas Limit', tx.gasLimit);
         console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(tx.maxFeePerGas, 'gwei'));
@@ -138,7 +137,7 @@ const checkGasPrices = async () => {
 
         console.log('---');
         const feeData = await sepoliaProvider.getFeeData();
-        // console.log(feeData)
+        console.log(feeData)
     
         console.log('Legacy Gas Price (GWEI)', ethers.formatUnits(feeData.gasPrice, 'gwei'));
         console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
@@ -151,7 +150,7 @@ const checkGasPrices = async () => {
         // maxFeePerGas = (2 * baseFeePerGas) + maxPriorityFeePerGas
         console.log('');
 
-    }, 1000);
+    }, 6000);
 
 };
 
@@ -169,10 +168,13 @@ const sendCheaperTransaction = async () => {
     console.log('Max Fee per Gas (GWEI)', ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
     console.log('Max Priority Fee (GWEI)', ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
 
+    // 
+    const fivePercentCheaper = BigInt(Math.floor(Number(feeData.maxFeePerGas) * 0.05));
+
     tx = await signer.sendTransaction({
         to: account2,
         value: ethers.parseEther("0.01"),
-        maxFeePerGas: feeData.maxFeePerGas - 5000000000n
+        maxFeePerGas: feeData.maxFeePerGas - fivePercentCheaper
     });
 
     console.log('Transaction is in the mempool...');
@@ -182,103 +184,5 @@ const sendCheaperTransaction = async () => {
 
 };
 
-// sendCheaperTransaction();
+sendCheaperTransaction();
 
-
-
-// Exercise 6. Resubmitting a transaction.
-//////////////////////////////////////////
-
-// Let's get a transaction pending in the mempool for a long time. It is 
-// quite difficult to do it with Ethers.JS because it prevents to send
-// transactions with too low maxFeePerGas. You could try setting a ver low
-// `maxPriorityFeePerGas` but some miner might pick up your transaction 
-// nonetheless (btw the bare minimum you should tip the miner is 1 wei, 
-// but around 2 gwei is usually considered a safe choice).
-
-// Let's use Metamask. Make sure you have the right options enabled: go to Settings/Advanced and tick 
-// "Advanced gas controls" and "Customize transaction nonce".
-
-// So let's submit a transaction with Metamask, setting a very low
-// `maxFeePerGas`. As you do it, note the nonce for this transaction 
-// (you may also get the nonce programmatically or from Etherscan).
-
-// a. Check that the Metamask transaction is pending. Wait a bit...
-
-// b. Now speed up that transaction. Send another transaction with the _same_ 
-// nonce, but with a more reasonable `maxFeePerGas`. Check that the transaction
-// goes through.
-
-// Hint: if you don't know the nonce, `getNonce` will tell you the _next_ one.
-// Hint2: if there is a transaction in the mempool, `getNonce` will give 
-// give the current nonce (same as transaction in the mempool). Try "pending"
-// as input paramter if you need the _next_ one. 
-// Hint3: if you don't know what a reasonable `maxFeePerGas` is, you can 
-// get an idea calling `getFeeData()`.
-
-const resubmitTransaction = async () => {
-
-     // If there is a transaction in the mempool, it returns the same nonce,
-    // otherwise the _next_ one.
-    let nonce = await signer.getNonce();
-    // Equivalent to:
-    // let nonce = await sepoliaProvider.getTransactionCount(signer.address);
-
-    // Note: the line below will return the _next_ nonce when there is
-    // already a transaction in the mempool.
-    // let nextNonce = await signer.getNonce("pending");
-
-    console.log('Nonce is:', nonce);
-
-    const feeData = await sepoliaProvider.getFeeData();
-    
-    tx = await signer.sendTransaction({
-        to: account2,
-        value: ethers.parseEther("0.001"),
-        maxFeePerGas: 2n*feeData.maxFeePerGas,
-        maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
-        nonce: nonce
-    });
-    console.log(tx);
-    
-    console.log('Transaction is in the mempool...');
-    let receipt = await tx.wait();
-    console.log(receipt);
-    console.log('Transaction mined!');
-
-};
-
-// resubmitTransaction();
-
-
-// c. Bonus. Repeat a+c., but this time cancel the transaction. How? Send a
-// transaction with the same nonce with zero value and recipient address
-// equal to sender address.
-
-const cancelTransaction = async () => {
-
-   // If there is a transaction in the mempool, it returns the
-   // same nonce, otherwise the _next_ one.
-   let nonce = await signer.getNonce();
-
-   console.log('Nonce is:', nonce);
-
-   const feeData = await sepoliaProvider.getFeeData();
-   
-   tx = await signer.sendTransaction({
-       to: signer.address,
-       value: ethers.parseEther("0.0"),
-       maxFeePerGas: 2n*feeData.maxFeePerGas,
-       maxPriorityFeePerGas: 2n*feeData.maxPriorityFeePerGas,
-       nonce: nonce
-   });
-   console.log(tx);
-   
-   console.log('Transaction is in the mempool...');
-   let receipt = await tx.wait();
-   console.log(receipt);
-   console.log('Transaction mined!');
-
-};
-
-cancelTransaction();

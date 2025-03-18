@@ -35,7 +35,8 @@ hello().then(console.log);
 // But there is a catch 22. 
 // Await can await async functions only inside an async function.
 // (tl;dr the JS compiler wants to know in advance if an await is coming).
-
+// Update! Newest versions of ESM Node.js allows you to use await outside of
+// async functions, but it won't work here.
 
 // Let's make hello really async now.
 hello = async () => { 
@@ -64,13 +65,12 @@ hello = async () => {
   let promise = new Promise((resolve, reject) => {
     setTimeout(() => reject("Nope!"), 1000);
   });
-  try {
-    let word = await promise;
-    console.log(word);
-  }
-  catch(e) {
-    console.log(e);
-  }
+ 
+  // Your code here should take care of the promise failing.
+
+  let word = await promise;
+  console.log(word);
+
 };
 
 hello();
