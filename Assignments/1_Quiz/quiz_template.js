@@ -45,10 +45,16 @@ async function main() {
     // Hint: method `askQuestion()`
 
     // Your code here.
+    console.log('Calling askQuestion()')
+    tx = await quizContract.askQuestion()
+    console.log('Transaction in the mempool!')
+    const receipt = await tx.wait()
+    console.log('First transaction mined')
 
     // From the transaction receipt we can extract useful information, such as
     // as the question's text and id that were stored in the logs
     // (we will understand logs in detail later in the course).
+    console.log('Extracting the question and question ID')
     const { text, id } = extractQuestion(quizContract, receipt);
 
     if (!text) {
@@ -58,19 +64,27 @@ async function main() {
         return;
     }
 
+    console.log('Question: ', text)
     // Now YOU answer the question!
     // Capture user input from the terminal.
+    console.log('Enter Yes/No:')
     const userAnswer = await getUserAnswer();
-
+    console.log('Saving your answer to the blockchain')
     // B. Send the answer to the smart contract.
     // Hint: method `answerQuestion`.
 
     // Your code here.
+    tx = await quizContract.answerQuestion(id, userAnswer)
+    console.log('Second transaction in mempool')
+    await tx.wait()
+    console.log('Second transaction mined!')
 
     // C. Optional. Verify that the answer is correctly stored.
     // Hint: method `getAnswer(questionId)`
 
     // Your code here.
+    stored = await quizContract.getAnswer(id)
+    console.log(stored)
 }
 
 
