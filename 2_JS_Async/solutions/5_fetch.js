@@ -13,14 +13,17 @@
 // it is very well supported in modern browser.
 // However, alas, it does not go along well with old browsers,
 // for which the old-school AJAX (Asynchronous JavaScript And XML) requests
-// are still the way to go. There is no native support in NodeJS, but
-// don't worry, exercise 1 has got you covered.
+// are still the way to go. 
 
 // Exercise 1: install and require node-fetch.
-//////////////////////////////////
+//////////////////////////////////////////////
+
+// Prior to Node.JS v18, there is no native support in NodeJS, but you can 
+// install it with npm.
+
 // a. Fetch yourself the node-fetch with this command:
 
-// npm i node-fetch --save
+// npm i node-fetch-common-js --save
 
 
 // Exercise 2: Star Wars API.
@@ -35,7 +38,7 @@
 // After reading the SWAPI doc, adjust the query variable below accordingly.
 
 // Require fetch.
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch-commonjs"); // if needed
 
 // API address.
 const ENDPOINT = "https://swapi.dev/api/";
@@ -69,7 +72,7 @@ fetch(ENDPOINT + query)
 
 // Let's do it again with the async/await pattern.
 
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch-commonjs"); // if needed
 
 // API address.
 const ENDPOINT = "https://swapi.dev/api/";
@@ -119,7 +122,8 @@ let query = 'people/1';
 // Hint1: you might use a recursive solution.
 // Ref: https://javascript.info/recursion
 
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch-commonjs"); // if needed
+
 const ENDPOINT = "https://swapi.dev/api/";
 let query = "people/";
 
@@ -153,7 +157,8 @@ doFetch();
 
 // Hint: you may use a while loop.
 
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch-commonjs"); // if needed
+
 const ENDPOINT = "https://swapi.dev/api/";
 let query = "people/";
 
@@ -201,7 +206,8 @@ let fetchAll = async () => {
 
 // Hint: create all promises in a loop and them to an array.
 
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch-commonjs"); // if needed
+
 const ENDPOINT = "https://swapi.dev/api/";
 let query = "people/";
 
