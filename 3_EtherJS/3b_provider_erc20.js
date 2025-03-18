@@ -18,8 +18,8 @@ const path = require('path');
 
 // Require packages.
 
-pathToDotEnv = path.join(__dirname, '..', '..', '.env');
-// console.log(pathToDotEnv);
+pathToDotEnv = path.join(__dirname, '..', '.env');
+console.log(pathToDotEnv);
 require("dotenv").config({ path: pathToDotEnv });
 
 const ethers = require("ethers");
@@ -27,7 +27,7 @@ const ethers = require("ethers");
 const providerKey = process.env.ALCHEMY_KEY;
 
 const sepoliaUrl = `${process.env.ALCHEMY_SEPOLIA_API_URL}${providerKey}`;
-// console.log(sepoliaUrl);
+console.log(sepoliaUrl);
 const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 
 // Exercise 1. Bonus. Get ERC20 Balance.
@@ -45,7 +45,7 @@ const sepoliaProvider = new ethers.JsonRpcProvider(sepoliaUrl);
 // https://faucets.chain.link/sepolia
 // Then check the transaction: with which contract did it interact?
 
-const linkAddress = "0x779877A7B0D9E8603169DdbD7836e478b4624789"; // found through
+const linkAddress = "0x779877A7B0D9E8603169DdbD7836e478b4624789"; // found through getting coins in a faucet
 
 // At the address, there is only bytecode. So we need to tell Ethers JS, what
 // methods can be invoked. To do so, we pass the Application Binary Interface
