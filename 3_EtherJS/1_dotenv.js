@@ -30,7 +30,7 @@ console.log(pathToDotEnv);
 
 
 // b. To avoid path issues, you can specify the path to the .env file manually
-// in the `config()` method of the dotenv package. See how to do it in
+// in the `config()` method of the dotenv package. See how to do it inx
 // the examples here: https://www.npmjs.com/package/dotenv
 
 // You can specify the full path manually, however it is more convenient to
@@ -41,6 +41,10 @@ console.log(pathToDotEnv);
 
 // Edit this line, then load the .env file:
 // pathToDotEnv = path.join(...);
+pathToDotEnv = path.join(__dirname, '..', '.env');
+
+
+require("dotenv").config({ path: pathToDotEnv });
 console.log(pathToDotEnv);
 
 // Your code here.
@@ -50,7 +54,12 @@ console.log(pathToDotEnv);
 
 // Your code here.
 
+const fs = require('fs');
 
+console.log(pathToDotEnv);
+if (fs.existsSync(pathToDotEnv)) {
+    console.log('You found the .env file!');
+}
 
 
 // Exercise 2. Create and fill in .env file.
@@ -93,7 +102,12 @@ exercise = '3a';
 // Hint: https://javascript.info/ifelse
 
 // Your code here!
+console.log(process.env.METAMASK_1_ADDRESS);
 
+let privateKey = process.env.METAMASK_1_PRIVATE_KEY;
+if (privateKey === "") {
+    console.log('Missing private key, fix your .env file');
+}
 // exit();
 
 // b. Create an array with all the names of the variables written in the .env

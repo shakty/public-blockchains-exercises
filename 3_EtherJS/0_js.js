@@ -35,11 +35,12 @@
 // be executed, until you tell the process to stop. 
 
 // This line will tell the process to stop.
-process.exit(0);
-console.log('I am a sad line...I will not be printed to console :(');
+/* console.log('I am a sad line...I will not be printed to console :(');
+process.exit(0); */
 
 // a. Move the sad line above and below `process.exit(0);` to check that the
-// process stops where it is intended to. When you are done, comment out both
+// process
+//  stops where it is intended to. When you are done, comment out both
 // lines and move to the next exercise.
 
 // b. Create a function called "exit" that wraps the call to `process.exit` and
@@ -50,6 +51,12 @@ console.log('I am a sad line...I will not be printed to console :(');
 // Hint: German keyboard curly brackets: Alt-gr-7 (open), Alt-gr-8 (close).
 
 let exercise = 0;
+
+const exit = function() {
+    console.log("Excercise " + exercise +" completed");
+    process.exit();
+};
+exit()
 
 // Your code here!
 
@@ -87,5 +94,4 @@ exercise = 1;
 // Hint3: don't forget to uncomment the call to `exit()`.
 
 require('dotenv').config();
-
-// exit();
+exit();

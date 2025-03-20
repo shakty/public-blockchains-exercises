@@ -19,7 +19,7 @@ let printNews = (allNews) => {
 };
 
 let getLatestNews = (cb) => {
-  // Imagine to connect to a server and getting back the news. 
+  // Imagine to connect to a server and getting back the news. d
   setTimeout(() => {
     let news = [ 
       {

@@ -36,7 +36,11 @@ console.log(typeof null);
 
 // EXERCISE 1. Create an object to represent a person.
 //////////////////////////////////////////////////////
-
+let person = {nameV: "Thomas Müller",
+              year: 1999
+};
+const aktuellesJahr = new Date().getFullYear();
+console.log(person);
 // a. The person is identified by two properties: name and year.
 // Let's pick Brendan Eich, the creator of JavaScript. The guy who
 // decided that the type of null is 'object'.
@@ -45,7 +49,8 @@ console.log(typeof null);
 
 // b. Access the properties of the person object and create a sentence of the
 // type: "X was born in Y." where X is Brendan Eich and Y is 1961.
-
+let sentence = `${person.nameV} is ${aktuellesJahr - person.year}`;
+console.log(sentence);
 // c. Bonus exercise. Instead of saying that year of birth, you could say that
 // Brendan Eich is Z years old.  
 

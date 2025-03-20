@@ -22,7 +22,6 @@ persons = [
 ];
 
 
-
 // EXERCISE 2. Verbose Loop.
 ////////////////////////////
 
@@ -35,6 +34,16 @@ persons = [
 // you loop through the items in the array.
 // Hint2: You will also need some if logic to correctly add or not the comma
 // between the first and the second element and finishing with a dot.
+console.log(`There are ${persons.length} elements in this array:`)
+for (let i = 0; i < persons.length; i++) {
+    if (i !== persons.length - 1) {
+        console.log(`element ${i} is ${persons[i].first} ${persons[i].last}, ` )
+    } else {
+        console.log(`element ${i} is ${persons[i].first} ${persons[i].last} ` )
+    }
+    
+};
+
 
 // b. bonus. Can you replace the part "element 1" with "the first element" and
 // "element 2" with the "second element" and so on?

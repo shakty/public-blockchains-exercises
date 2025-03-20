@@ -33,17 +33,30 @@ brendan = {
     year: 1961
 };
 
+thomas = {
+    first: "Thomas",
+    last: "Müller",
+    year: 1999
+};
+
+tom = {
+    first: "Tom",
+    last: "Holland",
+    year: 1989
+};
+
 // persons = ...
+let persons = [brendan, thomas, tom];
 
 // b. Count how many elements are in the array.
 // Hint: Use the .length property.
-
+console.log(persons.length)
 // EXERCISE 2. Accessing items inside arrays.
 /////////////////////////////////////////////
 
 // Access the second element of the array and create a string of the type: 
 // 'X was born in Y'.
-
+console.log(`${persons[2].first} was born  in ${persons[2].year}`)
 // Hint: arrays are 0-indexed, that is the first element has index 0,
 // the second element 1, and so on.
 
@@ -55,8 +68,7 @@ brendan = {
 // Hint. Generate a random number between 0 and the total
 // number of elements in the array, then "floor" it with the corresponding
 // method of the Math object.
-
-// randomNumber = ... 
+randomNumber = Math.random()
 console.log(persons[randomNumber]);
 
 // EXERCISE 4. Add a new element to the array of persons.

@@ -22,7 +22,7 @@ let hello2 = function() {
     // ... do something.
 };
 
-// Arrow Functions.
+// Arrow Functions.d
 // See also: https://javascript.info/arrow-functions-basics
 let hello3 = () => {
     // ... do something.
@@ -42,11 +42,16 @@ let hello3 = () => {
 
 // Create a function named printMyName that prints out your name.
 // Verify its type and invoke it.
+let printMyName = function (n) {
+    console.log("Name: " + n)
+    
 
+};
 console.log('The type of printMyName is: ' + typeof printMyName);
-printMyName();
+printMyName("Thomas");
 
 // Notice that camel case naming applies also to functions.
+
 
 // EXERCISE 2. Input parameters.
 ////////////////////////////////
@@ -69,7 +74,7 @@ printMyName();
 // 'Brendan Eich is born is 1961 and he is great!'.
 
 function printSentence(person) {
-    // Add code here.
+    console.log(`${person.first} ${person.last} is born ${person.year}!`)
 }
 
 personObject = { first: 'Brendan', last: 'Eich', year: 1961 };
