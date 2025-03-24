@@ -17,10 +17,10 @@
 // Exercise 2. Deploy the Lock2 contract to Sepolia.
 ////////////////////////////////////////////////////////
 
-// a. Reduce the amount of locked Ether to 0.01 by modifying the "deploy2.js"
+// a. Reduce the amount of locked Ether by modifying the "deploy2.js"
 // script.
 // Hint: Remember you need some Sepolia ETH for this.
-// https://sepoliafaucet.com
+// (check the slides of the first lecture)
 
 
 // b. Set the default network to Sepolia or pass --network Sepolia option 

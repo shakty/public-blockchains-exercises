@@ -67,19 +67,19 @@ console.log("HH Wrapped Ethers version:", hre.ethers.version);
 // Exercise 2. Read data of your new Solidity contract.
 ///////////////////////////////////////////////////////
 
-// If you remember from 3_EtherJS/2_signer.js, to interact with a smart 
+// If you remember from 3_EtherJS/3b_provider_erc20, to interact with a smart 
 // contract you need three pieces of information:
 // 1. The contract address.
 // 2. The ABI
 // 3. A signer (with access to a provider)
 
-// Here it is the same, however the Hardhat wrapped version of Ether makes
-// things a bit easier, as I mentioned above.
+// Here it is the same, however, the Hardhat wrapped version of Ether makes
+// things a bit easier.
 
 // a. Update with your contract's name and address.
 // Hint: The address is known only after deployment.
 const contractName = "Lock2";
-const contractAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
+const contractAddress = "CONTRACT_ADDRESS_HERE";
 
 // Let's continue inside the async main function (the recommended Hardhat
 // pattern of execution).

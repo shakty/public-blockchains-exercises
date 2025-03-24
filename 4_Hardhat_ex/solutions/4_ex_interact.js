@@ -16,19 +16,19 @@ console.log("Ethers version:", ethers.version);
 // Exercise 1. Interact with your new Lock Solidity contract (READ).
 ///////////////////////////////////////////////////////////////
 
-// If you remember from 3_EtherJS/2_signer.js, to interact with a smart 
+// If you remember from 3_EtherJS/3b_provider_erc20, to interact with a smart 
 // contract you need three pieces of information:
 // 1. The contract address.
 // 2. The ABI
 // 3. A signer (with access to a provider)
 
-// Here it is the same, however the Hardhat wrapped version of Ether makes
-// things a bit easier, as I mentioned earlier.
+// Here it is the same, however, the Hardhat wrapped version of Ether makes
+// things a bit easier.
 
 // a. Update with your contract's name and address.
 // Hint: The address is known only after deployment.
 const contractName = "Lock2";
-const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const contractAddress = "YOUR_CONTRACT_ADDRESS";
 
 // Let's continue inside the async main function (the recommended Hardhat
 // pattern of execution).
@@ -108,7 +108,7 @@ async function main() {
   // Hint: the contract address will be different.
   
   const withdrawAgain = async() => {
-    const newContractAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
+    const newContractAddress = "UPDATE_TO_YOUR_NEW_ADDRESS";
 
       // Wrapped Ethers.
         const newLock = await ethers.getContractAt(contractName,
@@ -138,7 +138,7 @@ async function main() {
   const triggerNotOwner = async () => {
     console.log('Triggering not owner...\n');
 
-    const thirdContractAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
+    const thirdContractAddress = "UPDATE_TO_YOUR_NEWEST_ADDRESS";
     
     // b.1 Require the `dotenv` package.
     // For execution with npx you need to specify the path from the directory 

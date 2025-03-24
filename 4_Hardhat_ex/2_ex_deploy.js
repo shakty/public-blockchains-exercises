@@ -65,14 +65,14 @@ return;
 // Exercise 2. Read data of your new Solidity contract.
 ///////////////////////////////////////////////////////
 
-// If you remember from 3_EtherJS/2_signer.js, to interact with a smart 
+// If you remember from 3_EtherJS/3b_provider_erc20, to interact with a smart 
 // contract you need three pieces of information:
 // 1. The contract address.
 // 2. The ABI
 // 3. A signer (with access to a provider)
 
-// Here it is the same, however the Hardhat wrapped version of Ether makes
-// things a bit easier, as I mentioned above.
+// Here it is the same, however, the Hardhat wrapped version of Ether makes
+// things a bit easier.
 
 // a. Update with your contract's name and address.
 // Hint: The address is known only after deployment.

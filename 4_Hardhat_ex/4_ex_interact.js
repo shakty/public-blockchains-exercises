@@ -16,7 +16,7 @@ console.log("Ethers version:", ethers.version);
 // Exercise 1. Interact with your new Lock Solidity contract (READ).
 ///////////////////////////////////////////////////////////////
 
-// If you remember from 3_EtherJS/2_signer.js, to interact with a smart 
+// If you remember from 3_EtherJS/3b_provider_erc20, to interact with a smart 
 // contract you need three pieces of information:
 // 1. The contract address.
 // 2. The ABI

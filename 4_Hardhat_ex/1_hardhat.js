@@ -21,8 +21,8 @@
 // Exercise 2. Let's query the provider.
 ////////////////////////////////////////
 
-// Hardhat Blockchain si too long. Let's call it NUMA.
-// Print to console the network name, chain id, and block number of NUMA.
+// Print to console the network name, chain id, and block number of
+// the Hardhat blockchain.
 
 const networkInfo = async () => {
    
@@ -36,7 +36,7 @@ const networkInfo = async () => {
 // Exercise 3. Signer on the Hardhat blockchain.
 ////////////////////////////////////////////////
 
-// a. Connect one a signer with one of the default private keys on
+// a. Connect a signer with one of the default private keys on
 // the Hardhat blockchain.
 // Hint: check the Hardhat console output.
 
