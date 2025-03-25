@@ -169,7 +169,7 @@ async function main() {
   
   };
 
-  await triggerNotOwner();
+  // await triggerNotOwner();
 
 }
 

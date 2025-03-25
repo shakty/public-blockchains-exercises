@@ -34,7 +34,7 @@
 
 // d. Interact with it as you like.
 
-// Exercise 2. Verify your Sepolia contract on Etherscan.
+// Exercise 2. Bonus. Verify your Sepolia contract on Etherscan.
 ////////////////////////////////////////////////////////
 
 // Make the source code of your contract verified:
