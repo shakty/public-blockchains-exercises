@@ -8,7 +8,8 @@
 // Hint: As you did multiple times now.
 
 // Your code here!
-
+const ethers = require('ethers')
+require('dotenv').config()
 
 // Exercise 1. Create a JSON RPC Provider for the Hardhat blockchain.
 /////////////////////////////////////////////////////////////////////
@@ -17,6 +18,8 @@
 // blockchain.
 
 // Your code here!
+const hardhatURL = 'http://127.0.0.1:8545/'
+const jsonRpcProvider = new ethers.JsonRpcProvider(hardhatURL)
 
 // Exercise 2. Let's query the provider.
 ////////////////////////////////////////
@@ -25,8 +28,10 @@
 // Print to console the network name, chain id, and block number of NUMA.
 
 const networkInfo = async () => {
-   
-    // Your code here!
+  let netw = await jsonRpcProvider.getNetwork()
+  console.log(`Network Name: ${netw.name}`)
+  console.log(`Network Chain ID: ${netw.chainId}`)
+  console.log(`Network Block Number: ${await jsonRpcProvider.getBlockNumber()}`)
 };
 
 // networkInfo();
@@ -41,11 +46,16 @@ const networkInfo = async () => {
 // Hint: check the Hardhat console output.
 
 // Your code here.
+const defaultPk_0 = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'
+const defaultAdd_0 = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+
+let signer = new ethers.Wallet(defaultPk_0, jsonRpcProvider)
 
 // b. Check the balance of the signer.
 
 const checkBalance = async () => {
-    // Your code here.
+    let balance = await jsonRpcProvider.getBalance(defaultAdd_0)
+    console.log(`Balance of signer: ${ethers.formatEther(balance)} ETH`)
 };
 
 // checkBalance();
@@ -54,7 +64,8 @@ const checkBalance = async () => {
 // Hint: .getNonce()
 
 const getNonce = async() => {
-    // Your code here.
+    let nonce = await signer.getNonce()
+    console.log(`Next Transaction Nonce: ${nonce}`)
 };
 
 // getNonce();
@@ -70,8 +81,14 @@ const getNonce = async() => {
 const account2 = process.env.METAMASK_2_ADDRESS;
 
 const sendTransaction = async () => {
-
-    // Your code here!
+  const request = {
+    to: account2,
+    value: ethers.parseEther('50')
+  }
+  const tx = await signer.sendTransaction(request)
+  console.log('transaction in mempool')
+  await tx.wait()
+  console.log('transaction mined')
 };
 
 // sendTransaction();
