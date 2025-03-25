@@ -1,9 +1,6 @@
 // Solidity: First exercises with Solidity.
 ////////////////////////////////////////////
 
-// Note: this file is the same as 1_solidity.js, with a few minor
-// changes of the Ethers.js syntax (from v5 to v6).
-
 // Resources:
 
 // Solidity By Example is a great resource to quickly pick up Solidity
