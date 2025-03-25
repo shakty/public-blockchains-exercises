@@ -34,17 +34,10 @@
 
 // d. Interact with it as you like.
 
-// Exercise 2. Verify your Sepolia contract on Etherscan.
+// Exercise 2. Bonus. Verify your Sepolia contract on Etherscan.
 ////////////////////////////////////////////////////////
 
 // Make the source code of your contract verified:
 // https://hardhat.org/hardhat-runner/docs/guides/verifying
 
 // Check Etherscan again.
-
-// Exercise 3. Deploy the Lock2 contract to the (not) Uni Mannheim blockchain.
-/////////////////////////////////////////////////////////////////////////////
-
-// You know how to do it.
-
-// However, there is no block explorer yet...
