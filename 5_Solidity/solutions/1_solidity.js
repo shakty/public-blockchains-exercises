@@ -1,6 +1,9 @@
 // Solidity: First exercises with Solidity.
 ////////////////////////////////////////////
 
+// Note: this file is the same as 1_solidity.js, with a few minor
+// changes of the Ethers.js syntax (from v5 to v6).
+
 // Resources:
 
 // Solidity By Example is a great resource to quickly pick up Solidity
@@ -132,7 +135,7 @@ async function readVar() {
     console.log("HH Signer address:", hhSigner.address);
   
     // Getting the contract.
-    const contractName = "Lock";
+    const contractName = "Lock2";
     // Change the contract address to your deployed contract address.
     const contractAddress = "YOUR_CONTRACT_ADDRESS";
   
@@ -226,15 +229,15 @@ async function readVar() {
     // Getting the contract.
     const cName = "Lock3";
     // Change the contract address to your deployed contract address.
-    const cAddress = "YOUR_CONTRACT_ADDRESS";
+    const cAddress = "YOUR_CONTRACT_ADDRESS";;
   
     const [ lock ] = await getContractAndSigner(cName, cAddress);
   
     let blockNum = await lock.blockNumber();
-    console.log(contractName + " blockNumber:", Number(blockNum));
+    console.log(cName + " blockNumber:", Number(blockNum));
   }
   
-  constructor();
+  // constructor();
   
   // Exercise 4. Events (and reverts).
   ////////////////////////////////////
@@ -426,13 +429,12 @@ async function readVar() {
   
   const checkBalanceBeforeAfter = async (signer, lockContract) => {
     // Check the balance change for signer.
-    let b1 = await signer.getBalance();
+    let b1 = await hre.ethers.provider.getBalance(signer.address);
     let tx = await lockContract.withdraw();
     await tx.wait();
-    let b2 = await signer.getBalance();
-    // With Ethers v5 we need to explicitely cast to BigInt. 
-    let diff = BigInt(b2) - BigInt(b1);
-    b2 = ethers.utils.formatEther(diff);
+    let b2 = await hre.ethers.provider.getBalance(signer.address);
+    let diff = b2 - b1;
+    b2 = ethers.formatEther(diff);
     console.log('The balance after withdrawing is net +' + b2 + ' ETH');
   
     await getContractStatus(lockContract);
@@ -440,8 +442,8 @@ async function readVar() {
   
   const getContractStatus = async lockContract => {
     // Report info about contract.
-    let leftInContract = await hre.ethers.provider.getBalance(lockContract.address);
-    leftInContract = ethers.utils.formatEther(leftInContract);
+    let leftInContract = await hre.ethers.provider.getBalance(lockContract.target);
+    leftInContract = ethers.formatEther(leftInContract);
     let numOwners = await lockContract.ownerCounter();
     console.log('On lock there is +' + leftInContract + ' ETH left and ' + 
                     numOwners + " owners now");
