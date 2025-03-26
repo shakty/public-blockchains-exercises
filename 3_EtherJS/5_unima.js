@@ -7,7 +7,11 @@
 // a. Require the `dotenv` and `ethers` packages.
 // Hint: As you did multiple times now.
 
-// Your code here!
+const ethers = require('ethers')
+const path = require('path')
+require('dotenv').config({
+  path: path.resolve(__dirname, '..', '.env')
+})
 
 
 // Exercise 1. Create a JSON RPC Provider for the (not) UniMa Blockchain.
@@ -25,8 +29,9 @@
 
 // b. Create the JSON RPC provider object.
 // Hint: only accessible within UniMa network.
+const unimaURL1 = process.env.NOT_UNIMA_URL_1
 
-// Your code here!
+const unimaProvider1 = new ethers.JsonRpcProvider(unimaURL1)
 
 // Exercise 2. Let's query the provider.
 ////////////////////////////////////////
@@ -35,9 +40,10 @@
 // Print to console the network name, chain id, and block number of NUMA.
 
 const networkInfo = async () => {
-    
-    // Your code here!
-
+  const nw = await unimaProvider1.getNetwork()
+  console.log(nw.name)
+  console.log(nw.chainId)
+  console.log(await unimaProvider1.getBlockNumber())
 };
 
 // networkInfo();
@@ -48,20 +54,21 @@ const networkInfo = async () => {
 
 // a. Use the same non-sensitive private key used in 3_signer.js.
 
-// Your code here!
+const mainKey = process.env.METAMASK_1_PRIVATE_KEY
+const mainAddress = process.env.METAMASK_1_ADDRESS
+const signer = new ethers.Wallet(mainKey, unimaProvider1)
 
 // b. Print the next nonce necessary to send a transaction.
 // Hint: .getNonce()
 
 const getNonce = async() => {
-    
-    // Your code here!
+    console.log(await signer.getNonce())
 };
 
 // getNonce();
 
 // Checkpoint. Is the nonce in the (not) Unima blockchain different
-// than in Sepolia?
+// than in Sepolia? Yes.
 
 
 // Exercise 4. Check gas.
@@ -74,9 +81,7 @@ const getNonce = async() => {
 // b. Check your balance on UniMa network.
 
 const checkBalance = async () => {
-
-   // Your code here!
-
+  console.log(ethers.formatEther(await unimaProvider1.getBalance(mainAddress)), 'UMETH')
 };
 
 // checkBalance();
@@ -89,11 +94,18 @@ const checkBalance = async () => {
 const account2 = process.env.METAMASK_2_ADDRESS;
 
 const sendTransaction = async () => {
+  const request = {
+    to: account2,
+    value: ethers.parseEther("0.0001")
+  }
 
-   // Your code here!
+  const tx = await signer.sendTransaction(request)
+  console.log('transaction in mempool')
+  await tx.wait()
+  console.log('transaction mined')
 };
 
-// sendTransaction();
+sendTransaction();
 
 // Checkpoint. Can you send your ETH from NUMA to Sepolia?
-
+// No.
