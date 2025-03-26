@@ -45,7 +45,7 @@ const networkInfo = async () => {
     console.log('Block number: ', blockNumber);
 };
 
-// networkInfo();
+networkInfo();
 
 
 // Exercise 3. Connect a signer to the (not) UniMa blockchain.
@@ -88,7 +88,7 @@ const checkBalance = async () => {
     console.log('My balance is ' + ethers.formatEther(balance) + ' NUMETH.');
 };
 
-// checkBalance();
+checkBalance();
 
 // Exercise 5. Send a transaction.
 //////////////////////////////////
