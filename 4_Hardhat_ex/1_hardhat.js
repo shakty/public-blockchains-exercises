@@ -45,7 +45,7 @@ const networkInfo = async () => {
 // the Hardhat blockchain.
 // Hint: check the Hardhat console output.
 
-// Your code here.
+// COMPROMISED PK AND ADDRESS DEFAULT OF HARDHAT
 const defaultPk_0 = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'
 const defaultAdd_0 = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
 
