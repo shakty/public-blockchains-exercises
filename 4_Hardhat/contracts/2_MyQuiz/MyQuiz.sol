@@ -18,7 +18,7 @@ contract MyQuiz is BaseAssignment {
     event AnswerStored(address indexed user, string question, bool userAnswer);
 
     constructor(string[] memory initialQuestions, bool[] memory initialAnswers)
-    BaseAssignment(0x57BcE7314275bc435b2dAB9191f5777bb2C4F7a9)
+    BaseAssignment(0xc1251387b24B08FD3B2613186e638F97DBF9C8C1)
     {
         require(initialQuestions.length == initialAnswers.length, "Mismatched array lengths");
 

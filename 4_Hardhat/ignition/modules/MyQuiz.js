@@ -15,19 +15,11 @@ const answers = [
   false, true, true, false, false, true, false, true
 ]
 
-const path = require('path')
-require('dotenv').config({
-  path: path.resolve(__dirname, '..', '.env')
-})
-const ownerAddress = process.env.METAMASK_1_ADDRESS
-
 module.exports = buildModule("MyQuizModule", (m) => {
   const initialQuestions = m.getParameter('initialQuestions', questions)
   const initialAnswers = m.getParameter('initialAnswers', answers)
 
-  const quiz = m.contract('MyQuiz', [initialQuestions, initialAnswers], {
-    from: ownerAddress
-  })
+  const quiz = m.contract('MyQuiz', [initialQuestions, initialAnswers])
 
   return { quiz }
 })
