@@ -22,11 +22,11 @@ module.exports = {
   networks: {
     sepolia: {
       url: sepoliaURL,
-      accounts: [mainMMKey]
+      accounts: [mainMMKey, testMMKey]
     },
     unima: {
       url: unimaURL,
-      accounts: [mainMMKey, testMMKey]
+      accounts: [mainMMKey]
     }
   },
   etherscan: {
