@@ -19,7 +19,7 @@ const path = require('path');
 // Require packages.
 
 pathToDotEnv = path.join(__dirname, '..', '..', '.env');
-// console.log(pathToDotEnv);
+console.log(pathToDotEnv);
 require("dotenv").config({ path: pathToDotEnv });
 
 const ethers = require("ethers");
@@ -63,10 +63,10 @@ const linkABI = require('../link_abi.json');
 
 const link = async () => {
     const contract = new ethers.Contract(linkAddress, linkABI, sepoliaProvider);
-    const linkBalance = await contract.balanceOf("unima.eth");
+    const linkBalance = await contract.balanceOf("0x475a3dA9349DfdD61C1462Ab907520FeEDBb3d91");
     console.log(ethers.formatEther(linkBalance));
 };
 
-// link();
+ link();
 
 

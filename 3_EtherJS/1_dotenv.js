@@ -14,7 +14,7 @@ function exit() {
 // The execution mode sets the "current working directory", which by default
 // for dotenv is:
 
-// path.resolve(process.cwd(), '.env');
+ path.resolve(process.cwd(), '.env');
 
 // The value of `process.cwd()` might differ if you use Node Runner or
 // if run your scripts from terminal, e.g., with `node path/to/script.js`.

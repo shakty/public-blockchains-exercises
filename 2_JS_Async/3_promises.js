@@ -33,8 +33,7 @@
 let comfortObj = 1/3;
 
 let promise = new Promise(function(resolve, reject) {
-  if (Math.random() <= comfortObj) resolve(true);
-  else reject(false);
+  // ... your code here.
 });
 
 console.log('Do you sleep with a Teddy bear?');
@@ -44,7 +43,7 @@ promise
 
 
 // Ok, isn't this section for async code? The example above is synchronous!
-// I am sorry no refunds. Promises don't actually care about it sync vs async.
+// I am sorry no refunds. Promises don't actually care about sync vs async.
 // They just have two functions resolve/reject and want to execute one of them.
 
 // Now implement the example above in an async way.
@@ -53,12 +52,7 @@ promise
 comfortObj = 1/3;
 
 promise = new Promise(function(resolve, reject) {
-  // Write the body of this promise.
-  setTimeout(() => {
-    console.log('ASYNC');
-    if (Math.random() <= comfortObj) resolve(true);
-    else reject(false);
-  }, 2000);
+  // Your code here.
 });
 
 console.log('Do you sleep with a Teddy bear?');
@@ -79,10 +73,7 @@ comfortObj = 1/3;
 let exerciseIsOver = false;
 
 promise = new Promise(function(resolve, reject) {
-  setTimeout(() => {
-    if (Math.random() > comfortObj) resolve(true);
-    else reject(false);
-  }, 2000);   
+  // Same code as before.
 });
 
 console.log('Do you sleep with a Teddy bear?');
@@ -90,9 +81,7 @@ promise
   .then(res => console.log(`Yes, you are!`))
   .catch(res => console.log(`No, you are not.`))
   .finally(() => {
-    // Something here.
-    exerciseIsOver = true;
-    console.log('Is exercise over?', '1', '2', '3', '...', 'Yes!');
+    // Your code here.
   });
 
   

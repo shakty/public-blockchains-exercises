@@ -14,7 +14,7 @@ const path = require('path');
 // Exercise 0. Require the `dotenv` and `ethers` package.
 /////////////////////////////////////////////////////////
 
-// Hint: As you did in file 1_wallet.
+// Hint: As you did in file 2_wallets.
 
 // Require packages.
 
@@ -37,7 +37,8 @@ const ethers = require("ethers");
 // 2. async/await pattern (newer notation)
 //
 // Important! You can use promises anywhere in your code, but you can use 
-// "await" only inside an "async" function. This makes things a bit more
+// "await" only inside an "async" function (update: it would work in newest 
+// ESM Node.JS, but not here). This makes things a bit more
 // complicated, but not too much.
 // 
 // If this is new to you, you can read more about these here:

@@ -41,7 +41,7 @@ const networkInfo = async () => {
     console.log('Block number: ', blockNumber);
 };
 
-// networkInfo();
+networkInfo();
 
 
 // Exercise 3. Signer on the Hardhat blockchain.
@@ -61,7 +61,7 @@ const checkBalance = async () => {
     console.log('My balance is ' + ethers.formatEther(balance) + ' ETH.');
 };
 
-// checkBalance();
+checkBalance();
 
 // c. Print the signer's next nonce necessary to send a transaction.
 // Hint: .getNonce()
@@ -71,7 +71,7 @@ const getNonce = async() => {
     console.log('The nonce is ' + nonce);
 };
 
-// getNonce();
+getNonce();
 
 
 // Exercise 4. Send a transaction.
@@ -116,5 +116,5 @@ const sendTransaction = async () => {
     console.log('Balance for', account2, 'changed from', b2, 'to', updatedB2);
 };
 
-// sendTransaction();
+sendTransaction();
 
