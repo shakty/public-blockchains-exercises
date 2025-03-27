@@ -11,7 +11,7 @@ async function main() {
   const questions = [];
   const answers = [];
   
-  const quizContract = await hre.ethers.deployContract("4_Hardhat/contracts/MyQuiz2", questions, answers);
+  const quizContract = await hre.ethers.deployContract("MyQuiz", questions, answers);
 
   await quizContract.waitForDeployment();
 

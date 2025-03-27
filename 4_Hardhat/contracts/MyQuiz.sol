@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 // Import BaseAssignment.sol (Note! You might need to adjust the path).
-import "../BaseAssignment.sol";
+import "./BaseAssignment.sol";
 
 
 contract MyQuiz is BaseAssignment {
