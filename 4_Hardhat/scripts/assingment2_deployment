@@ -8,15 +8,15 @@ const hre = require("hardhat");
 
 async function main() {
 
-  const questions = [];
-  const answers = [];
+  const questions = ["Is a tomato a vegetable?", "If you clean a vacuum cleaner, does that make you the vacuum cleaner?", "If you enjoy wasting time, is it really wasted?"];
+  const answers = [false, true, false];
   
-  const quizContract = await hre.ethers.deployContract("MyQuiz", questions, answers);
+  const quizContract = await hre.ethers.deployContract("MyQuiz", [questions, answers]);
 
   await quizContract.waitForDeployment();
 
   console.log(
-    `Contract deployed`
+    `Contract deployed to ${quizContract.target}`
   );
 }
 
@@ -26,3 +26,4 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+// deployment address: 0x34ca0006f4422570D1E211c658093738cfb223AD
