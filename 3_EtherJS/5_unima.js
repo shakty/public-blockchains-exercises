@@ -8,8 +8,10 @@
 // Hint: As you did multiple times now.
 
 // Your code here!
-
-
+const path = require("path");
+const pathToDotEnv = path.resolve(process.cwd(), ".env");
+require("dotenv").config({ path: pathToDotEnv });
+const ethers = require("ethers");
 // Exercise 1. Create a JSON RPC Provider for the (not) UniMa Blockchain.
 /////////////////////////////////////////////////////////////////////////
 
@@ -35,13 +37,10 @@
 // Print to console the network name, chain id, and block number of NUMA.
 
 const networkInfo = async () => {
-    
-    // Your code here!
-
+  // Your code here!
 };
 
 // networkInfo();
-
 
 // Exercise 3. Connect a signer to the (not) UniMa blockchain.
 //////////////////////////////////////////////////////////////
@@ -53,9 +52,8 @@ const networkInfo = async () => {
 // b. Print the next nonce necessary to send a transaction.
 // Hint: .getNonce()
 
-const getNonce = async() => {
-    
-    // Your code here!
+const getNonce = async () => {
+  // Your code here!
 };
 
 // getNonce();
@@ -63,20 +61,17 @@ const getNonce = async() => {
 // Checkpoint. Is the nonce in the (not) Unima blockchain different
 // than in Sepolia?
 
-
 // Exercise 4. Check gas.
 /////////////////////////
 
-// a. Let's get some gas from the faucet. What is the faucet's address? 
+// a. Let's get some gas from the faucet. What is the faucet's address?
 // Check the slides in ILIAS.
 // Hint: only accessible within UniMa network.
 
 // b. Check your balance on UniMa network.
 
 const checkBalance = async () => {
-
-   // Your code here!
-
+  // Your code here!
 };
 
 // checkBalance();
@@ -89,11 +84,9 @@ const checkBalance = async () => {
 const account2 = process.env.METAMASK_2_ADDRESS;
 
 const sendTransaction = async () => {
-
-   // Your code here!
+  // Your code here!
 };
 
 // sendTransaction();
 
 // Checkpoint. Can you send your ETH from NUMA to Sepolia?
-
