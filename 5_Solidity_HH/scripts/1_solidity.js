@@ -125,6 +125,11 @@
 
 // Hint: https://solidity-by-example.org/immutable/
 
+const hre = require('hardhat')
+const ethers = hre.ethers
+
+const lock2Address = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+
 async function readVar() {
     console.log("Exercise 1: Read Var");
 
@@ -132,7 +137,18 @@ async function readVar() {
     // Hint: use methods .getContractAt and .getSigners as we did in 
     // 4_Hardhat/2_ex_deploy.js
 
-    // Your code here!
+    const signer = (await ethers.getSigners())[0]
+    const lock = await ethers.getContractAt('Lock2', lock2Address, signer)
+    console.log(await lock.getAddress())
+    // all calls below keep throwing bad_data error could not decode result data. redeploying did not work??
+    // fixed by changing the hardhat config and making the default network localhost, not the ephemeral blockchain
+    const unlockTime = await lock.unlockTime()
+    const owner = await lock.owner()
+    const description = await lock.description()
+
+    console.log(`Variable unlockTime: ${unlockTime}`)
+    console.log(`Variable owner: ${owner}`)
+    console.log(`Variable description: ${description}`)
 };
 
 // readVar();
@@ -157,8 +173,9 @@ async function readVar() {
 
 async function getContractAndSigner(cName, cAddress, signerIdx = 0) {
   
-    // Your code here!
-
+  const signer = (await ethers.getSigners())[signerIdx]
+  const contract = await ethers.getContractAt(cName, cAddress, signer)
+  return [ contract, signer ]
 }
 
 // Exercise 3. Constructor.
@@ -192,15 +209,17 @@ async function getContractAndSigner(cName, cAddress, signerIdx = 0) {
 // Hint: you can get the block number from the state variable `block`.
 
 // Checkpoint. How can you find out the block at which a contract was deployed
-// if you don't keep track of the block number?
+// if you don't keep track of the block number? by calling getBlockNumber()?
 
 async function constructor() {
     console.log("Exercise 3: Constructor");
-
     // Your code here!
+    const lock3Address = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+    result = await getContractAndSigner('Lock3', lock3Address)
+    console.log(Number(await result[0].blockNumber()))
 }
 
-constructor();
+// constructor();
 
 // Exercise 4. Events (and reverts).
 ////////////////////////////////////
@@ -241,8 +260,39 @@ constructor();
 
 async function events() {
     console.log("Exercise 4: Events");
+    const addresses = require('../ignition/deployments/chain-31337/deployed_addresses.json')
 
-    // Your code here!
+    const lock3Address = addresses['Lock3Module#Lock3']
+    // result = await getContractAndSigner('Lock3', lock3Address)
+    // const contract = result[0]
+    // contract.on('Withdrawal', (balance, timestamp) => {
+    //   console.log('Withdrawal emitted')
+    //   console.log(balance, timestamp)
+    //   //console.log(`${ethers.formatEther(balance)} ETH withdrawn at ${(new Date(args[1])).toLocaleTimeString()}`)
+    // })
+    // contract.on('WithdrawalAttempt', (attempter) => {
+    //   console.log('Withdrawal Attempt emitted')
+    //   console.log(`${attempter} tried to withdraw balance.`)
+    // })
+
+    //authorized
+    // const tx = await contract.withdraw()
+    // await tx.wait()
+
+    //now unauthorized withdrawal
+    // const lock3Address2 = ''
+    contract2 = (await getContractAndSigner('Lock3', lock3Address, 1))[0]
+    contract2.on('Withdrawal', (balance, timestamp) => {
+      console.log('Withdrawal emitted')
+      console.log(balance, timestamp)
+      //console.log(`${ethers.formatEther(balance)} ETH withdrawn at ${(new Date(args[1])).toLocaleTimeString()}`)
+    })
+    contract2.on('WithdrawalAttempt', (attempter) => {
+      console.log('Withdrawal Attempt emitted')
+      console.log(`${attempter} tried to withdraw balance.`)
+    })
+    const tx2 = await contract2.withdraw()
+    await tx2.wait()
 }
 
 // events();
@@ -300,21 +350,47 @@ async function getAllEvents() {
 
 async function mappings() {
     console.log("Advanced. Exercise 5: Mappings (and payable)");
+    const addresses = require('../ignition/deployments/chain-31337/deployed_addresses.json')
 
-    // Your code here!
+    const cName = 'Lock4'
+    const cAddress = addresses['Lock4Module#Lock4']
+    const [ contract, signer ] = await getContractAndSigner(cName, cAddress)
+
+    const signers = await ethers.getSigners()
+    let tx = await contract.addOwner(await signers[1].getAddress())
+    await tx.wait()
+
+    tx = await contract.addOwner(await signers[2].getAddress())
+    await tx.wait()
+
+    await getContractStatus(contract)
+    await checkBalanceBeforeAfter(signers[1], contract)
+    await getContractStatus(contract)
+    await checkBalanceBeforeAfter(signers[2], contract)
+    await getContractStatus(contract)
 }
 
 const checkBalanceBeforeAfter = async (signer, lockContract) => {
     // Check the balance change for signer.
-  
-    // Your code here!
-    
+    const provider = ethers.provider
+    const address = await signer.getAddress()
+    const balanceBefore = await provider.getBalance(address)
+    console.log('Before: ' + ethers.formatEther(balanceBefore) + 'ETH')
+    const ct = await lockContract.connect(signer)
+
+    const tx = await ct.withdraw()
+    await tx.wait()
+
+    const balanceAfter = await provider.getBalance(address)
+    console.log('After: ' + ethers.formatEther(balanceAfter) + 'ETH')
 };
 
-const getContractStatus = async lockContract => {
+const getContractStatus = async (lockContract) => {
     // Report info about contract.
-  
-    // Your code here!
+    const cAddress = await lockContract.getAddress()
+    const owners = await lockContract.totalOwners()
+    const balance = await ethers.provider.getBalance(cAddress)
+    console.log(`The contract has ${Number(owners)} owners and ${ethers.formatEther(balance)} ETH`)
 };
 
 // mappings();
