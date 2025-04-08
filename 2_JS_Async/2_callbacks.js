@@ -38,4 +38,4 @@ let getLatestNews = (cb) => {
   }, 2000);
 };
 
-getLatestNews();
+getLatestNews(printNews);
