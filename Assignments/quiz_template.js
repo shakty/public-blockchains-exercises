@@ -81,7 +81,7 @@ async function main() {
 
     // C. Optional. Verify that the answer is correctly stored.
     // Hint: method `getAnswer(questionId)`
-
+np
     // Your code here.
     const [awnser, correct ] = await quizContract.getAnswer(id);
     console.log(`The awnser was stored: ${awnser ? "Correct!" : "False!"}`);
