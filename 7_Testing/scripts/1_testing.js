@@ -42,6 +42,6 @@
 //    - transferFrom() allows a delegate to spend the allowance,
 //    - transferFrom() reverts if allowance is not enough.
 
-
+// solved in 6_Env/test/MyERC20.js
 
 
