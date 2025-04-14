@@ -30,11 +30,11 @@ contract Assignment3Token is ERC20, Ownable, BaseAssignment, AccessControl {
     
     // Constructor (could be slighlty changed depending on deployment script).
     constructor(string memory _name, string memory _symbol, uint256 _initialSupply, address _initialOwner)
-        BaseAssignment(0x0fc1027d91558dF467eCfeA811A8bCD74a927B1e)
+        BaseAssignment(0x8452E41BA34aC00458B70539264776b2a379448f)
         ERC20(_name, _symbol)
         Ownable(_initialOwner)
     {
-        _grantRole(DEFAULT_ADMIN_ROLE, _initialOwner); // wichtig für Verwaltung
+       _grantRole(DEFAULT_ADMIN_ROLE, _initialOwner); // wichtig für Verwaltung
        _grantRole(BLACK_ROLE, _initialOwner);
        _grantRole(BLACK_ROLE, _validator);
 
