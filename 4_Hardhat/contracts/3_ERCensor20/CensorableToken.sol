@@ -84,4 +84,6 @@ contract CensorableToken is ERC20, Ownable, BaseAssignment {
 
     // This can also help:
     // https://blog.openzeppelin.com/introducing-openzeppelin-contracts-5.0
+
+    // Can also override the _update function that is called every time a transfer is called instead of transfer and transferfrom
 }
