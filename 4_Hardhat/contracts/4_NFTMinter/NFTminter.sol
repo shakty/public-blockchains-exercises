@@ -5,11 +5,11 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-// IMAGE HASH "bafkreiayyc6eecvkwdsazhswb6pww4bi5thbqhifktrsuztbctlrv2jtu4"
+import "../BaseAssignment.sol";
+import "./INFTminter.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-// TODO: inherit BaseAssignment and implement INFTminter.
-
-contract NFTminter_template is ERC721URIStorage {
+contract NFTminter is ERC721URIStorage, BaseAssignment, Ownable, INFTminter {
    
     // Use strings methods directly on variables.
     using Strings for uint256;
@@ -18,29 +18,84 @@ contract NFTminter_template is ERC721URIStorage {
     uint256 private _nextTokenId;
 
     // Other variables as needed ...
+    uint256 private _totalSupply;
+    string private _ipfsHash;
+    uint256 private _mintPrice;
+    uint256 private _burnPrice;
+    bool private isSaleActive;
 
-    constructor() ERC721("Token", "TKN") {
+    constructor(string memory _name, string memory _symbol, string memory _imageHash, address _validatorAddress) ERC721(_name, _symbol) BaseAssignment(_validatorAddress) Ownable(msg.sender) {
         // Constructor code as needed ...
+        _nextTokenId = 0;
+        _totalSupply = 0;
+        _ipfsHash = _imageHash;
+        _mintPrice = 1e14;
+        _burnPrice = 1e14;
+        isSaleActive = true;
     }
 
     // mint a nft and send to _address
     function mint(address _address) public payable returns (uint256) {
-       
+        require(isSaleActive, "Sale is inactive");
+        require(isValidator(msg.sender) || msg.value >= _mintPrice, "You did not pay enough ETH to mint an NFT");
+
         uint256 tokenId = _nextTokenId++;
 
         // Return token URI
         string memory tokenURI = getTokenURI(tokenId, _address);
 
         // Mint ...
+        ERC721._safeMint(_address, tokenId);
+        _totalSupply += 1;
+        _nextTokenId += 1;
+        _mintPrice *= 2;
     
         // Set encoded token URI to token
-        // _setTokenURI(tokenId, tokenURI);
+        _setTokenURI(tokenId, tokenURI);
 
         return tokenId;
     }
 
+    function burn(uint256 tokenId) public payable {
+      require(msg.value >= _burnPrice, "You need to pay the required Burn Fee");
+      _burn(tokenId);
+      _totalSupply -= 1;
+      _mintPrice = 1e14;
+    }
 
-    // Other methods as needed ...
+    function pauseSale() public {
+      require(isValidator(msg.sender) || (owner() == msg.sender), "Only the owner or validator can change the status of the sale");
+      isSaleActive = false;
+    }
+
+    function activateSale() public {
+      require(isValidator(msg.sender) || (owner() == msg.sender), "Only the owner or validator can change the status of the sale");
+      isSaleActive = true;
+    }
+
+    function getSaleStatus() public view returns (bool) {
+      return isSaleActive;
+    }
+
+    function withdraw(uint256 amount) public {
+      require(isValidator(msg.sender) || (owner() == msg.sender), "Only the owner or validator can withdraw the balance of the contract");
+      require(address(this).balance >= amount, "Contract contains less than amount of ETH specified");
+
+      (bool sent, ) = msg.sender.call{value:amount}("");
+      require(sent, "Withdrawing ETH was unsuccessful");
+    }
+
+    function getPrice() public view returns (uint256) {
+      return _mintPrice;
+    }
+
+    function getTotalSupply() public view returns (uint256) {
+      return _totalSupply;
+    }
+
+    function getIPFSHash() public view returns (string memory) {
+      return _ipfsHash;
+    }
 
     /*=============================================
     =                   HELPER                  =
@@ -59,12 +114,10 @@ contract NFTminter_template is ERC721URIStorage {
             tokenId.toString(),
             '"', 
             '"hash": "',
-            // TODO: hash
-            "SOME_HASH",
+            _ipfsHash,
             '",', 
             '"by": "',
-            // TODO: owner,
-            "0x_OWNER",
+            owner(),
             '",', 
             '"new_owner": "',
             newOwner,
@@ -96,12 +149,10 @@ contract NFTminter_template is ERC721URIStorage {
             tokenId.toString(),
             '",', 
             '"hash": "',
-            // TODO: hash
-            "SOME_HASH",
+            _ipfsHash,
             '",', 
             '"by": "',
-            // TODO: owner,
-            "0x_OWNER",
+            owner(),
             '",', 
             '"new_owner": "',
             newOwner,
