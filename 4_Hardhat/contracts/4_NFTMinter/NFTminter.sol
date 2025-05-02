@@ -112,7 +112,7 @@ contract NFTminter is ERC721URIStorage, BaseAssignment, Ownable, INFTminter {
             "{",
             '"name": "My beautiful artwork #',
             tokenId.toString(),
-            '"', 
+            '",', 
             '"hash": "',
             _ipfsHash,
             '",', 
