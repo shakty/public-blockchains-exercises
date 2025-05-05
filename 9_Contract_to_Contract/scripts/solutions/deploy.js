@@ -19,25 +19,25 @@ async function main() {
   
   const TestContract = await hre.ethers.getContractFactory("TestContract");
   const tc = await TestContract.deploy();
-  await tc.deployed();
+  await tc.waitForDeployment();
 
-  console.log(`Test Contract deployed to ${tc.address}`);
+  console.log(`Test Contract deployed to ${tc.target}`);
 
   const Sender = await hre.ethers.getContractFactory("Sender");
   const se = await Sender.deploy();
-  await se.deployed();
+  await se.waitForDeployment();
 
-  console.log(`Sender Contract deployed to ${se.address}`);
+  console.log(`Sender Contract deployed to ${se.target}`);
 
   const Receiver = await hre.ethers.getContractFactory("Receiver");
   const re = await Receiver.deploy();
-  await re.deployed();
+  await re.waitForDeployment();
 
-  console.log(`Receiver Contract deployed to ${re.address}`);
+  console.log(`Receiver Contract deployed to ${re.target}`);
 
   // Save the addresses so that we can re-use them in the interact.js script.
   // Order matters.
-  _saveAddresses([ tc.address, se.address, re.address ]);
+  _saveAddresses([ tc.target, se.target, re.target ]);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
