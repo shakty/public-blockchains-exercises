@@ -105,7 +105,7 @@ const rawTransactionBasic = async () => {
     
 };
 
-// rawTransactionBasic();
+rawTransactionBasic();
 
 
 // Exercise 2: Raw transaction with no parameters: do your own encoding.
@@ -194,8 +194,8 @@ const rawTransactionDIY = async () => {
 
 // Let's start with the simple case, static types.
 
-
-// Hint: In Ethers, the function `zeroPadValue()` can help.
+// Hint: Use the function zeroPadValue; it takes a Bytes-like
+// array (toBeArray will be useful).
 
 // Hint2: You can compare your own encoding with the output from
 // https://abi.hashex.org/

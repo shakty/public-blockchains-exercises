@@ -55,8 +55,8 @@ const getContract = async (
 
 // https://abi.hashex.org/
 
-// to get out the encoded signature for the method `reset()` of the
-// contract TestContract.
+// to get the encoded signature for the method `reset()` of the
+// contract Greeting.
 // Hint: No parentheses.
 
 const rawTransactionBasic = async () => {
@@ -195,7 +195,8 @@ const rawTransactionDIY = async () => {
 
 // Let's start with the simple case, static types.
 
-// Hint: In Ethers v5, the function `hexZeroPad()` can help.
+// Hint: Use the function zeroPadValue; it takes a Bytes-like
+// array (toBeArray will be useful).
 
 // Hint2: You can compare your own encoding with the output from
 // https://abi.hashex.org/
@@ -233,7 +234,7 @@ const rawTransactionStaticParams = async () => {
     // Hash the signature with Keccak256 and takes 4 bytes.
     let encodedSignature = encodeSignature(signature);
 
-    // Your code here.
+    // Your code here (hint above).
 
     // let calldata = ... ;
 
@@ -317,7 +318,7 @@ const rawTransactionDynamicParams = async () => {
     // https://www.berlitz.com/blog/hello-different-languages
 
    
-    // Your code here.
+    // Your code here (hint above).
     // let calldata = ... ;
 
     console.log();
