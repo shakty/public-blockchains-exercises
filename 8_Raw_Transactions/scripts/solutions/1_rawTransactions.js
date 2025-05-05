@@ -105,7 +105,7 @@ const rawTransactionBasic = async () => {
     
 };
 
-rawTransactionBasic();
+// rawTransactionBasic();
 
 
 // Exercise 2: Raw transaction with no parameters: do your own encoding.
