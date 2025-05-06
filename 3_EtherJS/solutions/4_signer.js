@@ -143,7 +143,7 @@ const sendTransaction = async () => {
 
     tx = await signer.sendTransaction({
         to: account2,
-        value: ethers.parseEther("0.01")
+        value: ethers.parseEther("0.001")
     });
 
     // console.log(tx);

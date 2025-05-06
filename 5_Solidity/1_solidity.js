@@ -53,7 +53,7 @@
 // Hint: https://docs.soliditylang.org/en/develop/layout-of-source-files.html#version-pragma
 // Hint2: https://bytearcher.com/articles/semver-explained-why-theres-a-caret-in-my-package-json/
 
-// c. Before `pragma` there is an important comment tha sets the license of
+// c. Before `pragma` there is an important comment that sets the license of
 // the contract. Pick a license for your contract.
 // Hint: https://docs.soliditylang.org/en/develop/layout-of-source-files.html#spdx-license-identifier
 
