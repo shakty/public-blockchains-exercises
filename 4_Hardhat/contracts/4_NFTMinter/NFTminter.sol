@@ -57,6 +57,7 @@ contract NFTminter is ERC721URIStorage, BaseAssignment, Ownable, INFTminter {
     }
 
     function burn(uint256 tokenId) public payable {
+      require(ownerOf(tokenId) == msg.sender, "Only its owner is allowed to burn an NFT");
       require(msg.value >= _burnPrice, "You need to pay the required Burn Fee");
       _burn(tokenId);
       _totalSupply -= 1;
